@@ -1,0 +1,119 @@
+@import '~antd/lib/style/themes/default.less';
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: auto;
+    background: #f0f2f5;
+}
+
+.content {
+    padding: 32px 0;
+    flex: 1;
+}
+
+.login_header {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    line-height: 80px;
+    background: #1e58a9e6;
+    .logo {
+        padding-left: 100px;
+        font-size: 20px;
+        color: white;
+    }
+    img {
+        height: 40px;
+        margin-right: 15px;
+    }
+}
+
+@media (min-width: @screen-md-min) {
+    .container {
+        background: url(http://pic31.photophoto.cn/20140603/0038038433133870_b.jpg) no-repeat center;
+        background-size: cover;
+    }
+    .login_header {
+        display: block;
+    }
+    .content {
+        position: relative;
+        top: 50%;
+        display: flex;
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 0 20px;
+        transform: translateY(-50%);
+        align-items: center;
+        justify-content: center;
+    }
+    .switch {
+        position: relative;
+        flex: 4;
+        height: 80%;
+        padding: 40px 30px 0 30px;
+        background: #fff;
+        overflow: hidden;
+        margin-left: 100px;
+    }
+    .footer {
+        color: #fff !important;
+        background: rgba(21, 23, 20, .5);
+    }
+    .top {
+        text-align: center;
+        transform: translate(-14%, -40%);
+        .title {
+            font-size: 34px;
+            color: #fff;
+            font-family: 'Myriad Pro', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+            font-weight: 600;
+            position: relative;
+            top: 2px;
+        }
+        .desc {
+            font-size: @font-size-base;
+            color: @text-color-secondary;
+            margin-top: 12px;
+            margin-bottom: 40px;
+        }
+    }
+}
+
+.top {
+    text-align: center;
+}
+
+.header {
+    height: 44px;
+    line-height: 44px;
+    a {
+        text-decoration: none;
+    }
+}
+
+.logo {
+    height: 44px;
+    vertical-align: top;
+    margin-right: 16px;
+}
+
+.title {
+    font-size: 40px;
+    color: #000;
+    font-family: 'Myriad Pro', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    font-weight: 600;
+    position: relative;
+    top: 2px;
+}
+
+.desc {
+    font-size: @font-size-base;
+    color: @text-color-secondary;
+    margin-top: 12px;
+    margin-bottom: 40px;
+}
