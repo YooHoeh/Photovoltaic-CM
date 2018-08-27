@@ -80,7 +80,6 @@ export async function queryNotices() {
 }
 export async function ttt() {
   console.log('api');
-  return request('http://localhost/ttt.php',{
-  // mode:'cors'
+  return request('http://172.20.151.36/test.php',{
   });
 }

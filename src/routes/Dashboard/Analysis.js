@@ -130,7 +130,7 @@ export default class Analysis extends Component {
     });
     const {chart} =this.props;
     const {tt,test} =chart;
-    const a =tt.toSrting();
+    const a =tt.a;
     message.success(a)
   }
   render() {
