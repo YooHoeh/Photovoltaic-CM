@@ -401,7 +401,46 @@ export default class Analysis extends Component {
         </Card>
 
         <Row gutter={24}>
-          <Col xl={12} lg={24} md={24} sm={24} xs={24}>
+          <Col xl={16} lg={24} md={24} sm={24} xs={24}>
+            <Card
+              loading={loading}
+              className={styles.salesCard}
+              bordered={false}
+              title="站点状态显示"
+              bodyStyle={{ padding: 24 }}
+              style={{ marginTop: 24, minHeight: 509 }}
+            >
+              <Row>
+                <Col md={6} sm={12} xs={24}>
+                  <NumberInfo subTitle="运行中" total="63543" />
+                </Col>
+                <Col md={6} sm={12} xs={24}>
+                  <NumberInfo
+                    subTitle="告警"
+                    total="123"
+                  />
+                </Col>
+                <Col md={6} sm={12} xs={24}>
+                  <NumberInfo
+                    subTitle="建设中"
+                    total="123"
+                  />
+                </Col>
+                <Col md={6} sm={12} xs={24}>
+                  <NumberInfo subTitle="系统运行时间" total={<CountDown target={targetTime} />} />
+                </Col>
+              </Row>
+              <div className={styles.mapChart}>
+                <Tooltip title="等待后期实现">
+                  <img
+                    src="https://gw.alipayobjects.com/zos/rmsportal/HBWnDEUXCnGnGrRfrpKa.png"
+                    alt="map"
+                  />
+                </Tooltip>
+              </div>
+            </Card>
+          </Col>
+          <Col xl={8} lg={24} md={24} sm={24} xs={24}>
             <Card
               loading={loading}
               bordered={false}
@@ -448,45 +487,6 @@ export default class Analysis extends Component {
                   pageSize: 5,
                 }}
               />
-            </Card>
-          </Col>
-          <Col xl={12} lg={24} md={24} sm={24} xs={24}>
-            <Card
-              loading={loading}
-              className={styles.salesCard}
-              bordered={false}
-              title="站点状态显示"
-              bodyStyle={{ padding: 24 }}
-              style={{ marginTop: 24, minHeight: 509 }}
-            >
-              <Row>
-                <Col md={6} sm={12} xs={24}>
-                  <NumberInfo subTitle="运行中" total="63543" />
-                </Col>
-                <Col md={6} sm={12} xs={24}>
-                  <NumberInfo
-                    subTitle="告警"
-                    total="123"
-                  />
-                </Col>
-                <Col md={6} sm={12} xs={24}>
-                  <NumberInfo
-                    subTitle="建设中"
-                    total="123"
-                  />
-                </Col>
-                <Col md={6} sm={12} xs={24}>
-                  <NumberInfo subTitle="系统运行时间" total={<CountDown target={targetTime} />} />
-                </Col>
-              </Row>
-              <div className={styles.mapChart}>
-                <Tooltip title="等待后期实现">
-                  <img
-                    src="https://gw.alipayobjects.com/zos/rmsportal/HBWnDEUXCnGnGrRfrpKa.png"
-                    alt="map"
-                  />
-                </Tooltip>
-              </div>
             </Card>
           </Col>
         </Row>
