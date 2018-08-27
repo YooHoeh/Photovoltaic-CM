@@ -1,4 +1,4 @@
-import { fakeChartData } from '../services/api';
+import { fakeChartData,ttt } from '../services/api';
 
 export default {
   namespace: 'chart',
@@ -15,6 +15,8 @@ export default {
     salesTypeDataOffline: [],
     radarData: [],
     loading: false,
+    tt:[],
+    test:123
   },
 
   effects: {
@@ -33,6 +35,19 @@ export default {
           salesData: response.salesData,
         },
       });
+    },
+    *ttt(_, { call, put }) {
+      const response = yield call(ttt);
+      console.log(response);
+      yield put({
+        type: 'save',
+        payload: {
+          tt: response,
+        },
+      }
+    );
+    console.log(response);
+    console.log('activi');
     },
   },
 
@@ -55,6 +70,7 @@ export default {
         salesTypeDataOnline: [],
         salesTypeDataOffline: [],
         radarData: [],
+        tt:[]
       };
     },
   },

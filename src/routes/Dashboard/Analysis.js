@@ -12,6 +12,7 @@ import {
   Tooltip,
   Menu,
   Dropdown,
+  message
 } from 'antd';
 import numeral from 'numeral';
 import {
@@ -122,7 +123,16 @@ export default class Analysis extends Component {
       return styles.currentDate;
     }
   }
-
+  ttt= ()=>{
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'chart/ttt',
+    });
+    const {chart} =this.props;
+    const {tt,test} =chart;
+    const a =tt.toSrting();
+    message.success(a)
+  }
   render() {
     const { rangePickerValue, salesType, currentTabKey } = this.state;
     const { chart, loading } = this.props;
@@ -264,6 +274,7 @@ export default class Analysis extends Component {
               bordered={false}
               title="总发电量"
               loading={loading}
+              onClick={this.ttt}
               action={
                 <Tooltip title="指标说明">
                   <Icon type="info-circle-o" />

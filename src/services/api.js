@@ -33,13 +33,13 @@ export async function addRule(params) {
   });
 }
 
+
 export async function fakeSubmitForm(params) {
   return request('/api/forms', {
     method: 'POST',
     body: params,
   });
 }
-
 export async function fakeChartData() {
   return request('/api/fake_chart_data');
 }
@@ -57,6 +57,7 @@ export async function queryAdvancedProfile() {
 }
 
 export async function queryFakeList(params) {
+
   return request(`/api/fake_list?${stringify(params)}`);
 }
 
@@ -76,4 +77,10 @@ export async function fakeRegister(params) {
 
 export async function queryNotices() {
   return request('/api/notices');
+}
+export async function ttt() {
+  console.log('api');
+  return request('http://localhost/ttt.php',{
+  // mode:'cors'
+  });
 }
