@@ -347,7 +347,98 @@ export default class Analysis extends Component {
           </Col>
         </Row>
 
-        <Card loading={loading} bordered={false} bodyStyle={{ padding: 0 }}>
+       
+        <Row gutter={24}>
+          <Col xl={16} lg={24} md={24} sm={24} xs={24}>
+            <Card
+              loading={loading}
+              className={styles.salesCard}
+              bordered={false}
+              title="站点状态显示"
+              bodyStyle={{ padding: 24 }}
+              // style={{ marginTop: 24, minHeight: 509 }}
+            >
+              <Row>
+                <Col md={6} sm={12} xs={24}>
+                  <NumberInfo subTitle="运行中" total="63543" />
+                </Col>
+                <Col md={6} sm={12} xs={24}>
+                  <NumberInfo
+                    subTitle="告警"
+                    total="123"
+                  />
+                </Col>
+                <Col md={6} sm={12} xs={24}>
+                  <NumberInfo
+                    subTitle="建设中"
+                    total="123"
+                  />
+                </Col>
+                <Col md={6} sm={12} xs={24}>
+                  <NumberInfo subTitle="系统运行时间" total={<CountDown target={targetTime} />} />
+                </Col>
+              </Row>
+              <div className={styles.mapChart}>
+                <Tooltip title="等待后期实现">
+                  <img
+                    src="https://gw.alipayobjects.com/zos/rmsportal/HBWnDEUXCnGnGrRfrpKa.png"
+                    alt="map"
+                  />
+                </Tooltip>
+              </div>
+            </Card>
+          </Col>
+          <Col xl={8} lg={24} md={24} sm={24} xs={24}>
+            <Card
+              loading={loading}
+              bordered={false}
+              title="全部已建站点"
+              extra={iconGroup}
+              // style={{ marginTop: 24 }}
+            >
+              <Row gutter={68}>
+                <Col sm={12} xs={24} style={{ marginBottom: 24 }}>
+                  <NumberInfo
+                    subTitle={
+                      <span>
+                        系统负载量
+                        <Tooltip title="指标文案">
+                          <Icon style={{ marginLeft: 8 }} type="info-circle-o" />
+                        </Tooltip>
+                      </span>
+                    }
+                    gap={8}
+                    total={numeral(12321).format('0,0')}
+                    status="up"
+                    subTotal={17.1}
+                  />
+                  <MiniArea line height={45} data={visitData2} />
+                </Col>
+                <Col sm={12} xs={24} style={{ marginBottom: 24 }}>
+                  <NumberInfo
+                    subTitle="站点平均负载量"
+                    total={2.7}
+                    status="down"
+                    subTotal={26.2}
+                    gap={8}
+                  />
+                  <MiniArea line height={45} data={visitData2} />
+                </Col>
+              </Row>
+              <Table
+                rowKey={record => record.index}
+                size="small"
+                columns={columns}
+                dataSource={searchData}
+                pagination={{
+                  style: { marginBottom: 0 },
+                  pageSize: 5,
+                }}
+              />
+            </Card>
+          </Col>
+        </Row>
+        <Card loading={loading} bordered={false} bodyStyle={{ padding: 0 }} style={{ marginTop: 24 }}>
           <div className={styles.salesCard}>
             <Tabs tabBarExtraContent={salesExtra} size="large" tabBarStyle={{ marginBottom: 24 }}>
               <TabPane tab="发电量" key="sales">
@@ -399,97 +490,6 @@ export default class Analysis extends Component {
             </Tabs>
           </div>
         </Card>
-
-        <Row gutter={24}>
-          <Col xl={16} lg={24} md={24} sm={24} xs={24}>
-            <Card
-              loading={loading}
-              className={styles.salesCard}
-              bordered={false}
-              title="站点状态显示"
-              bodyStyle={{ padding: 24 }}
-              style={{ marginTop: 24, minHeight: 509 }}
-            >
-              <Row>
-                <Col md={6} sm={12} xs={24}>
-                  <NumberInfo subTitle="运行中" total="63543" />
-                </Col>
-                <Col md={6} sm={12} xs={24}>
-                  <NumberInfo
-                    subTitle="告警"
-                    total="123"
-                  />
-                </Col>
-                <Col md={6} sm={12} xs={24}>
-                  <NumberInfo
-                    subTitle="建设中"
-                    total="123"
-                  />
-                </Col>
-                <Col md={6} sm={12} xs={24}>
-                  <NumberInfo subTitle="系统运行时间" total={<CountDown target={targetTime} />} />
-                </Col>
-              </Row>
-              <div className={styles.mapChart}>
-                <Tooltip title="等待后期实现">
-                  <img
-                    src="https://gw.alipayobjects.com/zos/rmsportal/HBWnDEUXCnGnGrRfrpKa.png"
-                    alt="map"
-                  />
-                </Tooltip>
-              </div>
-            </Card>
-          </Col>
-          <Col xl={8} lg={24} md={24} sm={24} xs={24}>
-            <Card
-              loading={loading}
-              bordered={false}
-              title="全部已建站点"
-              extra={iconGroup}
-              style={{ marginTop: 24 }}
-            >
-              <Row gutter={68}>
-                <Col sm={12} xs={24} style={{ marginBottom: 24 }}>
-                  <NumberInfo
-                    subTitle={
-                      <span>
-                        系统负载量
-                        <Tooltip title="指标文案">
-                          <Icon style={{ marginLeft: 8 }} type="info-circle-o" />
-                        </Tooltip>
-                      </span>
-                    }
-                    gap={8}
-                    total={numeral(12321).format('0,0')}
-                    status="up"
-                    subTotal={17.1}
-                  />
-                  <MiniArea line height={45} data={visitData2} />
-                </Col>
-                <Col sm={12} xs={24} style={{ marginBottom: 24 }}>
-                  <NumberInfo
-                    subTitle="站点平均负载量"
-                    total={2.7}
-                    status="down"
-                    subTotal={26.2}
-                    gap={8}
-                  />
-                  <MiniArea line height={45} data={visitData2} />
-                </Col>
-              </Row>
-              <Table
-                rowKey={record => record.index}
-                size="small"
-                columns={columns}
-                dataSource={searchData}
-                pagination={{
-                  style: { marginBottom: 0 },
-                  pageSize: 5,
-                }}
-              />
-            </Card>
-          </Col>
-        </Row>
 
         <Card
           loading={loading}
