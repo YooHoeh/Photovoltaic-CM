@@ -29,7 +29,7 @@ const menuData = [
   {
     name: '历史查询',
     icon: 'table',
-    path: '',
+    path: 'history',
     children: [
       {
         name: '逆变器查询',
@@ -71,15 +71,16 @@ const menuData = [
   {
     name: '财务管理',
     icon: 'profile',
-    path: '',
+    path: 'financial',
   },
   {
     name: '维保管理',
-    icon: 'user',
-    path: '',
+    icon: 'calculator',
+    path: 'maintenance ',
 
   },
 ];
+
 
 function formatter(data, parentPath = '/', parentAuthority) {
   return data.map(item => {

@@ -83,3 +83,9 @@ export async function ttt() {
   return request('http://172.20.151.36/test.php',{
   });
 }
+export async function lll(params) {
+  return request('http://172.20.151.36/test/public/index/index/test', {
+    method: 'POST',
+    body: params,
+  });
+}
