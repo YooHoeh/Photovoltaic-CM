@@ -33,6 +33,7 @@ import CountDown from 'components/CountDown';
 import { getTimeDistance } from '../../utils/utils';
 
 import styles from './Analysis.less';
+import MapCard from 'components/Amap';
 
 const { TabPane } = Tabs;
 const { RangePicker } = DatePicker;
@@ -362,9 +363,10 @@ export default class Analysis extends Component {
               bodyStyle={{ padding: 12 }}
               style={{ marginTop: 24, minHeight: 509 }}
             >
-              <iframe src="http://127.0.0.1:5500/HtmlPage1.html"
+            <MapCard></MapCard>
+              {/* <iframe src="http://127.0.0.1:5500/HtmlPage1.html"
                 className={styles.mapInter}>
-              </iframe>
+              </iframe> */}
             </Card>
           </Col>
           <Col xl={6} lg={24} md={24} sm={24} xs={24}>

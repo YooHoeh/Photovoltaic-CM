@@ -39,6 +39,7 @@
     "prop-types": "^15.5.10",
     "qs": "^6.5.0",
     "react": "^16.4.1",
+    "react-amap": "^1.2.7",
     "react-container-query": "^0.11.0",
     "react-document-title": "^2.0.3",
     "react-dom": "^16.4.1",
