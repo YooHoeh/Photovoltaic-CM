@@ -10,10 +10,10 @@ export default class NoticeIcon extends PureComponent {
   static Tab = TabPane;
 
   static defaultProps = {
-    onItemClick: () => {},
-    onPopupVisibleChange: () => {},
-    onTabChange: () => {},
-    onClear: () => {},
+    onItemClick: () => { },
+    onPopupVisibleChange: () => { },
+    onTabChange: () => { },
+    onClear: () => { },
     loading: false,
     locale: {
       emptyText: '暂无数据',
@@ -80,7 +80,7 @@ export default class NoticeIcon extends PureComponent {
     const trigger = (
       <span className={noticeButtonClass}>
         <Badge count={count} className={styles.badge}>
-          <Icon type="bell" className={styles.icon} />
+          <Icon type="bell" className={styles.icon} style={{ color: '#fff' }} />
         </Badge>
       </span>
     );

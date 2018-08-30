@@ -22,7 +22,7 @@ import {
 import StandardTable from 'components/StandardTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 
-import styles from './TableList.less';
+import styles from './Inverter.less';
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -31,7 +31,7 @@ const getValue = obj =>
     .map(key => obj[key])
     .join(',');
 const statusMap = ['default', 'processing', 'success', 'error'];
-const status = ['运行中', '建设中', '建设目标'];
+const status = ["待机", "并网", "故障", "关机", "离网"];
 
 const CreateForm = Form.create()(props => {
   const { modalVisible, form, handleAdd, handleModalVisible } = props;
@@ -49,56 +49,6 @@ const CreateForm = Form.create()(props => {
       onOk={okHandle}
       onCancel={() => handleModalVisible()}
     >
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="编号">
-        {form.getFieldDecorator('id', {
-          rules: [{ required: true, message: 'Please input some description...' }],
-        })(<Input placeholder="请输入" />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="名称">
-        {form.getFieldDecorator('name', {
-          rules: [{ required: true, message: 'Please input some description...' }],
-        })(<Input placeholder="请输入" />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="区域编号">
-        {form.getFieldDecorator('locaNum', {
-          rules: [{ required: true, message: 'Please input some description...' }],
-        })(<Input placeholder="请输入" />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="坐标">
-        {form.getFieldDecorator('desc', {
-          rules: [{ required: true, message: 'Please input some description...' }],
-        })(<Input placeholder="请输入" />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="设计容量">
-        {form.getFieldDecorator('desc', {
-          rules: [{ required: true, message: 'Please input some description...' }],
-        })(<Input placeholder="请输入" />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="建设容量">
-        {form.getFieldDecorator('desc', {
-          rules: [{ required: true, message: 'Please input some description...' }],
-        })(<Input placeholder="请输入" />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="占地面积">
-        {form.getFieldDecorator('desc', {
-          rules: [{ required: true, message: 'Please input some description...' }],
-        })(<Input placeholder="请输入" />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="屋顶使用方式">
-        {form.getFieldDecorator('desc', {
-          rules: [{ required: true, message: 'Please input some description...' }],
-        })(<Input placeholder="请输入" />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="运行状态">
-        {form.getFieldDecorator('desc', {
-          rules: [{ required: true, message: 'Please input some description...' }],
-        })(<Input placeholder="请输入" />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="并网状态">
-        {form.getFieldDecorator('desc', {
-          rules: [{ required: true, message: 'Please input some description...' }],
-        })(<Input placeholder="请输入" />)}
-      </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="描述">
         {form.getFieldDecorator('desc', {
           rules: [{ required: true, message: 'Please input some description...' }],
@@ -295,7 +245,7 @@ export default class TableList extends PureComponent {
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
-            <FormItem label="站点编号">
+            <FormItem label="机器型号">
               {getFieldDecorator('no')(<Input placeholder="请输入" />)}
             </FormItem>
           </Col>
@@ -381,19 +331,22 @@ export default class TableList extends PureComponent {
 
     const columns = [
       {
-        title: '站点名称',
+        title: '机器型号',
         dataIndex: 'no',
       },
       {
-        title: '描述',
-        dataIndex: 'description',
+        title: '站点编号',
+        dataIndex: 'siteNum',
       },
       {
-        title: '站点位置  ',
+        title: '光伏组串总数',
         dataIndex: 'description',
+        sorter: true,
+        align: 'right',
+        render: val => `${val} 千`,
       },
       {
-        title: '建设容量',
+        title: '光伏支路总数',
         dataIndex: 'callNo',
         sorter: true,
         align: 'right',
@@ -416,7 +369,11 @@ export default class TableList extends PureComponent {
           {
             text: status[2],
             value: 2,
-          }
+          },
+          {
+            text: status[3],
+            value: 3,
+          },
         ],
         onFilter: (value, record) => record.status.toString() === value,
         render(val) {
@@ -427,7 +384,7 @@ export default class TableList extends PureComponent {
         title: '操作',
         render: () => (
           <Fragment>
-            <a href="">编辑站点信息</a>
+            <a href="">编辑逆变器信息</a>
             <Divider type="vertical" />
           </Fragment>
         ),
@@ -447,13 +404,13 @@ export default class TableList extends PureComponent {
     };
 
     return (
-      <PageHeaderLayout title="站点列表">
+      <PageHeaderLayout title="逆变器列表">
         <Card bordered={false}>
           <div className={styles.tableList}>
             {/* <div className={styles.tableListForm}>{this.renderForm()}</div> */}
             <div className={styles.tableListOperator}>
               <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
-                新建站点
+                新建逆变器
               </Button>
               {selectedRows.length > 0 && (
                 <span>

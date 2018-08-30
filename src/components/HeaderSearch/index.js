@@ -19,8 +19,8 @@ export default class HeaderSearch extends PureComponent {
 
   static defaultProps = {
     defaultActiveFirstOption: false,
-    onPressEnter: () => {},
-    onSearch: () => {},
+    onPressEnter: () => { },
+    onSearch: () => { },
     className: '',
     placeholder: '',
     dataSource: [],
@@ -86,7 +86,7 @@ export default class HeaderSearch extends PureComponent {
     });
     return (
       <span className={classNames(className, styles.headerSearch)} onClick={this.enterSearchMode}>
-        <Icon type="search" key="Icon" />
+        <Icon type="search" key="Icon" style={{ color: '#fff' }} />
         <AutoComplete
           key="AutoComplete"
           {...restProps}

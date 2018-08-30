@@ -123,14 +123,14 @@ export default class Analysis extends Component {
       return styles.currentDate;
     }
   }
-  ttt= ()=>{
+  ttt = () => {
     const { dispatch } = this.props;
     dispatch({
       type: 'chart/ttt',
     });
-    const {chart} =this.props;
-    const {tt,test} =chart;
-    const a =tt.a;
+    const { chart } = this.props;
+    const { tt, test } = chart;
+    const a = tt.a;
     message.success(a)
   }
   render() {
@@ -195,38 +195,31 @@ export default class Analysis extends Component {
     );
 
     const columns = [
+      // {
+      //   title: '排名',
+      //   dataIndex: 'index',
+      //   key: 'index',
+      // },
       {
-        title: '排名',
-        dataIndex: 'index',
-        key: 'index',
-      },
-      {
-        title: '光伏电站',
+        title: '区域',
         dataIndex: 'keyword',
         key: 'keyword',
         render: text => <a href="/">{text}</a>,
       },
+
       {
-        title: '用户数',
+        title: '容量',
         dataIndex: 'count',
         key: 'count',
         sorter: (a, b) => a.count - b.count,
         className: styles.alignRight,
       },
       {
-        title: '周涨幅',
-        dataIndex: 'range',
-        key: 'range',
-        sorter: (a, b) => a.range - b.range,
-        render: (text, record) => (
-          <Trend flag={record.status === 1 ? 'down' : 'up'}>
-            <span style={{ marginRight: 4 }}>
-              {text}
-              %
-            </span>
-          </Trend>
-        ),
-        align: 'right',
+        title: '发电量',
+        dataIndex: 'count',
+        key: 'count',
+        sorter: (a, b) => a.count - b.count,
+        className: styles.alignRight,
       },
     ];
 
@@ -272,6 +265,23 @@ export default class Analysis extends Component {
           <Col {...topColResponsiveProps}>
             <ChartCard
               bordered={false}
+              title="装机容量"
+              loading={loading}
+              action={
+                <Tooltip title="指标说明">
+                  <Icon type="info-circle-o" />
+                </Tooltip>
+              }
+              total={numeral(6560).format('0,0')}
+              footer={<Field label="转化率" value="60%" />}
+              contentHeight={46}
+            >
+              <MiniBar data={visitData} />
+            </ChartCard>
+          </Col>
+          <Col {...topColResponsiveProps}>
+            <ChartCard
+              bordered={false}
               title="总发电量"
               loading={loading}
               onClick={this.ttt}
@@ -281,7 +291,7 @@ export default class Analysis extends Component {
                 </Tooltip>
               }
               total={() => <Yuan>12660</Yuan>}
-              footer={<Field label="日均发电量" value={`${numeral(12423).format('0,0')}瓦`} />}
+              footer={<Field label="日发电量" value={`${numeral(12423).format('0,0')}瓦`} />}
               contentHeight={46}
             >
               <Trend flag="up" style={{ marginRight: 16 }}>
@@ -311,27 +321,11 @@ export default class Analysis extends Component {
               <MiniArea color="#975FE4" data={visitData} />
             </ChartCard>
           </Col>
+
           <Col {...topColResponsiveProps}>
             <ChartCard
               bordered={false}
-              title="运行中站点"
-              loading={loading}
-              action={
-                <Tooltip title="指标说明">
-                  <Icon type="info-circle-o" />
-                </Tooltip>
-              }
-              total={numeral(6560).format('0,0')}
-              footer={<Field label="转化率" value="60%" />}
-              contentHeight={46}
-            >
-              <MiniBar data={visitData} />
-            </ChartCard>
-          </Col>
-          <Col {...topColResponsiveProps}>
-            <ChartCard
-              bordered={false}
-              title="系统负载"
+              title="天气信息"
               loading={loading}
               action={
                 <Tooltip title="指标说明">
@@ -358,84 +352,30 @@ export default class Analysis extends Component {
           </Col>
         </Row>
 
-       
+
         <Row gutter={24}>
-          <Col xl={16} lg={24} md={24} sm={24} xs={24}>
+          <Col xl={18} lg={24} md={24} sm={24} xs={24}>
             <Card
               loading={loading}
               className={styles.salesCard}
               bordered={false}
-              title="站点状态显示"
-              bodyStyle={{ padding: 24 }}
-              // style={{ marginTop: 24, minHeight: 509 }}
+              bodyStyle={{ padding: 12 }}
+              style={{ marginTop: 24, minHeight: 509 }}
             >
-              <Row>
-                <Col md={6} sm={12} xs={24}>
-                  <NumberInfo subTitle="运行中" total="63543" />
-                </Col>
-                <Col md={6} sm={12} xs={24}>
-                  <NumberInfo
-                    subTitle="告警"
-                    total="123"
-                  />
-                </Col>
-                <Col md={6} sm={12} xs={24}>
-                  <NumberInfo
-                    subTitle="建设中"
-                    total="123"
-                  />
-                </Col>
-                <Col md={6} sm={12} xs={24}>
-                  <NumberInfo subTitle="系统运行时间" total={<CountDown target={targetTime} />} />
-                </Col>
-              </Row>
-              <div className={styles.mapChart}>
-                <Tooltip title="等待后期实现">
-                  <img
-                    src="https://gw.alipayobjects.com/zos/rmsportal/HBWnDEUXCnGnGrRfrpKa.png"
-                    alt="map"
-                  />
-                </Tooltip>
-              </div>
+              <iframe src="http://127.0.0.1:5500/HtmlPage1.html"
+                className={styles.mapInter}>
+              </iframe>
             </Card>
           </Col>
-          <Col xl={8} lg={24} md={24} sm={24} xs={24}>
+          <Col xl={6} lg={24} md={24} sm={24} xs={24}>
             <Card
               loading={loading}
               bordered={false}
-              title="全部已建站点"
+              className={styles.salesCard}
+              title="区域站点信息"
               extra={iconGroup}
-              // style={{ marginTop: 24 }}
+              style={{ marginTop: 24 }}
             >
-              <Row gutter={68}>
-                <Col sm={12} xs={24} style={{ marginBottom: 24 }}>
-                  <NumberInfo
-                    subTitle={
-                      <span>
-                        系统负载量
-                        <Tooltip title="指标文案">
-                          <Icon style={{ marginLeft: 8 }} type="info-circle-o" />
-                        </Tooltip>
-                      </span>
-                    }
-                    gap={8}
-                    total={numeral(12321).format('0,0')}
-                    status="up"
-                    subTotal={17.1}
-                  />
-                  <MiniArea line height={45} data={visitData2} />
-                </Col>
-                <Col sm={12} xs={24} style={{ marginBottom: 24 }}>
-                  <NumberInfo
-                    subTitle="站点平均负载量"
-                    total={2.7}
-                    status="down"
-                    subTotal={26.2}
-                    gap={8}
-                  />
-                  <MiniArea line height={45} data={visitData2} />
-                </Col>
-              </Row>
               <Table
                 rowKey={record => record.index}
                 size="small"
@@ -449,59 +389,6 @@ export default class Analysis extends Component {
             </Card>
           </Col>
         </Row>
-        <Card loading={loading} bordered={false} bodyStyle={{ padding: 0 }} style={{ marginTop: 24 }}>
-          <div className={styles.salesCard}>
-            <Tabs tabBarExtraContent={salesExtra} size="large" tabBarStyle={{ marginBottom: 24 }}>
-              <TabPane tab="发电量" key="sales">
-                <Row>
-                  <Col xl={16} lg={12} md={12} sm={24} xs={24}>
-                    <div className={styles.salesBar}>
-                      <Bar height={295} title="发电量趋势" data={salesData} />
-                    </div>
-                  </Col>
-                  <Col xl={8} lg={12} md={12} sm={24} xs={24}>
-                    <div className={styles.salesRank}>
-                      <h4 className={styles.rankingTitle}>发电量排名</h4>
-                      <ul className={styles.rankingList}>
-                        {rankingListData.map((item, i) => (
-                          <li key={item.title}>
-                            <span className={i < 3 ? styles.active : ''}>{i + 1}</span>
-                            <span>{item.title}</span>
-                            <span>{numeral(item.total).format('0,0')}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </Col>
-                </Row>
-              </TabPane>
-              <TabPane tab="碳补偿" key="views">
-                <Row>
-                  <Col xl={16} lg={12} md={12} sm={24} xs={24}>
-                    <div className={styles.salesBar}>
-                      <Bar height={292} title="碳补偿趋势" data={salesData} />
-                    </div>
-                  </Col>
-                  <Col xl={8} lg={12} md={12} sm={24} xs={24}>
-                    <div className={styles.salesRank}>
-                      <h4 className={styles.rankingTitle}>站点碳补偿排名</h4>
-                      <ul className={styles.rankingList}>
-                        {rankingListData.map((item, i) => (
-                          <li key={item.title}>
-                            <span className={i < 3 ? styles.active : ''}>{i + 1}</span>
-                            <span>{item.title}</span>
-                            <span>{numeral(item.total).format('0,0')}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </Col>
-                </Row>
-              </TabPane>
-            </Tabs>
-          </div>
-        </Card>
-
         <Card
           loading={loading}
           className={styles.offlineCard}
@@ -523,6 +410,58 @@ export default class Analysis extends Component {
             ))}
           </Tabs>
         </Card>
+        <Row gutter={24}>
+          <Col xl={18} lg={24} md={24} sm={24} xs={24}>
+            <Card loading={loading} bordered={false} bodyStyle={{ padding: 0 }} style={{ marginTop: 24 }}>
+              <div className={styles.salesCard}>
+                <Tabs tabBarExtraContent={salesExtra} size="large" tabBarStyle={{ marginBottom: 24 }}>
+                  <TabPane tab="发电量" key="sales">
+                    <div className={styles.salesBar}>
+                      <Bar height={295} title="发电量趋势" data={salesData} />
+                    </div>
+                  </TabPane>
+                  <TabPane tab="碳补偿" key="views">
+                    <Row>
+                      <Col xl={16} lg={12} md={12} sm={24} xs={24}>
+                        <div className={styles.salesBar}>
+                          <Bar height={292} title="碳补偿趋势" data={salesData} />
+                        </div>
+                      </Col>
+                      <Col xl={8} lg={12} md={12} sm={24} xs={24}>
+                        <div className={styles.salesRank}>
+                          <h4 className={styles.rankingTitle}>站点碳补偿排名</h4>
+                          <ul className={styles.rankingList}>
+                            {rankingListData.map((item, i) => (
+                              <li key={item.title}>
+                                <span className={i < 3 ? styles.active : ''}>{i + 1}</span>
+                                <span>{item.title}</span>
+                                <span>{numeral(item.total).format('0,0')}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </Col>
+                    </Row>
+                  </TabPane>
+                </Tabs>
+              </div>
+            </Card>
+          </Col>
+          <Col xl={6} lg={24} md={24} sm={24} xs={24}>
+            <Card
+              loading={loading}
+              bordered={false}
+              className={styles.salesCard}
+              title="告警列表"
+              extra={iconGroup}
+              style={{ marginTop: 24 }}
+            ></Card>
+          </Col>
+
+        </Row>
+
+
+
       </Fragment >
     );
   }

@@ -22,7 +22,7 @@ const menuData = [
       {
         name: '逆变器列表',
         authority: 'admin',
-        path: '',
+        path: 'Inverter',
       },
     ],
   },

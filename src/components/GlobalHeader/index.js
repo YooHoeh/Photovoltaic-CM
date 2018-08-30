@@ -98,6 +98,7 @@ export default class GlobalHeader extends PureComponent {
           className={styles.trigger}
           type={collapsed ? 'menu-unfold' : 'menu-fold'}
           onClick={this.toggle}
+          style={{ color: '#fff' }}
         />
         <div className={styles.right}>
           <HeaderSearch
@@ -118,7 +119,7 @@ export default class GlobalHeader extends PureComponent {
               rel="noopener noreferrer"
               className={styles.action}
             >
-              <Icon type="question-circle-o" />
+              <Icon type="question-circle-o" style={{ color: '#fff' }} />
             </a>
           </Tooltip>
           <NoticeIcon
@@ -159,8 +160,8 @@ export default class GlobalHeader extends PureComponent {
               </span>
             </Dropdown>
           ) : (
-            <Spin size="small" style={{ marginLeft: 8 }} />
-          )}
+              <Spin size="small" style={{ marginLeft: 8 }} />
+            )}
         </div>
       </div>
     );
