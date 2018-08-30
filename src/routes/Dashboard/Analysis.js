@@ -361,7 +361,7 @@ export default class Analysis extends Component {
               className={styles.salesCard}
               bordered={false}
               bodyStyle={{ padding: 12 }}
-              style={{ marginTop: 24, minHeight: 509 }}
+              style={{ minHeight: 509 }}
             >
             <MapCard></MapCard>
               {/* <iframe src="http://127.0.0.1:5500/HtmlPage1.html"
@@ -376,7 +376,7 @@ export default class Analysis extends Component {
               className={styles.salesCard}
               title="区域站点信息"
               extra={iconGroup}
-              style={{ marginTop: 24 }}
+              style={{  minHeight: 509 }}
             >
               <Table
                 rowKey={record => record.index}
