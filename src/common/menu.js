@@ -13,7 +13,7 @@ const menuData = [
     children: [
       {
         name: '站点列表',
-        path: 'table-list',
+        path: 'Site',
       },
       {
         name: '站点监控',

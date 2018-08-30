@@ -99,8 +99,8 @@ export const getRouterData = app => {
     '/dashboard/analysis': {
       component: dynamicWrapper(app, ['chart'], () => import('../routes/Dashboard/Analysis')),
     },
-    '/list/table-list': {
-      component: dynamicWrapper(app, ['rule'], () => import('../routes/List/TableList')),
+    '/list/site': {
+      component: dynamicWrapper(app, ['rule'], () => import('../routes/List/Site')),
     },
     '/list/inverter': {
       component: dynamicWrapper(app, ['rule'], () => import('../routes/List/Inverter')),
