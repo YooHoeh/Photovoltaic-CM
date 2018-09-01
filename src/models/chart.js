@@ -16,6 +16,7 @@ export default {
     radarData: [],
     loading: false,
     tt:[],
+    weather:[],
     test:123
   },
 
@@ -49,6 +50,9 @@ export default {
     console.log(response);
     console.log('activi');
     },
+    *weather(_,{call,put}){
+      const response = yield call(getWeather)
+    }
   },
 
   reducers: {

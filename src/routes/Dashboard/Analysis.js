@@ -131,8 +131,20 @@ export default class Analysis extends Component {
     });
     const { chart } = this.props;
     const { tt, test } = chart;
+    const a = JSON.stringify(tt)
+    message.success(a)
+  
+  }
+  getWeather = ()=>{
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'chart/ttt',
+    });
+    const { chart } = this.props;
+    const { tt, test } = chart;
     const a = tt.a;
     message.success(a)
+    
   }
   render() {
     const { rangePickerValue, salesType, currentTabKey } = this.state;
