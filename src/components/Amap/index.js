@@ -1,6 +1,4 @@
-import {
-  Map
-} from 'react-amap';
+import { Map } from 'react-amap';
 // const map = new AMap.Map('container', {
 //   resizeEnable: true,
 //   zoom: 7,
@@ -60,26 +58,37 @@ import {
 // }
 
 class MapCard extends React.Component {
-  // constructor() {
-  //   super();
-
-  // }
-
-  // componentDidMount() {
-
-  //   addHeNan();
-  // }
-  render() {
-
-    return <div style = {
-        {
-          width: '100%',
-          height: 509,
-          minHeight: 509
+    constructor() {
+        super();
+        this.mapCenter = { longitude: 120, latitude: 30 };
+        this.mapSet = {
+            resizeEnable: true,
+            zoom: 7,
+            zooms: [4, 18],
+            center: [115.782939, 33.869338]
         }
-      } >
-      <Map amapkey = {'3614606168564bdf7ccd53cf9d2b7669'}/>
-    </div >
-  }
+    }
+
+    // componentDidMount() {
+
+    //   addHeNan();
+    // }
+    render() {
+
+        return <div style={
+            {
+                width: '100%',
+                height: 509,
+                minHeight: 509
+            }
+        } >
+            <Map
+                amapkey='3614606168564bdf7ccd53cf9d2b7669' zoom={this.mapSet}
+                zooms={this.mapSet}
+                center={this.mapSet}
+
+            />
+        </div >
+    }
 }
 export default MapCard;
