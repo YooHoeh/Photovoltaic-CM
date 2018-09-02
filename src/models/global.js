@@ -34,6 +34,12 @@ export default {
   },
 
   reducers: {
+    selectCity(state, { payload }) {
+      return {
+        ...state,
+        city: payload
+      }
+    },
     changeLayoutCollapsed(state, { payload }) {
       return {
         ...state,

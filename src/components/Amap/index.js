@@ -12,6 +12,7 @@ class MapCard extends React.Component {
 
   // }
   render() {
+
     const amapEvents = {
       created: (mapInstance) => {
         mapInstance.plugin('AMap.DistrictSearch', function () {
@@ -56,8 +57,11 @@ class MapCard extends React.Component {
                   path: bounds[i],
                   fillOpacity: 0.5,
                   fillColor: fcolor,
-                  strokeColor: '#555555'
+                  strokeColor: '#555555',
+                  ciytName: "123"
                 });
+                polygon.on('click', () => { console.log(cname) })
+                polygon.on('mouseover', () => { console.log(this) })
                 polygons.push(polygon);
               }
               // 地图自适应

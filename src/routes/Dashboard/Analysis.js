@@ -133,9 +133,9 @@ export default class Analysis extends Component {
     const { tt, test } = chart;
     const a = JSON.stringify(tt)
     message.success(a)
-  
+
   }
-  getWeather = ()=>{
+  getWeather = () => {
     const { dispatch } = this.props;
     dispatch({
       type: 'chart/ttt',
@@ -144,7 +144,7 @@ export default class Analysis extends Component {
     const { tt, test } = chart;
     const a = tt.a;
     message.success(a)
-    
+
   }
   render() {
     const { rangePickerValue, salesType, currentTabKey } = this.state;
@@ -345,7 +345,7 @@ export default class Analysis extends Component {
                   <Icon type="info-circle-o" />
                 </Tooltip>
               }
-              total="78%"
+              // total="78%"
               footer={
                 <div style={{ whiteSpace: 'nowrap', overflow: 'hidden' }}>
                   <Trend flag="up" style={{ marginRight: 16 }}>
@@ -360,7 +360,7 @@ export default class Analysis extends Component {
               }
               contentHeight={46}
             >
-              <MiniProgress percent={78} strokeWidth={8} target={80} color="#13C2C2" />
+              {/* <MiniProgress percent={78} strokeWidth={8} target={80} color="#13C2C2" /> */}
             </ChartCard>
           </Col>
         </Row>
@@ -375,7 +375,7 @@ export default class Analysis extends Component {
               bodyStyle={{ padding: 12 }}
               style={{ minHeight: 509 }}
             >
-            <MapCard></MapCard>
+              <MapCard></MapCard>
               {/* <iframe src="http://127.0.0.1:5500/HtmlPage1.html"
                 className={styles.mapInter}>
               </iframe> */}
@@ -388,7 +388,7 @@ export default class Analysis extends Component {
               className={styles.salesCard}
               title="区域站点信息"
               extra={iconGroup}
-              style={{  minHeight: 509 }}
+              style={{ minHeight: 509 }}
             >
               <Table
                 rowKey={record => record.index}
