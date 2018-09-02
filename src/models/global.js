@@ -7,7 +7,7 @@ export default {
     collapsed: true,
     notices: [],
     city: "郑州市",
-    weatherInfo: {}
+    weather: {}
 
   },
 

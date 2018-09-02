@@ -12,6 +12,14 @@ class MapCard extends React.Component {
 
   // }
   render() {
+    const handleWeather = (weatherInfo) => {
+      const { dispatch } = this.props;
+      dispatch({
+        type: 'global/saveWeather',
+        payload: weatherInfo
+      });
+      console.log('handle')
+    };
 
     const amapEvents = {
       created: (mapInstance) => {
@@ -94,8 +102,9 @@ class MapCard extends React.Component {
                   "发布时间": data.reportTime
                 };
 
-                (str) => { this.handleWeather(str) }
+                handleWeather(str)
                 console.log(str)
+
               }
             })
           })

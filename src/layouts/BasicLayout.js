@@ -93,6 +93,8 @@ enquireScreen(b => {
   collapsed: global.collapsed,
   fetchingNotices: loading.effects['global/fetchNotices'],
   notices: global.notices,
+  weather: global.weather,
+  city: global.city,
 }))
 export default class BasicLayout extends React.PureComponent {
   static childContextTypes = {

@@ -125,13 +125,7 @@ export default class Analysis extends Component {
       return styles.currentDate;
     }
   }
-  handleWeather = (weatherInfo) => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'global/saveWeather',
-      payload: weatherInfo
-    });
-  };
+
   ttt = () => {
     const { dispatch } = this.props;
     dispatch({
@@ -145,9 +139,12 @@ export default class Analysis extends Component {
   }
 
   render() {
+    const { weather } = this.props;
+    const showWeather = () => {
+      message.success(weather)
+    }
     const { rangePickerValue, salesType, currentTabKey } = this.state;
-    const { chart, loading,
-    } = this.props;
+    const { chart, loading } = this.props;
     const {
       visitData,
       visitData2,
@@ -290,7 +287,7 @@ export default class Analysis extends Component {
               bordered={false}
               title="总发电量"
               loading={loading}
-              onClick={this.ttt}
+              onClick={showWeather}
               action={
                 <Tooltip title="指标说明">
                   <Icon type="info-circle-o" />
@@ -369,7 +366,7 @@ export default class Analysis extends Component {
               bodyStyle={{ padding: 12 }}
               style={{ minHeight: 509 }}
             >
-              <MapCard handle={(weather) => { this.handleWeather() }}></MapCard>
+              <MapCard dispatch={this.props.dispatch}></MapCard>
               {/* <iframe src="http://127.0.0.1:5500/HtmlPage1.html"
                 className={styles.mapInter}>
               </iframe> */}
