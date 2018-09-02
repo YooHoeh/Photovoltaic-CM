@@ -1,6 +1,6 @@
 import { Map, Polygon } from 'react-amap';
-
 class MapCard extends React.Component {
+
 
   constructor() {
     super();
@@ -61,7 +61,7 @@ class MapCard extends React.Component {
                   ciytName: "123"
                 });
                 polygon.on('click', () => { console.log(cname) })
-                polygon.on('mouseover', () => { console.log(this) })
+                polygon.on('mouseover', () => { saveWeatherInfo(cname) })
                 polygons.push(polygon);
               }
               // 地图自适应
@@ -70,6 +70,36 @@ class MapCard extends React.Component {
           });
         }
 
+        function saveWeatherInfo(cname) {
+          mapInstance.plugin('AMap.Weather', function () {
+            var weather = new AMap.Weather();
+            //查询实时天气信息, 查询的城市到行政级别的城市，如朝阳区、杭州市
+            weather.getLive(cname, function (err, data) {
+              if (!err) {
+                // var str = [];
+                // str.push('城市/区：' + data.city);
+                // str.push('天气：' + data.weather);
+                // str.push('温度：' + data.temperature + '℃');
+                // str.push('风向：' + data.windDirection);
+                // str.push('风力：' + data.windPower + ' 级');
+                // str.push('空气湿度：' + data.humidity);
+                // str.push('发布时间：' + data.reportTime);
+                const str = {
+                  "城市": data.city,
+                  "天气": data.weather,
+                  "温度": data.temperature + '℃',
+                  "风向": data.windDirection,
+                  "风力": data.windPower + ' 级',
+                  "空气湿度": data.humidity,
+                  "发布时间": data.reportTime
+                };
+
+                (str) => { this.handleWeather(str) }
+                console.log(str)
+              }
+            })
+          })
+        }
       }
     }
     return <div style={

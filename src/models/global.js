@@ -6,6 +6,9 @@ export default {
   state: {
     collapsed: true,
     notices: [],
+    city: "郑州市",
+    weatherInfo: {}
+
   },
 
   effects: {
@@ -34,6 +37,13 @@ export default {
   },
 
   reducers: {
+    saveWeather(state, { payload }) {
+      console.log('bingo')
+      return {
+        ...state,
+        weather: payload
+      }
+    },
     selectCity(state, { payload }) {
       return {
         ...state,

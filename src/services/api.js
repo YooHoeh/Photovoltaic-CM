@@ -83,11 +83,11 @@ export async function getWeather(params) {
 }
 export async function ttt() {
   console.log('api');
-  return request('http://172.20.151.36/photovoltaic/public/index/index/general.html',{
+  return request('http://172.20.151.36/photovoltaic/public/index/index/general.html', {
   });
 }
 export async function lll(params) {
-  return request('http://172.20.151.36/test/public/index/index/test', {
+  return request('http://172.20.151.36/photovoltaic/public/index/login/index', {
     method: 'POST',
     body: params,
   });

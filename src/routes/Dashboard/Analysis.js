@@ -55,6 +55,7 @@ const Yuan = ({ children }) => (
 @connect(({ chart, loading }) => ({
   chart,
   loading: loading.effects['chart/fetch'],
+
 }))
 export default class Analysis extends Component {
   state = {
@@ -124,6 +125,13 @@ export default class Analysis extends Component {
       return styles.currentDate;
     }
   }
+  handleWeather = (weatherInfo) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'global/saveWeather',
+      payload: weatherInfo
+    });
+  };
   ttt = () => {
     const { dispatch } = this.props;
     dispatch({
@@ -135,20 +143,11 @@ export default class Analysis extends Component {
     message.success(a)
 
   }
-  getWeather = () => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'chart/ttt',
-    });
-    const { chart } = this.props;
-    const { tt, test } = chart;
-    const a = tt.a;
-    message.success(a)
 
-  }
   render() {
     const { rangePickerValue, salesType, currentTabKey } = this.state;
-    const { chart, loading } = this.props;
+    const { chart, loading,
+    } = this.props;
     const {
       visitData,
       visitData2,
@@ -160,7 +159,6 @@ export default class Analysis extends Component {
       salesTypeDataOnline,
       salesTypeDataOffline,
     } = chart;
-
     const salesPieData =
       salesType === 'all'
         ? salesTypeData
@@ -208,11 +206,6 @@ export default class Analysis extends Component {
     );
 
     const columns = [
-      // {
-      //   title: '排名',
-      //   dataIndex: 'index',
-      //   key: 'index',
-      // },
       {
         title: '区域',
         dataIndex: 'keyword',
@@ -360,6 +353,7 @@ export default class Analysis extends Component {
               }
               contentHeight={46}
             >
+
               {/* <MiniProgress percent={78} strokeWidth={8} target={80} color="#13C2C2" /> */}
             </ChartCard>
           </Col>
@@ -375,7 +369,7 @@ export default class Analysis extends Component {
               bodyStyle={{ padding: 12 }}
               style={{ minHeight: 509 }}
             >
-              <MapCard></MapCard>
+              <MapCard handle={(weather) => { this.handleWeather() }}></MapCard>
               {/* <iframe src="http://127.0.0.1:5500/HtmlPage1.html"
                 className={styles.mapInter}>
               </iframe> */}

@@ -1,4 +1,4 @@
-import { fakeChartData,ttt } from '../services/api';
+import { fakeChartData, ttt } from '../services/api';
 
 export default {
   namespace: 'chart',
@@ -15,9 +15,9 @@ export default {
     salesTypeDataOffline: [],
     radarData: [],
     loading: false,
-    tt:[],
-    weather:[],
-    test:123
+    tt: [],
+    weather: [],
+    test: 123
   },
 
   effects: {
@@ -46,13 +46,10 @@ export default {
           tt: response,
         },
       }
-    );
-    console.log(response);
-    console.log('activi');
+      );
+      console.log(response);
+      console.log('activi');
     },
-    *weather(_,{call,put}){
-      const response = yield call(getWeather)
-    }
   },
 
   reducers: {
@@ -74,7 +71,7 @@ export default {
         salesTypeDataOnline: [],
         salesTypeDataOffline: [],
         radarData: [],
-        tt:[]
+        tt: []
       };
     },
   },
