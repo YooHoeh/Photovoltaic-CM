@@ -18,7 +18,13 @@ class MapCard extends React.Component {
         type: 'global/saveWeather',
         payload: weatherInfo
       });
-      console.log('handle')
+    };
+    const handleCity = (city) => {
+      const { dispatch } = this.props;
+      dispatch({
+        type: 'global/saveCity',
+        payload: city
+      });
     };
 
     const amapEvents = {
@@ -68,7 +74,7 @@ class MapCard extends React.Component {
                   strokeColor: '#555555',
                   ciytName: "123"
                 });
-                polygon.on('click', () => { saveWeatherInfo(cname) })
+                polygon.on('click', () => { cityClick(cname) })
                 polygon.on('mouseover', () => { })
                 polygons.push(polygon);
               }
@@ -77,7 +83,11 @@ class MapCard extends React.Component {
             }
           });
         }
+        function cityClick(city) {
+          saveWeatherInfo(city);
+          handleCity(city)
 
+        }
         function saveWeatherInfo(cname) {
           mapInstance.plugin('AMap.Weather', function () {
             var weather = new AMap.Weather();
@@ -103,8 +113,6 @@ class MapCard extends React.Component {
                 };
 
                 handleWeather(str)
-                console.log(str)
-
               }
             })
           })

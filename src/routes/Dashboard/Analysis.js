@@ -55,7 +55,8 @@ const Yuan = ({ children }) => (
 @connect(({ chart, loading, global = {} }) => ({
   chart,
   loading: loading.effects['chart/fetch'],
-  weather: global.weather
+  weather: global.weather,
+  city: global.city
 
 }))
 export default class Analysis extends Component {
@@ -140,12 +141,9 @@ export default class Analysis extends Component {
   }
 
   render() {
-    const { weather } = this.props;
-    const showWeather = () => {
-      message.success(weather)
-    }
+
     const { rangePickerValue, salesType, currentTabKey } = this.state;
-    const { chart, loading } = this.props;
+    const { chart, loading, weather, city } = this.props;
     const {
       visitData,
       visitData2,
@@ -168,10 +166,10 @@ export default class Analysis extends Component {
         <Row>
           <Col span="8" >
             <Row>
-              <span style={{ fontWeight: "bold", fontSize: "20px" }}>{weather.城市}</span><hr />
+              <b style={{ fontSize: "18px" }}>{weather.城市}</b><hr />
             </Row>
             <Row>
-              <span style={{ fontWeight: "bold", fontSize: "18px", textAlign: 'center' }}>{weather.天气}</span>
+              <span style={{ fontWeight: "bold", fontSize: "15px", textAlign: 'center' }}>{weather.天气}</span>
             </Row>
           </Col>
           <Col span="16" style={{ paddingLeft: "13px" }}>
@@ -316,7 +314,7 @@ export default class Analysis extends Component {
               bordered={false}
               title="总发电量"
               loading={loading}
-              onClick={showWeather}
+              // onClick={showWeather}
               action={
                 <Tooltip title="指标说明">
                   <Icon type="info-circle-o" />
@@ -399,7 +397,7 @@ export default class Analysis extends Component {
               loading={loading}
               bordered={false}
               className={styles.salesCard}
-              title="区域站点信息"
+              title={city + "区域站点信息"}
               bodyStyle={{ padding: 12 }}
               style={{ minHeight: 509 }}
             >

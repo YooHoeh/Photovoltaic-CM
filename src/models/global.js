@@ -39,13 +39,12 @@ export default {
 
   reducers: {
     saveWeather(state, { payload }) {
-      console.log('bingo')
       return {
         ...state,
         weather: payload
       }
     },
-    selectCity(state, { payload }) {
+    saveCity(state, { payload }) {
       return {
         ...state,
         city: payload
