@@ -52,9 +52,10 @@ const Yuan = ({ children }) => (
   />
 );
 
-@connect(({ chart, loading }) => ({
+@connect(({ chart, loading, global = {} }) => ({
   chart,
   loading: loading.effects['chart/fetch'],
+  weather: global.weather
 
 }))
 export default class Analysis extends Component {
@@ -62,8 +63,8 @@ export default class Analysis extends Component {
     salesType: 'all',
     currentTabKey: '',
     rangePickerValue: getTimeDistance('year'),
-  };
 
+  };
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
@@ -162,7 +163,35 @@ export default class Analysis extends Component {
         : salesType === 'online'
           ? salesTypeDataOnline
           : salesTypeDataOffline;
+    const weatherCard = (
+      <div className={styles.weatherCard}>
+        <Row>
+          <Col span="8" >
+            <Row>
+              <span style={{ fontWeight: "bold", fontSize: "20px" }}>{weather.城市}</span><hr />
+            </Row>
+            <Row>
+              <span style={{ fontWeight: "bold", fontSize: "18px", textAlign: 'center' }}>{weather.天气}</span>
+            </Row>
+          </Col>
+          <Col span="16" style={{ paddingLeft: "30px" }}>
+            <Row>
+              <span>温度:{weather.温度}</span>
+            </Row>
+            <Row>
+              <span>风向:{weather.风向}</span>
+            </Row>
+            <Row>
+              <span>风力:{weather.风力}</span>
+            </Row>
+            <Row>
+              <span>空气湿度:{weather.空气湿度}</span>
+            </Row>
 
+          </Col>
+        </Row>
+      </div>
+    );
     const menu = (
       <Menu>
         <Menu.Item>操作一</Menu.Item>
@@ -338,19 +367,12 @@ export default class Analysis extends Component {
               // total="78%"
               footer={
                 <div style={{ whiteSpace: 'nowrap', overflow: 'hidden' }}>
-                  <Trend flag="up" style={{ marginRight: 16 }}>
-                    周同比
-                    <span className={styles.trendText}>12%</span>
-                  </Trend>
-                  <Trend flag="down">
-                    日环比
-                    <span className={styles.trendText}>11%</span>
-                  </Trend>
+                  发布时间： {weather.发布时间}
                 </div>
               }
-              contentHeight={46}
+            // contentHeight={90}
             >
-
+              {weatherCard}
               {/* <MiniProgress percent={78} strokeWidth={8} target={80} color="#13C2C2" /> */}
             </ChartCard>
           </Col>

@@ -68,8 +68,8 @@ class MapCard extends React.Component {
                   strokeColor: '#555555',
                   ciytName: "123"
                 });
-                polygon.on('click', () => { console.log(cname) })
-                polygon.on('mouseover', () => { saveWeatherInfo(cname) })
+                polygon.on('click', () => { saveWeatherInfo(cname) })
+                polygon.on('mouseover', () => { })
                 polygons.push(polygon);
               }
               // 地图自适应
