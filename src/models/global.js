@@ -1,5 +1,4 @@
 import { queryNotices } from '../services/api';
-
 export default {
   namespace: 'global',
 
@@ -7,7 +6,9 @@ export default {
     collapsed: true,
     notices: [],
     city: "郑州市",
-    weather: {}
+    weather: {},
+    mapView: "city", //判断显示地区地图还是站点地图
+
 
   },
 

@@ -174,18 +174,18 @@ export default class Analysis extends Component {
               <span style={{ fontWeight: "bold", fontSize: "18px", textAlign: 'center' }}>{weather.天气}</span>
             </Row>
           </Col>
-          <Col span="16" style={{ paddingLeft: "30px" }}>
+          <Col span="16" style={{ paddingLeft: "13px" }}>
             <Row>
-              <span>温度:{weather.温度}</span>
+              温度:<span>{weather.温度}</span>
             </Row>
             <Row>
-              <span>风向:{weather.风向}</span>
+              风向:<span>{weather.风向}</span>
             </Row>
             <Row>
-              <span>风力:{weather.风力}</span>
+              风力:<span>{weather.风力}</span>
             </Row>
             <Row>
-              <span>空气湿度:{weather.空气湿度}</span>
+              空气湿度:<span>{weather.空气湿度}</span>
             </Row>
 
           </Col>
@@ -400,7 +400,7 @@ export default class Analysis extends Component {
               bordered={false}
               className={styles.salesCard}
               title="区域站点信息"
-              extra={iconGroup}
+              bodyStyle={{ padding: 12 }}
               style={{ minHeight: 509 }}
             >
               <Table
@@ -439,7 +439,12 @@ export default class Analysis extends Component {
         </Card>
         <Row gutter={24}>
           <Col xl={18} lg={24} md={24} sm={24} xs={24}>
-            <Card loading={loading} bordered={false} bodyStyle={{ padding: 0 }} style={{ marginTop: 24 }}>
+            <Card
+              loading={loading}
+              bordered={false}
+              bodyStyle={{ padding: 0 }}
+              style={{ marginTop: 24 }}
+            >
               <div className={styles.salesCard}>
                 <Tabs tabBarExtraContent={salesExtra} size="large" tabBarStyle={{ marginBottom: 24 }}>
                   <TabPane tab="发电量" key="sales">
@@ -482,7 +487,8 @@ export default class Analysis extends Component {
               title="告警列表"
               extra={iconGroup}
               style={{ marginTop: 24 }}
-            ></Card>
+            >
+            </Card>
           </Col>
 
         </Row>

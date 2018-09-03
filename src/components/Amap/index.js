@@ -72,7 +72,7 @@ class MapCard extends React.Component {
                 polygon.on('mouseover', () => { })
                 polygons.push(polygon);
               }
-              // 地图自适应
+              // 地图位置自适应，是所有覆盖物都能显示
               // mapInstance.setFitView()
             }
           });
@@ -114,8 +114,8 @@ class MapCard extends React.Component {
     return <div style={
       {
         width: '100%',
-        height: 509,
-        minHeight: 509
+        height: 480,
+        // minHeight: 400
       }
     } >
       <Map
