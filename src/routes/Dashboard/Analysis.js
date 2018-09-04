@@ -31,6 +31,7 @@ import NumberInfo from 'components/NumberInfo';
 import CountDown from 'components/CountDown';
 
 import { getTimeDistance } from '../../utils/utils';
+import { cityNameToCode } from "../../utils/city"
 
 import styles from './Analysis.less';
 import MapCard from 'components/Amap';
@@ -132,13 +133,14 @@ export default class Analysis extends Component {
 
   ttt = () => {
     const { dispatch } = this.props;
-    dispatch({
-      type: 'chart/ttt',
-    });
+    // dispatch({
+    //   type: 'chart/ttt',
+    // });
+
     const { chart } = this.props;
     const { tt, test } = chart;
-    const a = JSON.stringify(tt)
-    message.success(a)
+    // const a = JSON.stringify(tt)
+    message.success(cityNameToCode("三门峡市"))
 
   }
 
@@ -316,7 +318,7 @@ export default class Analysis extends Component {
               bordered={false}
               title="总发电量"
               loading={loading}
-              // onClick={showWeather}
+              onClick={this.ttt}
               action={
                 <Tooltip title="指标说明">
                   <Icon type="info-circle-o" />
