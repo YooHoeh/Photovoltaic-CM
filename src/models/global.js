@@ -1,4 +1,4 @@
-import { queryNotices } from '../services/api';
+import { queryNotices, homePage } from '../services/api';
 export default {
   namespace: 'global',
 
@@ -8,8 +8,13 @@ export default {
     city: "郑州市",
     weather: {},
     mapView: "city", //判断显示地区地图还是站点地图
-
-
+    allHomePageInfo: {},
+    installNum: '',
+    totalPower: '',
+    dayPower: '',
+    carbon: '',
+    dayCarbon: '',
+    areaStation: {}
   },
 
   effects: {
@@ -35,13 +40,41 @@ export default {
         payload: count,
       });
     },
+    *getHomePageInfo(_, { call, put }) {
+      const data = yield call(homePage);
+      yield put({
+        type: 'saveHomePageInfo',
+        payload: data,
+      });
+      // yield put({
+      //   type: 'save',
+      //   payload: {
+      //     salesData: response.salesData,
+      //   },
+      // });
+
+
+    },
   },
 
   reducers: {
+    save(state, { payload }) {
+      return {
+        ...state,
+        ...payload,
+      };
+    },
     saveWeather(state, { payload }) {
       return {
         ...state,
         weather: payload
+      }
+    },
+    saveHomePageInfo(state, { payload }) {
+      console.log("save")
+      return {
+        ...state,
+        allHomePageInfo: payload
       }
     },
     saveCity(state, { payload }) {

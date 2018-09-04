@@ -78,17 +78,27 @@ export async function fakeRegister(params) {
 export async function queryNotices() {
   return request('/api/notices');
 }
-export async function getWeather(params) {
-  return request('/api/notices');
-}
+
 export async function ttt() {
   console.log('api');
   return request('http://172.20.151.36/photovoltaic/public/index/index/general.html', {
+  });
+}
+export async function homePage() {
+  console.log('homepage');
+  return request('http://172.20.151.36/photovoltaic/public/index/index/general', {
   });
 }
 export async function lll(params) {
   return request('http://172.20.151.36/photovoltaic/public/index/login/index', {
     method: 'POST',
     body: params,
+  });
+}
+
+export async function getAreaSite(site) {
+  return request('http://172.20.151.36/photovoltaic/public/index/index/area_ajax', {
+    method: 'POST',
+    body: site,
   });
 }

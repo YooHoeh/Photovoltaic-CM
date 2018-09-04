@@ -56,7 +56,8 @@ const Yuan = ({ children }) => (
   chart,
   loading: loading.effects['chart/fetch'],
   weather: global.weather,
-  city: global.city
+  city: global.city,
+
 
 }))
 export default class Analysis extends Component {
@@ -71,6 +72,7 @@ export default class Analysis extends Component {
     dispatch({
       type: 'chart/fetch',
     });
+
   }
 
   componentWillUnmount() {
@@ -303,7 +305,7 @@ export default class Analysis extends Component {
                 </Tooltip>
               }
               total={numeral(6560).format('0,0')}
-              footer={<Field label="转化率" value="60%" />}
+              footer={<Field label="建站总数" value="1211" />}
               contentHeight={46}
             >
               <MiniBar data={visitData} />

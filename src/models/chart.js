@@ -16,8 +16,6 @@ export default {
     radarData: [],
     loading: false,
     tt: [],
-    weather: [],
-    test: 123
   },
 
   effects: {

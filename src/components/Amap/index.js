@@ -1,4 +1,5 @@
 import { Map, Polygon } from 'react-amap';
+import { Icon } from "antd";
 class MapCard extends React.Component {
 
 
@@ -131,6 +132,7 @@ class MapCard extends React.Component {
         version='1.4.2'
         resizeEnable='true'
         zoom='7.1'
+        features={['bg', "point"]}
         zooms={[6, 18]}
         center={this.mapCenter}
         events={amapEvents}
