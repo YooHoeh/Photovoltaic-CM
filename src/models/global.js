@@ -5,7 +5,7 @@ export default {
   state: {
     collapsed: true,
     notices: [],
-    city: "郑州市",
+    city: "",
     weather: {},
     mapView: "city", //判断显示地区地图还是站点地图
     allHomePageInfo: {},

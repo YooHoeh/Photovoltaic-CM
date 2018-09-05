@@ -170,6 +170,7 @@ export default class BasicLayout extends React.PureComponent {
   };
 
   handleMenuCollapse = collapsed => {
+    console.log("fasheng" + collapsed)
     const { dispatch } = this.props;
     dispatch({
       type: 'global/changeLayoutCollapsed',

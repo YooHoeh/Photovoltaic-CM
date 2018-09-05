@@ -19,7 +19,7 @@ const SiderMenuWrapper = props => {
       <SiderMenu {...props} collapsed={isMobile ? false : collapsed} />
     </Drawer>
   ) : (
-      <SiderMenu {...props} collapsed={true} />
+      <SiderMenu {...props} />
     );
 };
 

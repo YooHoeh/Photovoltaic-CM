@@ -30,6 +30,7 @@ class MapCard extends React.Component {
 
     const amapEvents = {
       created: (mapInstance) => {
+
         mapInstance.plugin('AMap.DistrictSearch', function () {
 
           // 创建行政区查询对象
@@ -60,6 +61,17 @@ class MapCard extends React.Component {
           drawCity(district, '信阳市', '#d2ddf1');
           drawCity(district, '济源市', '#fadeb9');
         });
+        mapInstance.plugin('AMap.CitySearch', function () {
+          var citySearch = new AMap.CitySearch()
+          citySearch.getLocalCity(function (status, result) {
+            if (status === 'complete' && result.info === 'OK') {
+              // 查询成功，result即为当前所在城市信息
+              console.log(result.city)
+              handleCity(result.city)
+            }
+          })
+        })
+        //添加覆盖物
         function drawCity(district, cname, fcolor) {
           district.search(cname, function (status, result) {
             var bounds = result.districtList[0].boundaries;
@@ -89,6 +101,7 @@ class MapCard extends React.Component {
           handleCity(city)
 
         }
+        //保存天气信息至global.state
         function saveWeatherInfo(cname) {
           mapInstance.plugin('AMap.Weather', function () {
             var weather = new AMap.Weather();

@@ -5,14 +5,15 @@ import { Link } from 'dva/router';
 import classNames from 'classnames';
 import styles from './index.less';
 import { urlToList } from '../_utils/pathTools';
-
 const { Sider } = Layout;
 const { SubMenu } = Menu;
+
 
 // Allow menu.js config icon as string or ReactNode
 //   icon: 'setting',
 //   icon: 'http://demo.com/icon.png',
 //   icon: <Icon type="setting" />,
+
 const getIcon = icon => {
   if (typeof icon === 'string') {
     if (icon.indexOf('http') === 0) {
@@ -55,6 +56,7 @@ export default class SiderMenu extends PureComponent {
     super(props);
     this.flatMenuKeys = getFlatMenuKeys(props.menuData);
     this.state = {
+      collapsed: true,
       openKeys: this.getDefaultCollapsedSubMenus(props),
     };
   }
@@ -109,7 +111,9 @@ export default class SiderMenu extends PureComponent {
             ? () => {
               onCollapse(true);
             }
-            : undefined
+            : () => {
+              onCollapse(true);
+            }
         }
       >
         {icon}
