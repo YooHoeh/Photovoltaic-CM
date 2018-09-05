@@ -142,8 +142,7 @@ class MapCard extends React.Component {
         width: '100%',
         height: 480,
         // minHeight: 400
-      }
-    } >
+      }} >
       <Map
         amapkey='3614606168564bdf7ccd53cf9d2b7669'
         version='1.4.2'
