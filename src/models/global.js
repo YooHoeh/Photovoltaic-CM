@@ -43,11 +43,10 @@ export default {
     *getHomePageInfo(_, { call, put }) {
       const response = yield call(homePage);
       console.log("get home page" + response)
-
       yield put({
-        type: 'saveHomePageInfo',
+        type: 'save',
         payload: {
-          allHomePageInfo: response.data,
+          allHomePageInfo: response,
         },
       }
       );

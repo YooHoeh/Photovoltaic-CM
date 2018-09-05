@@ -92,10 +92,11 @@ export default class Analysis extends Component {
       salesType: e.target.value,
     });
   };
-  initHomePage = () => {
+  initHomePage = (allHomePageInfo) => {
     const { dispatch } = this.props;
     dispatch({
       type: 'global/getHomePageInfo',
+      payload: allHomePageInfo
     });
 
   }
