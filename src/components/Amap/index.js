@@ -68,17 +68,21 @@ class MapCard extends React.Component {
               // 查询成功，result即为当前所在城市信息
               console.log(result.city)
               handleCity(result.city)
+              saveWeatherInfo(result.city);
+            } else {
+              console.log("地理信息获取失败")
+
             }
           })
         })
         //添加覆盖物
         function drawCity(district, cname, fcolor) {
           district.search(cname, function (status, result) {
-            var bounds = result.districtList[0].boundaries;
-            var polygons = [];
+            const bounds = result.districtList[0].boundaries;
+            const polygons = [];
             if (bounds) {
-              for (var i = 0, l = bounds.length; i < l; i++) {
-                var polygon = new AMap.Polygon({
+              for (let i = 0, l = bounds.length; i < l; i++) {
+                let polygon = new AMap.Polygon({
                   map: mapInstance,
                   strokeWeight: 1,
                   path: bounds[i],
