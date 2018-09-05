@@ -21,6 +21,7 @@ const cityList = [
 export const cityNameToCode = (name) => {
     cityList.map((i) => {
         if (name == i.name) {
+            console.log(i.code)
             return i.code;
         }
     })

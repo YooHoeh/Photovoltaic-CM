@@ -58,9 +58,11 @@ const Yuan = ({ children }) => (
   loading: loading.effects['chart/fetch'],
   weather: global.weather,
   city: global.city,
-
+  allHomePageInfo: global.allHomePageInfo,
+  global
 
 }))
+
 export default class Analysis extends Component {
   state = {
     salesType: 'all',
@@ -68,11 +70,13 @@ export default class Analysis extends Component {
     rangePickerValue: getTimeDistance('year'),
 
   };
+
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
       type: 'chart/fetch',
     });
+    this.initHomePage()
 
   }
 
@@ -88,7 +92,13 @@ export default class Analysis extends Component {
       salesType: e.target.value,
     });
   };
+  initHomePage = () => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'global/getHomePageInfo',
+    });
 
+  }
   handleTabChange = key => {
     this.setState({
       currentTabKey: key,
@@ -133,14 +143,16 @@ export default class Analysis extends Component {
 
   ttt = () => {
     const { dispatch } = this.props;
-    // dispatch({
-    //   type: 'chart/ttt',
-    // });
+    dispatch({
+      type: 'chart/ttt',
+    });
 
-    const { chart } = this.props;
-    const { tt, test } = chart;
-    // const a = JSON.stringify(tt)
-    message.success(cityNameToCode("三门峡市"))
+    // const { global } = this.props;
+    const { allHomePageInfo, chart } = this.props;
+    const { tt } = chart;
+
+
+    message.success(JSON.stringify(tt))
 
   }
 
@@ -165,35 +177,58 @@ export default class Analysis extends Component {
         : salesType === 'online'
           ? salesTypeDataOnline
           : salesTypeDataOffline;
-    const weatherCard = (
-      <div className={styles.weatherCard}>
-        <Row>
-          <Col span="8" >
-            <Row>
-              <b style={{ fontSize: "18px" }}>{weather.城市}</b><hr />
-            </Row>
-            <Row>
-              <span style={{ fontWeight: "bold", fontSize: "15px", textAlign: 'center' }}>{weather.天气}</span>
-            </Row>
-          </Col>
-          <Col span="16" style={{ paddingLeft: "13px" }}>
-            <Row>
-              温度:<span>{weather.温度}</span>
-            </Row>
-            <Row>
-              风向:<span>{weather.风向}</span>
-            </Row>
-            <Row>
-              风力:<span>{weather.风力}</span>
-            </Row>
-            <Row>
-              空气湿度:<span>{weather.空气湿度}</span>
-            </Row>
+    const WeatherFooter = () => {
+      if (weather == undefined) {
+        return (
 
-          </Col>
-        </Row>
-      </div>
-    );
+          <div>无法获取天气数据</div>
+        )
+      } else {
+        return (
+
+          <div style={{ whiteSpace: 'nowrap', overflow: 'hidden' }}>
+            发布时间： {weather.发布时间}
+          </div>
+        )
+      }
+    }
+
+    const weatherCard = () => {
+      if (weather == undefined) {
+        return
+        <div>无法获取天气数据</div>
+      } else {
+        return (
+          < div className={styles.weatherCard} >
+            <Row>
+              <Col span="8" >
+                <Row>
+                  <b style={{ fontSize: "18px" }}>{weather.城市}</b><hr />
+                </Row>
+                <Row>
+                  <span style={{ fontWeight: "bold", fontSize: "15px", textAlign: 'center' }}>{weather.天气}</span>
+                </Row>
+              </Col>
+              <Col span="16" style={{ paddingLeft: "13px" }}>
+                <Row>
+                  温度:<span>{weather.温度}</span>
+                </Row>
+                <Row>
+                  风向:<span>{weather.风向}</span>
+                </Row>
+                <Row>
+                  风力:<span>{weather.风力}</span>
+                </Row>
+                <Row>
+                  空气湿度:<span>{weather.空气湿度}</span>
+                </Row>
+              </Col>
+            </Row>
+          </div >
+        )
+
+      }
+    };
     const menu = (
       <Menu>
         <Menu.Item>操作一</Menu.Item>
@@ -367,14 +402,10 @@ export default class Analysis extends Component {
                 </Tooltip>
               }
               // total="78%"
-              footer={
-                <div style={{ whiteSpace: 'nowrap', overflow: 'hidden' }}>
-                  发布时间： {weather.发布时间}
-                </div>
-              }
+              footer={<WeatherFooter />}
             // contentHeight={90}
             >
-              {weatherCard}
+              {weatherCard()}
               {/* <MiniProgress percent={78} strokeWidth={8} target={80} color="#13C2C2" /> */}
             </ChartCard>
           </Col>

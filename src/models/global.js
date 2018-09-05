@@ -5,7 +5,7 @@ export default {
   state: {
     collapsed: true,
     notices: [],
-    city: "",
+    city: "郑州",
     weather: {},
     mapView: "city", //判断显示地区地图还是站点地图
     allHomePageInfo: {},
@@ -41,19 +41,16 @@ export default {
       });
     },
     *getHomePageInfo(_, { call, put }) {
-      const data = yield call(homePage);
+      const response = yield call(homePage);
+      console.log("get home page" + response)
+
       yield put({
         type: 'saveHomePageInfo',
-        payload: data,
-      });
-      // yield put({
-      //   type: 'save',
-      //   payload: {
-      //     salesData: response.salesData,
-      //   },
-      // });
-
-
+        payload: {
+          allHomePageInfo: response.data,
+        },
+      }
+      );
     },
   },
 
@@ -71,7 +68,7 @@ export default {
       }
     },
     saveHomePageInfo(state, { payload }) {
-      console.log("save")
+      console.log("save HomePageInfo")
       return {
         ...state,
         allHomePageInfo: payload

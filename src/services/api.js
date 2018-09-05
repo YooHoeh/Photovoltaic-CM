@@ -85,9 +85,8 @@ export async function ttt() {
   });
 }
 export async function homePage() {
-  console.log('homepage');
-  return request('http://172.20.151.36/photovoltaic/public/index/index/general', {
-  });
+  console.log('homepage api');
+  return request('http://172.20.151.36/photovoltaic/public/index/index/general');
 }
 export async function lll(params) {
   return request('http://172.20.151.36/photovoltaic/public/index/login/index', {
@@ -96,9 +95,9 @@ export async function lll(params) {
   });
 }
 
-export async function getAreaSite(site) {
+export async function getAreaSite(siteCode) {
   return request('http://172.20.151.36/photovoltaic/public/index/index/area_ajax', {
     method: 'POST',
-    body: site,
+    body: siteCode,
   });
 }
