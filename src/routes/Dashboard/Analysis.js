@@ -286,6 +286,29 @@ export default class Analysis extends Component {
       {
         title: '发电量',
         dataIndex: 'count',
+        key: 'range',
+        sorter: (a, b) => a.range - b.range,
+        className: styles.alignRight,
+      },
+    ];
+    const warnColumns = [
+      {
+        title: '逆变器编号',
+        dataIndex: 'keyword',
+        key: 'keyword',
+        render: text => <a href="/">{text}</a>,
+      },
+
+      {
+        title: '告警编号',
+        dataIndex: 'count',
+        key: 'count',
+        sorter: (a, b) => a.count - b.count,
+        className: styles.alignRight,
+      },
+      {
+        title: '告警编号',
+        dataIndex: 'count',
         key: 'count',
         sorter: (a, b) => a.count - b.count,
         className: styles.alignRight,
@@ -443,7 +466,7 @@ export default class Analysis extends Component {
                 dataSource={searchData}
                 pagination={{
                   style: { marginBottom: 0 },
-                  pageSize: 5,
+                  pageSize: 9,
                 }}
               />
             </Card>
@@ -518,16 +541,22 @@ export default class Analysis extends Component {
               bordered={false}
               className={styles.salesCard}
               title="告警列表"
-              extra={iconGroup}
+              bodyStyle={{ paddingBottom: 13 }}
               style={{ marginTop: 24 }}
             >
+              <Table
+                rowKey={record => record.index}
+                size="small"
+                columns={warnColumns}
+                dataSource={searchData}
+                pagination={{
+                  style: { marginBottom: 0 },
+                  pageSize: 6,
+                }}
+              />
             </Card>
           </Col>
-
         </Row>
-
-
-
       </Fragment >
     );
   }

@@ -47,6 +47,7 @@ export default class GlobalHeader extends PureComponent {
 
   toggle = () => {
     const { collapsed, onCollapse } = this.props;
+    console.log("header")
     onCollapse(!collapsed);
     this.triggerResizeEvent();
   };

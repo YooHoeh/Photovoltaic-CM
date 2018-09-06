@@ -14,6 +14,7 @@ export default {
     dayPower: '',
     carbon: '',
     dayCarbon: '',
+    warningList: [],
     allStation: [],
   },
 
@@ -83,6 +84,12 @@ export default {
         type: 'save',
         payload: {
           allStation: response.area_station,
+        },
+      });
+      yield put({
+        type: 'save',
+        payload: {
+          warningList: response.warning,
         },
       });
     },
