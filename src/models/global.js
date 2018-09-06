@@ -1,4 +1,4 @@
-import { queryNotices, homePage } from '../services/api';
+import { queryNotices, homePage, } from '../services/api';
 export default {
   namespace: 'global',
 
@@ -8,13 +8,13 @@ export default {
     city: "郑州",
     weather: {},
     mapView: "city", //判断显示地区地图还是站点地图
-    allHomePageInfo: {},
+    allHomePageInfo: "",
     installNum: '',
     totalPower: '',
     dayPower: '',
     carbon: '',
     dayCarbon: '',
-    areaStation: {}
+    allStation: [],
   },
 
   effects: {
@@ -42,19 +42,54 @@ export default {
     },
     *getHomePageInfo(_, { call, put }) {
       const response = yield call(homePage);
-      console.log("get home page" + response)
+      console.log("get home page" + response.username)
       yield put({
         type: 'save',
         payload: {
           allHomePageInfo: response,
         },
-      }
-      );
+      });
+      yield put({
+        type: 'save',
+        payload: {
+          installNum: response.s_install,
+        },
+      });
+      yield put({
+        type: 'save',
+        payload: {
+          totalPower: response.s_total_power,
+        },
+      });
+      yield put({
+        type: 'save',
+        payload: {
+          dayPower: response.s_day_power,
+        },
+      });
+      yield put({
+        type: 'save',
+        payload: {
+          carbon: response.s_e_d_carbon,
+        },
+      });
+      yield put({
+        type: 'save',
+        payload: {
+          dayCarbon: response.s_e_d_day_carbon,
+        },
+      });
+      yield put({
+        type: 'save',
+        payload: {
+          allStation: response.area_station,
+        },
+      });
     },
   },
-
   reducers: {
     save(state, { payload }) {
+      console.log("save" + payload)
       return {
         ...state,
         ...payload,

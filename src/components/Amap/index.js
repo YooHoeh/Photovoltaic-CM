@@ -1,11 +1,15 @@
-import { Map, Polygon } from 'react-amap';
+import { Map, Polygon, Markers } from 'react-amap';
 import { Icon } from "antd";
 class MapCard extends React.Component {
 
 
   constructor() {
     super();
+    // const { station } = this.props;
     this.mapCenter = { longitude: 113.782939, latitude: 33.869338 };
+    this.state = {
+      // markers: station,
+    }
 
   }
 
@@ -13,6 +17,17 @@ class MapCard extends React.Component {
 
   // }
   render() {
+    const marks = () => {
+      const { station } = this.props;
+
+      // station.map((item, index) => ({
+      //   position: {
+      //     longitude: item,
+      //     latitude: item,
+      //   }
+      // }))
+
+    }
     const handleWeather = (weatherInfo) => {
       const { dispatch } = this.props;
       dispatch({
@@ -30,7 +45,7 @@ class MapCard extends React.Component {
 
     const amapEvents = {
       created: (mapInstance) => {
-
+        //绘制指定地区覆盖物
         mapInstance.plugin('AMap.DistrictSearch', function () {
 
           // 创建行政区查询对象
@@ -61,6 +76,7 @@ class MapCard extends React.Component {
           drawCity(district, '信阳市', '#d2ddf1');
           drawCity(district, '济源市', '#fadeb9');
         });
+        //获取系统使用者的所在位置用于显示默认信息
         mapInstance.plugin('AMap.CitySearch', function () {
           var citySearch = new AMap.CitySearch()
           citySearch.getLocalCity(function (status, result) {
@@ -75,6 +91,8 @@ class MapCard extends React.Component {
             }
           })
         })
+        //添加站点Marks
+
         //添加覆盖物
         function drawCity(district, cname, fcolor) {
           district.search(cname, function (status, result) {
@@ -100,6 +118,7 @@ class MapCard extends React.Component {
             }
           });
         }
+        //区域点击事件
         function cityClick(city) {
           saveWeatherInfo(city);
           handleCity(city)
@@ -135,6 +154,7 @@ class MapCard extends React.Component {
             })
           })
         }
+
       }
     }
     return <div style={
@@ -152,7 +172,11 @@ class MapCard extends React.Component {
         zooms={[6, 18]}
         center={this.mapCenter}
         events={amapEvents}
+        useAMapUI
       >
+        <Markers
+          markers={marks()}
+        />
       </Map>
     </div >
   }

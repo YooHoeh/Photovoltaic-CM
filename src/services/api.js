@@ -86,7 +86,8 @@ export async function ttt() {
 }
 export async function homePage() {
   console.log('homepage api');
-  return request('http://172.20.151.36/photovoltaic/public/index/index/general', {});
+  // return request('http://172.20.151.36/!file/test.php');
+  return request('http://172.20.151.36/photovoltaic/public/index/index/general');
 }
 export async function lll(params) {
   return request('http://172.20.151.36/photovoltaic/public/index/login/index', {

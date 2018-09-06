@@ -58,7 +58,6 @@ const Yuan = ({ children }) => (
   loading: loading.effects['chart/fetch'],
   weather: global.weather,
   city: global.city,
-  allHomePageInfo: global.allHomePageInfo,
   global
 
 }))
@@ -149,7 +148,7 @@ export default class Analysis extends Component {
     });
 
     // const { global } = this.props;
-    const { allHomePageInfo, chart } = this.props;
+    const { chart } = this.props;
     const { tt } = chart;
 
 
@@ -160,7 +159,7 @@ export default class Analysis extends Component {
   render() {
 
     const { rangePickerValue, salesType, currentTabKey } = this.state;
-    const { chart, loading, weather, city } = this.props;
+    const { chart, loading, weather, city, global } = this.props;
     const {
       visitData,
       visitData2,
@@ -342,8 +341,8 @@ export default class Analysis extends Component {
                   <Icon type="info-circle-o" />
                 </Tooltip>
               }
-              total={numeral(6560).format('0,0')}
-              footer={<Field label="建站总数" value="1211" />}
+              total={numeral(global.installNum).format('0,0')}
+              footer={<Field label="待填充数据项" value="1211" />}
               contentHeight={46}
             >
               <MiniBar data={visitData} />
@@ -360,8 +359,8 @@ export default class Analysis extends Component {
                   <Icon type="info-circle-o" />
                 </Tooltip>
               }
-              total={() => <Yuan>12660</Yuan>}
-              footer={<Field label="日发电量" value={`${numeral(12423).format('0,0')}瓦`} />}
+              total={() => <Yuan>{global.totalPower}</Yuan>}
+              footer={<Field label="日发电量" value={`${numeral(global.dayPower).format('0,0')}瓦`} />}
               contentHeight={46}
             >
               <Trend flag="up" style={{ marginRight: 16 }}>
@@ -384,8 +383,8 @@ export default class Analysis extends Component {
                   <Icon type="info-circle-o" />
                 </Tooltip>
               }
-              total={numeral(8846).format('0,0')}
-              footer={<Field label="日碳补偿量" value={numeral(1234).format('0,0')} />}
+              total={numeral(global.carbon).format('0,0')}
+              footer={<Field label="日碳补偿量" value={numeral(global.dayCarbon).format('0,0')} />}
               contentHeight={46}
             >
               <MiniArea color="#975FE4" data={visitData} />
@@ -422,7 +421,7 @@ export default class Analysis extends Component {
               bodyStyle={{ padding: 12 }}
               style={{ minHeight: 509 }}
             >
-              <MapCard dispatch={this.props.dispatch}></MapCard>
+              <MapCard dispatch={this.props.dispatch} station={global.allStation}></MapCard>
               {/* <iframe src="http://127.0.0.1:5500/HtmlPage1.html"
                 className={styles.mapInter}>
               </iframe> */}

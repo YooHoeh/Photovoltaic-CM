@@ -110,7 +110,7 @@ export default class TimelineChart extends React.Component {
             <Axis name="x" />
             <Tooltip />
             <Legend name="key" position="top" />
-            <Geom type="line" position="x*value" size={borderWidth} color="key" />
+            <Geom type="line" position="x*value" size={borderWidth} color="key" shape="smooth" />
           </Chart>
           <div style={{ marginRight: -20 }}>
             <SliderGen />
