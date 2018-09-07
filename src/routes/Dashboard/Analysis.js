@@ -365,7 +365,7 @@ export default class Analysis extends Component {
                 </Tooltip>
               }
               total={numeral(global.installNum).format('0,0')}
-              footer={<Field label="待填充数据项" value="1211" />}
+              footer={<Field label="今年已建设" value="1211" />}
               contentHeight={46}
             >
               <MiniBar data={visitData} />
