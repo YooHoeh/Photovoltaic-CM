@@ -10,7 +10,6 @@ const menuData = [
     name: '站点管理',
     icon: 'form',
     path: 'list',
-    authority: 'user',
     children: [
       {
         name: '站点列表',
@@ -22,6 +21,7 @@ const menuData = [
       },
       {
         name: '站点监控',
+        authority: 'admin',
         path: '',
       },
       {

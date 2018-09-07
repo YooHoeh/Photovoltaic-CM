@@ -47,12 +47,12 @@ class UserLayout extends React.PureComponent {
       <DocumentTitle title={"用户登录"}>
         <div>
 
-          <div className={styles.login_header}>
+          {/* <div className={styles.login_header}>
             <div className={styles.logo}>
               <img src="..\src\assets\logo.svg" alt="" />
               分布式光伏资产运维管理系统
                     </div>
-          </div>
+          </div> */}
           <div className={styles.container}>
             <div className={styles.content}>
               <div className={styles.top}>
@@ -78,9 +78,9 @@ class UserLayout extends React.PureComponent {
                 </Switch>
               </div>
             </div>
-            <div className={styles.footer}>
+            {/* <div className={styles.footer}>
               <GlobalFooter links={links} copyright={copyright} className="login_footer" />
-            </div>
+            </div> */}
           </div>
         </div>
 
