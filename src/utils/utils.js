@@ -5,6 +5,13 @@ export function fixedZero(val) {
   return val * 1 < 10 ? `0${val}` : val;
 }
 
+export function stringToPosition(str) {
+  const positonArr = str.split(",");
+  return {
+    longitude: positonArr[0],
+    latitude: positonArr[1]
+  }
+}
 export function getTimeDistance(type) {
   const now = new Date();
   const oneDay = 1000 * 60 * 60 * 24;

@@ -10,7 +10,12 @@ const menuData = [
     name: '站点管理',
     icon: 'form',
     path: 'list',
+    authority: 'user',
     children: [
+      {
+        name: '站点列表',
+        path: 'Site',
+      },
       {
         name: '站点列表',
         path: 'Site',
@@ -21,7 +26,6 @@ const menuData = [
       },
       {
         name: '逆变器列表',
-        authority: 'admin',
         path: 'Inverter',
       },
     ],

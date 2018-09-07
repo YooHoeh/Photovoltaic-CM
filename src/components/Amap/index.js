@@ -1,33 +1,41 @@
 import { Map, Polygon, Markers } from 'react-amap';
 import { Icon } from "antd";
+import { stringToPosition } from "../../utils/utils";
+import styles from "./index.less"
+
+
 class MapCard extends React.Component {
 
 
-  constructor() {
-    super();
-    // const { station } = this.props;
-    this.mapCenter = { longitude: 113.782939, latitude: 33.869338 };
+  constructor(props) {
+    super(props);
+    this.mapCenter = { longitude: 113.782939, latitude: 33.969338 };
+    const marks = () => (
+      this.props.station.map((item, index) => ({
+        position: stringToPosition(item.S_COORDINATE),
+        siteType: item.S_STATUS
+      }))
+    )
     this.state = {
-      // markers: station,
+      markers: marks()
     }
-
   }
 
-  // componentDidMount() {
-
-  // }
-  render() {
-    const marks = () => {
-      const { station } = this.props;
-
-      // station.map((item, index) => ({
-      //   position: {
-      //     longitude: item,
-      //     latitude: item,
-      //   }
-      // }))
-
+  //根据状态返回不同标记
+  renderMarkerLayout(extData) {
+    switch (extData.siteType) {
+      case "1":
+        return <Icon type="thunderbolt" theme="outlined" style={styles.type1} />
+      case "2":
+        return <Icon type="thunderbolt" theme="outlined" style={styles.type2} />
+      case "3":
+        return <Icon type="thunderbolt" theme="outlined" style={styles.type3} />
+      case "0":
+        return <Icon type="thunderbolt" theme="outlined" style={styles.type4} />
     }
+  }
+  render() {
+    //保存天气action
     const handleWeather = (weatherInfo) => {
       const { dispatch } = this.props;
       dispatch({
@@ -35,6 +43,7 @@ class MapCard extends React.Component {
         payload: weatherInfo
       });
     };
+    //保存位置action
     const handleCity = (city) => {
       const { dispatch } = this.props;
       dispatch({
@@ -163,6 +172,7 @@ class MapCard extends React.Component {
         height: 480,
         // minHeight: 400
       }} >
+      {/* <Icon type="thunderbolt" theme="outlined" style={{ fontSize: '16px', color: '#000' }} /> */}
       <Map
         amapkey='3614606168564bdf7ccd53cf9d2b7669'
         version='1.4.2'
@@ -175,7 +185,8 @@ class MapCard extends React.Component {
         useAMapUI
       >
         <Markers
-          markers={marks()}
+          markers={this.state.markers}
+        // render={this.renderMarkerLayout}
         />
       </Map>
     </div >

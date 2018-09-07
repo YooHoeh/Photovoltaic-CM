@@ -444,7 +444,7 @@ export default class Analysis extends Component {
               bodyStyle={{ padding: 12 }}
               style={{ minHeight: 509 }}
             >
-              <MapCard dispatch={this.props.dispatch} station={global.allStation}></MapCard>
+              <MapCard dispatch={this.props.dispatch} station={global.allStation} ></MapCard>
               {/* <iframe src="http://127.0.0.1:5500/HtmlPage1.html"
                 className={styles.mapInter}>
               </iframe> */}
