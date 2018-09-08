@@ -1,9 +1,25 @@
 import { Map, Polygon, Markers } from 'react-amap';
-import { Icon } from "antd";
+import { Icon, Row, Col, message } from "antd";
 import { stringToPosition } from "../../utils/utils";
 import styles from "./index.less"
 
-
+//图例
+const legend = (date) => {
+  return (
+    <div style={{
+      position: "absolute", bottom: "28px", right: "28px", zIndex: "999999", padding: "8px", width: "220px", minWidth: "200px", height: "80px", minHeight: "50px", backgroundColor: "#2f65af", opacity: ".7", borderRadius: "15px", textAlign: "center"
+    }}>
+      <Row style={{ height: "50%", color: "#fff" }}>
+        <Col span="12"><span style={{ color: "aqua", fontSize: "large", display: "inline-block", }}>●</span>运行中</Col>
+        <Col span="12"><span style={{ color: "blueviolet", fontSize: "large", display: "inline-block", }}>●</span>建设中</Col>
+      </Row>
+      <Row style={{ height: "50%", color: "#fff" }}>
+        <Col span="12"><span style={{ color: "chartreuse", fontSize: "large", display: "inline-block", }}>●</span>建设目标</Col>
+        <Col span="12"><span style={{ color: "darkred", fontSize: "large", display: "inline-block", }}>●</span>告警</Col>
+      </Row>
+    </div>
+  )
+}
 class MapCard extends React.Component {
 
 
@@ -13,25 +29,28 @@ class MapCard extends React.Component {
     const marks = () => (
       this.props.station.map((item, index) => ({
         position: stringToPosition(item.S_COORDINATE),
-        siteType: item.S_STATUS
+        siteType: item.S_STATUS,
+        siteName: item.S_NAME,
+        siteID: item.S_ID,
       }))
     )
     this.state = {
       markers: marks()
     }
+
   }
 
-  //根据状态返回不同标记
+  //添加站点Marks,根据状态返回不同标记
   renderMarkerLayout(extData) {
     switch (extData.siteType) {
       case "1":
-        return <Icon type="thunderbolt" theme="outlined" style={styles.type1} />
+        return <Icon type="caret-down" theme="filled" style={{ fontSize: '18px', color: 'aqua' }} />
       case "2":
-        return <Icon type="thunderbolt" theme="outlined" style={styles.type2} />
+        return <Icon type="caret-down" theme="filled" style={{ fontSize: '18px', color: 'blueviolet' }} />
       case "3":
-        return <Icon type="thunderbolt" theme="outlined" style={styles.type3} />
+        return <Icon type="caret-down" theme="filled" style={{ fontSize: '18px', color: 'darkred' }} />
       case "0":
-        return <Icon type="thunderbolt" theme="outlined" style={styles.type4} />
+        return <Icon type="caret-down" theme="filled" style={{ fontSize: '18px', color: 'chartreuse' }} />
     }
   }
   render() {
@@ -50,13 +69,43 @@ class MapCard extends React.Component {
         type: 'global/saveCity',
         payload: city
       });
+      dispatch({
+        type: 'global/changeMapView',
+        payload: "city"
+      });
     };
+    //保存站点action
+    const handleSite = (siteName, siteID) => {
+      const { dispatch } = this.props;
+      dispatch({
+        type: 'global/saveSite',
+        payload: { siteName, siteID }
+      });
+      dispatch({
+        type: 'global/changeMapView',
+        payload: "site"
+      });
+    };
+    const markersEvents = {
+      created: (allMarkers) => {
+        console.log('All Markers Instance Are Below');
+        console.log(allMarkers);
+      },
+      click: (MapsOption, marker) => {
+        const extData = marker.getExtData();
+        const name = extData.siteName;
+        const ID = extData.siteID;
+        message.success("选中站点：" + name + "站点ID为" + ID)
+        handleSite(name, ID)
+        console.log("站点被点击")
 
+      },
+    }
     const amapEvents = {
       created: (mapInstance) => {
         //绘制指定地区覆盖物
         mapInstance.plugin('AMap.DistrictSearch', function () {
-
+          mapInstance.setDefaultCursor("pointer");
           // 创建行政区查询对象
           var district = new AMap.DistrictSearch({
             subdistrict: 2,
@@ -100,7 +149,7 @@ class MapCard extends React.Component {
             }
           })
         })
-        //添加站点Marks
+        console.log(mapInstance.getZoom());
 
         //添加覆盖物
         function drawCity(district, cname, fcolor) {
@@ -131,6 +180,8 @@ class MapCard extends React.Component {
         function cityClick(city) {
           saveWeatherInfo(city);
           handleCity(city)
+          mapInstance.setCity(city)
+          console.log("区域被点击")
 
         }
         //保存天气信息至global.state
@@ -169,10 +220,10 @@ class MapCard extends React.Component {
     return <div style={
       {
         width: '100%',
-        height: 480,
+        height: 530,
         // minHeight: 400
       }} >
-      {/* <Icon type="thunderbolt" theme="outlined" style={{ fontSize: '16px', color: '#000' }} /> */}
+      {legend()}
       <Map
         amapkey='3614606168564bdf7ccd53cf9d2b7669'
         version='1.4.2'
@@ -182,11 +233,12 @@ class MapCard extends React.Component {
         zooms={[6, 18]}
         center={this.mapCenter}
         events={amapEvents}
-        useAMapUI
       >
         <Markers
           markers={this.state.markers}
-        // render={this.renderMarkerLayout}
+          render={this.renderMarkerLayout}
+          events={markersEvents}
+        // useCluster
         />
       </Map>
     </div >

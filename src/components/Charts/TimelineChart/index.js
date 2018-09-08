@@ -25,7 +25,6 @@ export default class TimelineChart extends React.Component {
         },
       ],
     } = this.props;
-
     data.sort((a, b) => a.x - b.x);
 
     let max;
@@ -113,7 +112,7 @@ export default class TimelineChart extends React.Component {
             <Geom type="line" position="x*value" size={borderWidth} color="key" shape="smooth" />
           </Chart>
           <div style={{ marginRight: -20 }}>
-            <SliderGen />
+            {/* <SliderGen /> */}
           </div>
         </div>
       </div>

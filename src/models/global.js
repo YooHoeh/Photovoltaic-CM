@@ -14,6 +14,8 @@ export default {
     dayPower: '',
     carbon: '',
     dayCarbon: '',
+    siteName: '',
+    siteID: '',
     warningList: [],
     allStation: [],
   },
@@ -30,6 +32,17 @@ export default {
         payload: data.length,
       });
     },
+    // *fetchCityInfo(_, { call, put }) {
+    //   const data = yield call(queryNotices);
+    //   yield put({
+    //     type: 'saveNotices',
+    //     payload: data,
+    //   });
+    //   yield put({
+    //     type: 'user/changeNotifyCount',
+    //     payload: data.length,
+    //   });
+    // },
     *clearNotices({ payload }, { put, select }) {
       yield put({
         type: 'saveClearedNotices',
@@ -119,6 +132,20 @@ export default {
       return {
         ...state,
         city: payload
+      }
+    },
+    saveSite(state, { payload }) {
+      return {
+        ...state,
+        siteID: payload.siteID,
+        siteName: payload.siteName,
+      }
+    },
+    changeMapView(state, { payload }) {
+      return {
+        ...state,
+        mapView: payload,
+
       }
     },
     changeLayoutCollapsed(state, { payload }) {

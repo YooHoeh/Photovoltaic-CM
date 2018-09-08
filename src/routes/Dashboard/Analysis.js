@@ -54,11 +54,12 @@ const Yuan = ({ children }) => (
 );
 
 @connect(({ chart, loading, global = {} }) => ({
-  chart,
+  // chart,
   loading: loading.effects['chart/fetch'],
   weather: global.weather,
   city: global.city,
-  global
+  global,
+  chart
 
 }))
 
@@ -177,6 +178,7 @@ export default class Analysis extends Component {
         : salesType === 'online'
           ? salesTypeDataOnline
           : salesTypeDataOffline;
+    const nowTime = new Date().toLocaleDateString()
     const WeatherFooter = () => {
       if (weather == undefined) {
         return (
@@ -251,14 +253,14 @@ export default class Analysis extends Component {
             今日
           </a>
           <a className={this.isActive('week')} onClick={() => this.selectDate('week')}>
-            本周
+            昨日
           </a>
-          <a className={this.isActive('month')} onClick={() => this.selectDate('month')}>
+          {/* <a className={this.isActive('month')} onClick={() => this.selectDate('month')}>
             本月
           </a>
           <a className={this.isActive('year')} onClick={() => this.selectDate('year')}>
             全年
-          </a>
+          </a> */}
         </div>
         <RangePicker
           value={rangePickerValue}
@@ -291,28 +293,39 @@ export default class Analysis extends Component {
         className: styles.alignRight,
       },
     ];
-    const warnColumns = [
+    const siteColumns = [
       {
-        title: '逆变器编号',
+        title: '机器型号',
         dataIndex: 'keyword',
         key: 'keyword',
         render: text => <a href="/">{text}</a>,
       },
 
       {
-        title: '告警编号',
+        title: '运行状态',
         dataIndex: 'count',
         key: 'count',
         sorter: (a, b) => a.count - b.count,
         className: styles.alignRight,
       },
+
+    ];
+    const warnColumns = [
       {
-        title: '告警编号',
+        title: '站点名字',
+        dataIndex: 'keyword',
+        key: 'keyword',
+        render: text => <a href="/">{text}</a>,
+      },
+
+      {
+        title: '告警逆变器数量',
         dataIndex: 'count',
         key: 'count',
         sorter: (a, b) => a.count - b.count,
         className: styles.alignRight,
       },
+
     ];
 
     const activeKey = currentTabKey || (offlineData[0] && offlineData[0].name);
@@ -366,9 +379,18 @@ export default class Analysis extends Component {
               }
               total={numeral(global.installNum).format('0,0')}
               footer={<Field label="今年已建设" value="1211" />}
-              contentHeight={46}
+              contentHeight={49}
             >
-              <MiniBar data={visitData} />
+              <Row>
+                <Col span={12}> <Field label="运行中" value="1211" /></Col>
+                <Col span={12}> <Field label="建设中" value="1211" /></Col>
+              </Row>
+              <Row>
+                <Col span={12}> <Field label="建设目标" value="1211" /></Col>
+                <Col span={12}> <Field label="告警" value="1211" /></Col>
+              </Row>
+
+
             </ChartCard>
           </Col>
           <Col {...topColResponsiveProps}>
@@ -442,7 +464,7 @@ export default class Analysis extends Component {
               className={styles.salesCard}
               bordered={false}
               bodyStyle={{ padding: 12 }}
-              style={{ minHeight: 509 }}
+              style={{ minHeight: 550 }}
             >
               <MapCard dispatch={this.props.dispatch} station={global.allStation} ></MapCard>
               {/* <iframe src="http://127.0.0.1:5500/HtmlPage1.html"
@@ -451,48 +473,83 @@ export default class Analysis extends Component {
             </Card>
           </Col>
           <Col xl={6} lg={24} md={24} sm={24} xs={24}>
-            <Card
-              loading={loading}
-              bordered={false}
-              className={styles.salesCard}
-              title={city + "区域站点信息"}
-              bodyStyle={{ padding: 12 }}
-              style={{ minHeight: 509 }}
-            >
-              <Table
-                rowKey={record => record.index}
-                size="small"
-                columns={columns}
-                dataSource={searchData}
-                pagination={{
-                  style: { marginBottom: 0 },
-                  pageSize: 9,
-                }}
-              />
-            </Card>
+            {global.mapView === "city" ? (
+              <Card
+                loading={loading}
+                bordered={false}
+                className={styles.salesCard}
+                title={city + "区域站点信息"}
+                bodyStyle={{ padding: 12 }}
+                style={{ minHeight: 550 }}
+              >
+                <Table
+                  rowKey={record => record.index}
+                  size="small"
+                  columns={columns}
+                  dataSource={searchData}
+                  pagination={{
+                    style: { marginBottom: 0 },
+                    pageSize: 10,
+                  }}
+                />
+              </Card>) : (
+                <Card
+                  loading={loading}
+                  bordered={false}
+                  className={styles.salesCard}
+                  title={global.siteName}
+                  bodyStyle={{ padding: 12 }}
+                  style={{ minHeight: 550 }}
+                >
+                  <Table
+                    rowKey={record => record.index}
+                    size="small"
+                    columns={siteColumns}
+                    dataSource={searchData}
+                    pagination={{
+                      style: { marginBottom: 0 },
+                      pageSize: 10,
+                    }}
+                  />
+                </Card>
+              )
+            }
           </Col>
         </Row>
-        <Card
-          loading={loading}
-          className={styles.offlineCard}
-          bordered={false}
-          bodyStyle={{ padding: '0 0 32px 0' }}
-          style={{ marginTop: 32 }}
-        >
-          <Tabs activeKey={activeKey} onChange={this.handleTabChange}>
-            {offlineData.map(shop => (
-              <TabPane tab={<CustomTab data={shop} currentTabKey={activeKey} />} key={shop.name}>
-                <div style={{ padding: '0 24px' }}>
-                  <TimelineChart
-                    height={400}
-                    data={offlineChartData}
-                    titleMap={{ y1: '发电量', y2: '碳补偿量' }}
-                  />
-                </div>
-              </TabPane>
-            ))}
-          </Tabs>
-        </Card>
+
+        {global.mapView === "city" ? (
+          <Card
+            loading={loading}
+            className={styles.offlineCard}
+            bordered={false}
+            title={city + "区域总量曲线图"}
+            bodyStyle={{ padding: '0 0 12px 0' }}
+            style={{ marginTop: 32 }}
+          >
+            <div style={{ padding: '0 24px' }}>
+              <TimelineChart
+                height={400}
+                data={offlineChartData}
+                titleMap={{ y1: '发电量', y2: '碳补偿量' }}
+              />
+            </div>
+          </Card>) : (<Card
+            loading={loading}
+            title={global.siteName + "曲线图"}
+            className={styles.offlineCard}
+            bordered={false}
+            bodyStyle={{ padding: '0 0 12px 0' }}
+            style={{ marginTop: 32 }}
+          >
+            <div style={{ padding: '0 24px' }}>
+              <TimelineChart
+                height={400}
+                data={offlineChartData}
+                titleMap={{ y1: '发电量', y2: '碳补偿量' }}
+              />
+            </div>
+          </Card>)
+        }
         <Row gutter={24}>
           <Col xl={18} lg={24} md={24} sm={24} xs={24}>
             <Card
@@ -505,14 +562,14 @@ export default class Analysis extends Component {
                 <Tabs tabBarExtraContent={salesExtra} size="large" tabBarStyle={{ marginBottom: 24 }}>
                   <TabPane tab="发电量" key="sales">
                     <div className={styles.salesBar}>
-                      <Bar height={295} title="发电量趋势" data={salesData} />
+                      <Bar height={295} title={"发电量 " + nowTime} data={salesData} />
                     </div>
                   </TabPane>
                   <TabPane tab="碳补偿" key="views">
                     <Row>
                       <Col xl={16} lg={12} md={12} sm={24} xs={24}>
                         <div className={styles.salesBar}>
-                          <Bar height={292} title="碳补偿趋势" data={salesData} />
+                          <Bar height={292} title={"碳补偿量" + nowTime} data={salesData} />
                         </div>
                       </Col>
                       <Col xl={8} lg={12} md={12} sm={24} xs={24}>

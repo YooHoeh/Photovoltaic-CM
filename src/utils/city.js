@@ -16,7 +16,7 @@ const cityList = [
     { name: "驻马店市", code: 411700 },
     { name: "南阳市", code: 411300 },
     { name: "信阳市", code: 411500 },
-    { name: "济源市", code: 411918 },
+    { name: "济源市", code: 411800 },
 ]
 export const cityNameToCode = (name) => {
     cityList.map((i) => {
