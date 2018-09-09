@@ -46,7 +46,14 @@ for (let i = 0; i < 7; i += 1) {
     total: 323234,
   });
 }
-
+const offlineChartData1 = [];
+for (let i = 0; i < 20; i += 1) {
+  offlineChartData1.push({
+    x: new Date().getTime() + 1000 * 60 * 30 * i,
+    y1: Math.floor(Math.random() * 100) + 10,
+    y2: Math.floor(Math.random() * 100) + 10,
+  });
+}
 const Yuan = ({ children }) => (
   <span
     dangerouslySetInnerHTML={{ __html: yuan(children) }} /* eslint-disable-line react/no-danger */
@@ -529,7 +536,7 @@ export default class Analysis extends Component {
             <div style={{ padding: '0 24px' }}>
               <TimelineChart
                 height={400}
-                data={offlineChartData}
+                data={offlineChartData1}
                 titleMap={{ y1: '发电量', y2: '碳补偿量' }}
               />
             </div>
@@ -544,7 +551,7 @@ export default class Analysis extends Component {
             <div style={{ padding: '0 24px' }}>
               <TimelineChart
                 height={400}
-                data={offlineChartData}
+                data={offlineChartData1}
                 titleMap={{ y1: '发电量', y2: '碳补偿量' }}
               />
             </div>
