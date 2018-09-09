@@ -435,7 +435,7 @@ export default class Analysis extends Component {
                   <Icon type="info-circle-o" />
                 </Tooltip>
               }
-              total={numeral(global.carbon).format('0,0')}
+              total={numeral(global.carbon).format('0,0') + " Kg"}
               footer={<Field label="日碳补偿量" value={numeral(global.dayCarbon).format('0,0')} />}
               contentHeight={46}
             >
@@ -615,7 +615,7 @@ export default class Analysis extends Component {
                 dataSource={searchData}
                 pagination={{
                   style: { marginBottom: 0 },
-                  pageSize: 6,
+                  pageSize: 5,
                 }}
               />
             </Card>

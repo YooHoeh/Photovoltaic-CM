@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent, Fragment, } from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
 import {
@@ -15,9 +15,11 @@ import {
   InputNumber,
   DatePicker,
   Modal,
+  Radio,
   message,
   Badge,
   Divider,
+  TreeSelect
 } from 'antd';
 import StandardTable from 'components/StandardTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
@@ -47,63 +49,98 @@ const CreateForm = Form.create()(props => {
       title="新建站点"
       visible={modalVisible}
       onOk={okHandle}
+      width="750px"
       onCancel={() => handleModalVisible()}
     >
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="编号">
-        {form.getFieldDecorator('id', {
-          rules: [{ required: true, message: 'Please input some description...' }],
-        })(<Input placeholder="请输入" />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="名称">
-        {form.getFieldDecorator('name', {
-          rules: [{ required: true, message: 'Please input some description...' }],
-        })(<Input placeholder="请输入" />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="区域编号">
-        {form.getFieldDecorator('locaNum', {
-          rules: [{ required: true, message: 'Please input some description...' }],
-        })(<Input placeholder="请输入" />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="坐标">
-        {form.getFieldDecorator('desc', {
-          rules: [{ required: true, message: 'Please input some description...' }],
-        })(<Input placeholder="请输入" />)}
-      </FormItem>
+      <Row>
+        <Col span={12}>
+          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 10 }} label="编号" >
+            {form.getFieldDecorator('id', {
+              rules: [{ required: true, message: 'Please input some description...' }],
+            })(<Input placeholder="请输入" />)}
+          </FormItem>
+        </Col>
+        <Col span={12}>
+          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 10 }} label="名称">
+            {form.getFieldDecorator('desc', {
+              rules: [{ required: true, message: 'Please input some description...' }],
+            })(<Input placeholder="请输入" />)}
+          </FormItem>
+        </Col>
+      </Row>
+      <Row>
+        <Col span={12}>
+          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 10 }} label="区域编号">
+            {form.getFieldDecorator('locaNum', {
+              rules: [{ required: true, message: 'Please input some description...' }],
+            })(<Input placeholder="请输入" />)}
+          </FormItem>
+        </Col>
+        <Col span={12}>
+          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 10 }} label="坐标">
+            {form.getFieldDecorator('coordinate', {
+              rules: [{ required: true, message: 'Please input some description...' }],
+            })(<Input placeholder="请输入" />)}
+          </FormItem>
+        </Col>
+      </Row>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="设计容量">
-        {form.getFieldDecorator('desc', {
+        {form.getFieldDecorator('designCount', {
+          rules: [{ required: true, message: 'Please input some description...' }],
+        })(<Input placeholder="请输入" />)}
+      </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="位置">
+        {form.getFieldDecorator('location', {
           rules: [{ required: true, message: 'Please input some description...' }],
         })(<Input placeholder="请输入" />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="建设容量">
-        {form.getFieldDecorator('desc', {
+        {form.getFieldDecorator('buildCount', {
           rules: [{ required: true, message: 'Please input some description...' }],
         })(<Input placeholder="请输入" />)}
       </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="占地面积">
-        {form.getFieldDecorator('desc', {
-          rules: [{ required: true, message: 'Please input some description...' }],
-        })(<Input placeholder="请输入" />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="屋顶使用方式">
-        {form.getFieldDecorator('desc', {
-          rules: [{ required: true, message: 'Please input some description...' }],
-        })(<Input placeholder="请输入" />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="运行状态">
-        {form.getFieldDecorator('desc', {
-          rules: [{ required: true, message: 'Please input some description...' }],
-        })(<Input placeholder="请输入" />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="并网状态">
-        {form.getFieldDecorator('desc', {
-          rules: [{ required: true, message: 'Please input some description...' }],
-        })(<Input placeholder="请输入" />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="描述">
-        {form.getFieldDecorator('desc', {
-          rules: [{ required: true, message: 'Please input some description...' }],
-        })(<Input placeholder="请输入" />)}
-      </FormItem>
+      <Row>
+        <Col span={9}>
+          <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} label="占地面积">
+            {form.getFieldDecorator('acreage', {
+              rules: [{ required: true, message: 'Please input some description...' }],
+            })(<Input placeholder="请输入" />)}
+          </FormItem>
+        </Col>
+        <Col span={15}>
+          <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} label="屋顶使用方式">
+            {form.getFieldDecorator('roof', {
+              rules: [{ required: true, message: 'Please input some description...' }],
+            })(<Radio.Group defaultValue="0" buttonStyle="solid">
+              <Radio.Button value="0" defaultChecked={true}>电价优惠</Radio.Button>
+              <Radio.Button value="1">租赁</Radio.Button>
+            </Radio.Group>)}
+          </FormItem>
+        </Col>
+      </Row>
+      <Row>
+        <Col span={12}>
+          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 19 }} label="运行状态">
+            {form.getFieldDecorator('runState', {
+              rules: [{ required: true, message: 'Please input some description...' }],
+            })(<Radio.Group defaultValue="0" buttonStyle="solid">
+              <Radio.Button value="0" defaultChecked={true}>运行中</Radio.Button>
+              <Radio.Button value="1">建设中</Radio.Button>
+              <Radio.Button value="2">建设目标</Radio.Button>
+            </Radio.Group>)}
+          </FormItem>
+        </Col>
+        <Col span={12}>
+          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 19 }} label="并网状态">
+            {form.getFieldDecorator('netState', {
+              rules: [{ required: true, message: 'Please input some description...' }],
+            })(<Radio.Group defaultValue="0" buttonStyle="solid">
+              <Radio.Button value="0" defaultChecked={true}>已并网</Radio.Button>
+              <Radio.Button value="1">未并网</Radio.Button>
+            </Radio.Group>)}
+          </FormItem>
+        </Col>
+      </Row>
     </Modal>
   );
 });
@@ -278,9 +315,7 @@ export default class TableList extends PureComponent {
               <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
                 重置
               </Button>
-              <a style={{ marginLeft: 8 }} onClick={this.toggleForm}>
-                展开 <Icon type="down" />
-              </a>
+
             </span>
           </Col>
         </Row>
@@ -288,89 +323,8 @@ export default class TableList extends PureComponent {
     );
   }
 
-  renderAdvancedForm() {
-    const { form } = this.props;
-    const { getFieldDecorator } = form;
-    return (
-      <Form onSubmit={this.handleSearch} layout="inline">
-        <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-          <Col md={8} sm={24}>
-            <FormItem label="站点编号">
-              {getFieldDecorator('no')(<Input placeholder="请输入" />)}
-            </FormItem>
-          </Col>
-          <Col md={8} sm={24}>
-            <FormItem label="使用状态">
-              {getFieldDecorator('status')(
-                <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value="0">关闭</Option>
-                  <Option value="1">运行中</Option>
-                  <Option value="2">建设中</Option>
-                  <Option value="3">告警</Option>
-                </Select>
-              )}
-            </FormItem>
-          </Col>
-          <Col md={8} sm={24}>
-            <FormItem label="调用次数">
-              {getFieldDecorator('number')(<InputNumber style={{ width: '100%' }} />)}
-            </FormItem>
-          </Col>
-        </Row>
-        <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-          <Col md={8} sm={24}>
-            <FormItem label="更新日期">
-              {getFieldDecorator('date')(
-                <DatePicker style={{ width: '100%' }} placeholder="请输入更新日期" />
-              )}
-            </FormItem>
-          </Col>
-          <Col md={8} sm={24}>
-            <FormItem label="使用状态">
-              {getFieldDecorator('status3')(
-                <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value="0">关闭</Option>
-                  <Option value="1">运行中</Option>
-                  <Option value="2">建设中</Option>
-                  <Option value="3">告警</Option>
-                </Select>
-              )}
-            </FormItem>
-          </Col>
-          <Col md={8} sm={24}>
-            <FormItem label="使用状态">
-              {getFieldDecorator('status4')(
-                <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value="0">关闭</Option>
-                  <Option value="1">运行中</Option>
-                  <Option value="2">建设中</Option>
-                  <Option value="3">告警</Option>
-                </Select>
-              )}
-            </FormItem>
-          </Col>
-        </Row>
-        <div style={{ overflow: 'hidden' }}>
-          <div style={{ float: 'right', marginBottom: 24 }}>
-            <Button type="primary" htmlType="submit">
-              查询
-            </Button>
-            <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
-              重置
-            </Button>
-            <a style={{ marginLeft: 8 }} onClick={this.toggleForm}>
-              收起 <Icon type="up" />
-            </a>
-          </div>
-        </div>
-      </Form>
-    );
-  }
 
-  renderForm() {
-    const { expandForm } = this.state;
-    return expandForm ? this.renderAdvancedForm() : this.renderSimpleForm();
-  }
+
 
   render() {
     const {
@@ -450,7 +404,7 @@ export default class TableList extends PureComponent {
       <PageHeaderLayout title="站点列表">
         <Card bordered={false}>
           <div className={styles.tableList}>
-            {/* <div className={styles.tableListForm}>{this.renderForm()}</div> */}
+            <div className={styles.tableListForm}>{this.renderSimpleForm()}</div>
             <div className={styles.tableListOperator}>
               <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
                 新建站点

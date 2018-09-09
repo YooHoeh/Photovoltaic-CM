@@ -7,7 +7,7 @@ import styles from "./index.less"
 const legend = (date) => {
   return (
     <div style={{
-      position: "absolute", bottom: "28px", right: "28px", zIndex: "999999", padding: "8px", width: "220px", minWidth: "200px", height: "80px", minHeight: "50px", backgroundColor: "#2f65af", opacity: ".7", borderRadius: "15px", textAlign: "center"
+      position: "absolute", bottom: "28px", right: "28px", zIndex: "999999", padding: "8px", width: "160px", minWidth: "150px", height: "80px", minHeight: "50px", backgroundColor: "#2f65af", opacity: ".7", borderRadius: "15px", textAlign: "start"
     }}>
       <Row style={{ height: "50%", color: "#fff" }}>
         <Col span="12"><span style={{ color: "aqua", fontSize: "large", display: "inline-block", }}>●</span>运行中</Col>

@@ -407,7 +407,7 @@ export default class TableList extends PureComponent {
       <PageHeaderLayout title="逆变器列表">
         <Card bordered={false}>
           <div className={styles.tableList}>
-            {/* <div className={styles.tableListForm}>{this.renderForm()}</div> */}
+            <div className={styles.tableListForm}>{this.renderForm()}</div>
             <div className={styles.tableListOperator}>
               <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
                 新建逆变器
