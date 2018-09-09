@@ -15,10 +15,7 @@ const menuData = [
         name: '站点列表',
         path: 'Site',
       },
-      {
-        name: '站点列表',
-        path: 'Site',
-      },
+
       {
         name: '站点监控',
         authority: 'admin',
