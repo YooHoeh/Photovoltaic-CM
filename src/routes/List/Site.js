@@ -34,7 +34,118 @@ const getValue = obj =>
     .join(',');
 const statusMap = ['default', 'processing', 'success', 'error'];
 const status = ['运行中', '建设中', '建设目标'];
-
+const cityList = [
+  {
+    title: '郑州市',
+    value: '410100',
+    key: '410100',
+    children: [
+      {
+        title: '市辖区',
+        value: '410101',
+        key: '410101',
+      }, {
+        title: '中原区',
+        value: '410102',
+        key: '410102',
+      }, {
+        title: '二七区',
+        value: '410103',
+        key: '410103',
+      }, {
+        title: '管城回族区',
+        value: '410104',
+        key: '410104',
+      }, {
+        title: '金水区',
+        value: '410105',
+        key: '410105',
+      }, {
+        title: '上街区',
+        value: '410106',
+        key: '410106',
+      }, {
+        title: '惠济区',
+        value: '410108',
+        key: '410108',
+      }, {
+        title: '中牟县',
+        value: '410122',
+        key: '410122',
+      }, {
+        title: '巩义市',
+        value: '410181',
+        key: '410181',
+      }, {
+        title: '荥阳市',
+        value: '410183',
+        key: '410183',
+      }, {
+        title: '新密市',
+        value: '410183',
+        key: '410183',
+      }, {
+        title: '新郑市',
+        value: '410184',
+        key: '410184',
+      }, {
+        title: '登封市',
+        value: '410185',
+        key: '410185',
+      }]
+  }, {
+    title: '开封市',
+    value: '410200',
+    key: '410200',
+    children: [
+      {
+        title: '新郑市',
+        value: '410184',
+        key: '410184',
+      }, {
+        title: '新郑市',
+        value: '410184',
+        key: '410184',
+      }, {
+        title: '新郑市',
+        value: '410184',
+        key: '410184',
+      }, {
+        title: '新郑市',
+        value: '410184',
+        key: '410184',
+      }, {
+        title: '新郑市',
+        value: '410184',
+        key: '410184',
+      }, {
+        title: '新郑市',
+        value: '410184',
+        key: '410184',
+      }, {
+        title: '新郑市',
+        value: '410184',
+        key: '410184',
+      }, {
+        title: '新郑市',
+        value: '410184',
+        key: '410184',
+      }, {
+        title: '新郑市',
+        value: '410184',
+        key: '410184',
+      }, {
+        title: '新郑市',
+        value: '410184',
+        key: '410184',
+      }, {
+        title: '新郑市',
+        value: '410184',
+        key: '410184',
+      },
+    ],
+  },
+];
 const CreateForm = Form.create()(props => {
   const { modalVisible, form, handleAdd, handleModalVisible } = props;
   const okHandle = () => {
@@ -53,15 +164,15 @@ const CreateForm = Form.create()(props => {
       onCancel={() => handleModalVisible()}
     >
       <Row>
-        <Col span={12}>
-          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 10 }} label="编号" >
+        <Col span={8}>
+          <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} label="编号" >
             {form.getFieldDecorator('id', {
               rules: [{ required: true, message: 'Please input some description...' }],
             })(<Input placeholder="请输入" />)}
           </FormItem>
         </Col>
-        <Col span={12}>
-          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 10 }} label="名称">
+        <Col span={16}>
+          <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 11 }} label="名称">
             {form.getFieldDecorator('desc', {
               rules: [{ required: true, message: 'Please input some description...' }],
             })(<Input placeholder="请输入" />)}
@@ -69,46 +180,64 @@ const CreateForm = Form.create()(props => {
         </Col>
       </Row>
       <Row>
-        <Col span={12}>
-          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 10 }} label="区域编号">
+        <Col span={8}>
+          <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} label="所属区域">
             {form.getFieldDecorator('locaNum', {
               rules: [{ required: true, message: 'Please input some description...' }],
-            })(<Input placeholder="请输入" />)}
+            })(<TreeSelect
+              style={{ width: 150 }}
+              value={cityList[1].children[0].title}
+              dropdownStyle={{ maxHeight: 300, overflowX: 'hideen' }}
+              treeData={cityList}
+              placeholder="选择站点所在区域"
+              treeDefaultExpandAll
+            />)}
           </FormItem>
         </Col>
-        <Col span={12}>
-          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 10 }} label="坐标">
-            {form.getFieldDecorator('coordinate', {
+        <Col span={16}>
+          <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 11 }} label="位置">
+            {form.getFieldDecorator('location', {
               rules: [{ required: true, message: 'Please input some description...' }],
             })(<Input placeholder="请输入" />)}
           </FormItem>
         </Col>
       </Row>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="设计容量">
-        {form.getFieldDecorator('designCount', {
-          rules: [{ required: true, message: 'Please input some description...' }],
-        })(<Input placeholder="请输入" />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="位置">
-        {form.getFieldDecorator('location', {
-          rules: [{ required: true, message: 'Please input some description...' }],
-        })(<Input placeholder="请输入" />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="建设容量">
-        {form.getFieldDecorator('buildCount', {
-          rules: [{ required: true, message: 'Please input some description...' }],
-        })(<Input placeholder="请输入" />)}
-      </FormItem>
       <Row>
-        <Col span={9}>
+        <Col span={22}>
+          <FormItem labelCol={{ span: 3 }} wrapperCol={{ span: 18 }} label="坐标">
+            {form.getFieldDecorator('coordinate', {
+              rules: [{ required: true, message: 'Please input some description...' }],
+            })(<div><Input placeholder="请点击图标在跳转页面选取位置获取坐标" /><Icon type="environment" theme="outlined" /></div>)}
+          </FormItem>
+        </Col>
+      </Row>
+      <Row>
+        <Col span={8}>
+          <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} label="设计容量">
+            {form.getFieldDecorator('designCount', {
+              rules: [{ required: true, message: 'Please input some description...' }],
+            })(<Input placeholder="请输入" />)}
+          </FormItem>
+        </Col>
+        <Col span={16}>
+          <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 8 }} label="建设容量">
+            {form.getFieldDecorator('buildCount', {
+              rules: [{ required: true, message: 'Please input some description...' }],
+            })(<Input placeholder="请输入" />)}
+          </FormItem>
+        </Col>
+      </Row>
+
+      <Row>
+        <Col span={8}>
           <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} label="占地面积">
             {form.getFieldDecorator('acreage', {
               rules: [{ required: true, message: 'Please input some description...' }],
             })(<Input placeholder="请输入" />)}
           </FormItem>
         </Col>
-        <Col span={15}>
-          <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} label="屋顶使用方式">
+        <Col span={16}>
+          <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 11 }} label="屋顶使用方式">
             {form.getFieldDecorator('roof', {
               rules: [{ required: true, message: 'Please input some description...' }],
             })(<Radio.Group defaultValue="0" buttonStyle="solid">
@@ -119,24 +248,24 @@ const CreateForm = Form.create()(props => {
         </Col>
       </Row>
       <Row>
-        <Col span={12}>
-          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 19 }} label="运行状态">
+        <Col span={8}>
+          <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} label="并网状态">
+            {form.getFieldDecorator('netState', {
+              rules: [{ required: true, message: 'Please input some description...' }],
+            })(<Radio.Group defaultValue="0" buttonStyle="solid">
+              <Radio.Button value="0" defaultChecked={true}>已并网</Radio.Button>
+              <Radio.Button value="1">未并网</Radio.Button>
+            </Radio.Group>)}
+          </FormItem>
+        </Col>
+        <Col span={16}>
+          <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 12 }} label="运行状态">
             {form.getFieldDecorator('runState', {
               rules: [{ required: true, message: 'Please input some description...' }],
             })(<Radio.Group defaultValue="0" buttonStyle="solid">
               <Radio.Button value="0" defaultChecked={true}>运行中</Radio.Button>
               <Radio.Button value="1">建设中</Radio.Button>
               <Radio.Button value="2">建设目标</Radio.Button>
-            </Radio.Group>)}
-          </FormItem>
-        </Col>
-        <Col span={12}>
-          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 19 }} label="并网状态">
-            {form.getFieldDecorator('netState', {
-              rules: [{ required: true, message: 'Please input some description...' }],
-            })(<Radio.Group defaultValue="0" buttonStyle="solid">
-              <Radio.Button value="0" defaultChecked={true}>已并网</Radio.Button>
-              <Radio.Button value="1">未并网</Radio.Button>
             </Radio.Group>)}
           </FormItem>
         </Col>

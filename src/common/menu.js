@@ -15,15 +15,15 @@ const menuData = [
         name: '站点列表',
         path: 'Site',
       },
+      {
+        name: '逆变器列表',
+        path: 'Inverter',
+      },
 
       {
         name: '站点监控',
         authority: 'admin',
         path: '',
-      },
-      {
-        name: '逆变器列表',
-        path: 'Inverter',
       },
     ],
   },
