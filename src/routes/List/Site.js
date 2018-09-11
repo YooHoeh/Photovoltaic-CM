@@ -165,18 +165,18 @@ const CreateForm = Form.create()(props => {
       onOk={okHandle}
       width="750px"
       cancelText="重置"
-      onCancel={ handleReset}
+      onCancel={handleReset}
     >
       <Row>
-        <Col span={8}>
-          <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} label="站点编号" >
+        <Col span={12}>
+          <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 14 }} label="站点编号" >
             {form.getFieldDecorator('id', {
               rules: [{ required: true, message: 'Please input some description...' }],
             })(<Input placeholder="请输入" />)}
           </FormItem>
         </Col>
-        <Col span={16}>
-          <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 11 }} label="站点名称">
+        <Col span={12}>
+          <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 14 }} label="站点名称">
             {form.getFieldDecorator('desc', {
               rules: [{ required: true, message: 'Please input some description...' }],
             })(<Input placeholder="请输入" />)}
@@ -184,8 +184,8 @@ const CreateForm = Form.create()(props => {
         </Col>
       </Row>
       <Row>
-        <Col span={8}>
-          <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} label="所属区域">
+        <Col span={12}>
+          <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 14 }} label="所属区域">
             {form.getFieldDecorator('locaNum', {
               rules: [{ required: true, message: 'Please input some description...' }],
             })(<TreeSelect
@@ -198,8 +198,8 @@ const CreateForm = Form.create()(props => {
             />)}
           </FormItem>
         </Col>
-        <Col span={16}>
-          <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 11 }} label="站点坐标">
+        <Col span={12}>
+          <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 14 }} label="站点坐标">
             {form.getFieldDecorator('coordinate', {
               rules: [{ required: true, message: 'Please input some description...' }],
             })(<Input placeholder="点击图标获取坐标" suffix={<a href="https://lbs.amap.com/console/show/picker" target="_blank"><Icon type="environment" style={{ color: 'blue' }} /></a>} />)}
@@ -207,8 +207,8 @@ const CreateForm = Form.create()(props => {
         </Col>
       </Row>
       <Row>
-        <Col span={22}>
-          <FormItem labelCol={{ span: 3 }} wrapperCol={{ span: 18 }} label="站点位置">
+        <Col span={24}>
+          <FormItem labelCol={{ span: 3 }} wrapperCol={{ span: 20 }} label="站点位置">
             {form.getFieldDecorator('location', {
               rules: [{ required: true, message: 'Please input some description...' }],
             })(<Input placeholder="请输入" />)}
@@ -216,15 +216,15 @@ const CreateForm = Form.create()(props => {
         </Col>
       </Row>
       <Row>
-        <Col span={8}>
-          <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} label="设计容量">
+        <Col span={12}>
+          <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 14 }} label="设计容量">
             {form.getFieldDecorator('designCount', {
               rules: [{ required: true, message: 'Please input some description...' }],
             })(<Input placeholder="请输入" addonAfter="kW" />)}
           </FormItem>
         </Col>
-        <Col span={16}>
-          <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 11 }} label="建设容量">
+        <Col span={12}>
+          <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 14 }} label="建设容量">
             {form.getFieldDecorator('buildCount', {
               rules: [{ required: true, message: 'Please input some description...' }],
             })(<Input placeholder="请输入" addonAfter="kW" />)}
@@ -233,27 +233,29 @@ const CreateForm = Form.create()(props => {
       </Row>
 
       <Row>
-        <Col span={8}>
-          <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} label="占地面积">
+        <Col span={12}>
+          <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 14 }} label="占地面积">
             {form.getFieldDecorator('acreage', {
               rules: [{ required: true, message: 'Please input some description...' }],
             })(<Input placeholder="请输入" addonAfter="㎡" />)}
           </FormItem>
         </Col>
-        <Col span={16}>
-          <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 11 }} label="屋顶使用">
-            {form.getFieldDecorator('roof', {
+        <Col span={12}>
+          <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} label="运行状态">
+            {form.getFieldDecorator('runState', {
               rules: [{ required: true, message: 'Please input some description...' }],
             })(<Radio.Group defaultValue="0" buttonStyle="solid">
-              <Radio.Button value="0" defaultChecked={true}>电价优惠</Radio.Button>
-              <Radio.Button value="1">租赁</Radio.Button>
+              <Radio.Button value="0" defaultChecked={true}>运行中</Radio.Button>
+              <Radio.Button value="1">建设中</Radio.Button>
+              <Radio.Button value="2">建设目标</Radio.Button>
             </Radio.Group>)}
           </FormItem>
+
         </Col>
       </Row>
       <Row>
-        <Col span={8}>
-          <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} label="并网状态">
+        <Col span={12}>
+          <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 14 }} label="并网状态">
             {form.getFieldDecorator('netState', {
               rules: [{ required: true, message: 'Please input some description...' }],
             })(<Radio.Group defaultValue="0" buttonStyle="solid">
@@ -262,14 +264,13 @@ const CreateForm = Form.create()(props => {
             </Radio.Group>)}
           </FormItem>
         </Col>
-        <Col span={16}>
-          <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 12 }} label="运行状态">
-            {form.getFieldDecorator('runState', {
+        <Col span={12}>
+          <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 14 }} label="屋顶使用">
+            {form.getFieldDecorator('roof', {
               rules: [{ required: true, message: 'Please input some description...' }],
             })(<Radio.Group defaultValue="0" buttonStyle="solid">
-              <Radio.Button value="0" defaultChecked={true}>运行中</Radio.Button>
-              <Radio.Button value="1">建设中</Radio.Button>
-              <Radio.Button value="2">建设目标</Radio.Button>
+              <Radio.Button value="0" defaultChecked={true}>电价优惠</Radio.Button>
+              <Radio.Button value="1">租赁</Radio.Button>
             </Radio.Group>)}
           </FormItem>
         </Col>
