@@ -155,24 +155,28 @@ const CreateForm = Form.create()(props => {
       handleAdd(fieldsValue);
     });
   };
+  const handleReset = () => {
+    form.resetFields();
+  }
   return (
     <Modal
       title="新建站点"
       visible={modalVisible}
       onOk={okHandle}
       width="750px"
-      onCancel={() => handleModalVisible()}
+      cancelText="重置"
+      onCancel={ handleReset}
     >
       <Row>
         <Col span={8}>
-          <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} label="编号" >
+          <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} label="站点编号" >
             {form.getFieldDecorator('id', {
               rules: [{ required: true, message: 'Please input some description...' }],
             })(<Input placeholder="请输入" />)}
           </FormItem>
         </Col>
         <Col span={16}>
-          <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 11 }} label="名称">
+          <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 11 }} label="站点名称">
             {form.getFieldDecorator('desc', {
               rules: [{ required: true, message: 'Please input some description...' }],
             })(<Input placeholder="请输入" />)}
@@ -185,7 +189,7 @@ const CreateForm = Form.create()(props => {
             {form.getFieldDecorator('locaNum', {
               rules: [{ required: true, message: 'Please input some description...' }],
             })(<TreeSelect
-              style={{ width: 150 }}
+              style={{ width: 155 }}
               value={cityList[1].children[0].title}
               dropdownStyle={{ maxHeight: 300, overflowX: 'hideen' }}
               treeData={cityList}
@@ -195,19 +199,19 @@ const CreateForm = Form.create()(props => {
           </FormItem>
         </Col>
         <Col span={16}>
-          <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 11 }} label="位置">
-            {form.getFieldDecorator('location', {
+          <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 11 }} label="站点坐标">
+            {form.getFieldDecorator('coordinate', {
               rules: [{ required: true, message: 'Please input some description...' }],
-            })(<Input placeholder="请输入" />)}
+            })(<Input placeholder="点击图标获取坐标" suffix={<a href="https://lbs.amap.com/console/show/picker" target="_blank"><Icon type="environment" style={{ color: 'blue' }} /></a>} />)}
           </FormItem>
         </Col>
       </Row>
       <Row>
         <Col span={22}>
-          <FormItem labelCol={{ span: 3 }} wrapperCol={{ span: 18 }} label="坐标">
-            {form.getFieldDecorator('coordinate', {
+          <FormItem labelCol={{ span: 3 }} wrapperCol={{ span: 18 }} label="站点位置">
+            {form.getFieldDecorator('location', {
               rules: [{ required: true, message: 'Please input some description...' }],
-            })(<div><Input placeholder="请点击图标在跳转页面选取位置获取坐标" /><Icon type="environment" theme="outlined" /></div>)}
+            })(<Input placeholder="请输入" />)}
           </FormItem>
         </Col>
       </Row>
@@ -216,14 +220,14 @@ const CreateForm = Form.create()(props => {
           <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} label="设计容量">
             {form.getFieldDecorator('designCount', {
               rules: [{ required: true, message: 'Please input some description...' }],
-            })(<Input placeholder="请输入" />)}
+            })(<Input placeholder="请输入" addonAfter="kW" />)}
           </FormItem>
         </Col>
         <Col span={16}>
-          <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 8 }} label="建设容量">
+          <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 11 }} label="建设容量">
             {form.getFieldDecorator('buildCount', {
               rules: [{ required: true, message: 'Please input some description...' }],
-            })(<Input placeholder="请输入" />)}
+            })(<Input placeholder="请输入" addonAfter="kW" />)}
           </FormItem>
         </Col>
       </Row>
@@ -233,11 +237,11 @@ const CreateForm = Form.create()(props => {
           <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} label="占地面积">
             {form.getFieldDecorator('acreage', {
               rules: [{ required: true, message: 'Please input some description...' }],
-            })(<Input placeholder="请输入" />)}
+            })(<Input placeholder="请输入" addonAfter="㎡" />)}
           </FormItem>
         </Col>
         <Col span={16}>
-          <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 11 }} label="屋顶使用方式">
+          <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 11 }} label="屋顶使用">
             {form.getFieldDecorator('roof', {
               rules: [{ required: true, message: 'Please input some description...' }],
             })(<Radio.Group defaultValue="0" buttonStyle="solid">
