@@ -18,6 +18,8 @@ import {
   message,
   Badge,
   Divider,
+  Radio,
+  TreeSelect
 } from 'antd';
 import StandardTable from 'components/StandardTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
@@ -32,7 +34,142 @@ const getValue = obj =>
     .join(',');
 const statusMap = ['default', 'processing', 'success', 'error'];
 const status = ["待机", "并网", "故障", "关机", "离网"];
-
+const cityList = [
+  {
+    title: '郑州市',
+    value: '410100',
+    key: '410100',
+    children: [
+      {
+        title: '市辖区',
+        value: '410101',
+        key: '410101',
+      },
+      {
+        title: '中原区',
+        value: '410102',
+        key: '410102',
+      },
+      {
+        title: '二七区',
+        value: '410103',
+        key: '410103',
+      },
+      {
+        title: '管城回族区',
+        value: '410104',
+        key: '410104',
+      },
+      {
+        title: '金水区',
+        value: '410105',
+        key: '410105',
+      },
+      {
+        title: '上街区',
+        value: '410106',
+        key: '410106',
+      },
+      {
+        title: '惠济区',
+        value: '410108',
+        key: '410108',
+      },
+      {
+        title: '中牟县',
+        value: '410122',
+        key: '410122',
+      },
+      {
+        title: '巩义市',
+        value: '410181',
+        key: '410181',
+      },
+      {
+        title: '荥阳市',
+        value: '410183',
+        key: '410183',
+      },
+      {
+        title: '新密市',
+        value: '410183',
+        key: '410183',
+      },
+      {
+        title: '新郑市',
+        value: '410184',
+        key: '410184',
+      },
+      {
+        title: '登封市',
+        value: '410185',
+        key: '410185',
+      },
+    ],
+  },
+  {
+    title: '开封市',
+    value: '410200',
+    key: '410200',
+    children: [
+      {
+        title: '新郑市',
+        value: '410184',
+        key: '410184',
+      },
+      {
+        title: '新郑市',
+        value: '410184',
+        key: '410184',
+      },
+      {
+        title: '新郑市',
+        value: '410184',
+        key: '410184',
+      },
+      {
+        title: '新郑市',
+        value: '410184',
+        key: '410184',
+      },
+      {
+        title: '新郑市',
+        value: '410184',
+        key: '410184',
+      },
+      {
+        title: '新郑市',
+        value: '410184',
+        key: '410184',
+      },
+      {
+        title: '新郑市',
+        value: '410184',
+        key: '410184',
+      },
+      {
+        title: '新郑市',
+        value: '410184',
+        key: '410184',
+      },
+      {
+        title: '新郑市',
+        value: '410184',
+        key: '410184',
+      },
+      {
+        title: '新郑市',
+        value: '410184',
+        key: '410184',
+      },
+      {
+        title: '新郑市',
+        value: '410184',
+        key: '410184',
+      },
+    ],
+  },
+];
 const CreateForm = Form.create()(props => {
   const { modalVisible, form, handleAdd, handleModalVisible } = props;
   const okHandle = () => {
@@ -42,22 +179,159 @@ const CreateForm = Form.create()(props => {
       handleAdd(fieldsValue);
     });
   };
+  const handleReset = () => {
+    form.resetFields();
+  };
+
   return (
     <Modal
       title="新建站点"
       visible={modalVisible}
       onOk={okHandle}
+      width="750px"
       onCancel={() => handleModalVisible()}
+      footer={[
+        <Button key="reset" onClick={handleReset}>
+          重置
+        </Button>,
+        <Button key="submit" type="primary" onClick={okHandle}>
+          确认
+        </Button>,
+      ]}
     >
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="描述">
-        {form.getFieldDecorator('desc', {
-          rules: [{ required: true, message: 'Please input some description...' }],
-        })(<Input placeholder="请输入" />)}
-      </FormItem>
+      <Row>
+        <Col span={12}>
+          <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} label="站点编号">
+            {form.getFieldDecorator('id', {
+              rules: [{ required: true, message: 'Please input some description...' }],
+            })(<Input placeholder="请输入" />)}
+          </FormItem>
+        </Col>
+        <Col span={12}>
+          <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} label="站点名称">
+            {form.getFieldDecorator('desc', {
+              rules: [{ required: true, message: 'Please input some description...' }],
+            })(<Input placeholder="请输入" />)}
+          </FormItem>
+        </Col>
+      </Row>
+      <Row>
+        <Col span={12}>
+          <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} label="所属区域">
+            {form.getFieldDecorator('locaNum', {
+              rules: [{ required: true, message: 'Please input some description...' }],
+            })(
+              <TreeSelect
+                style={{ width: '100%' }}
+                value={cityList[1].children[0].title}
+                dropdownStyle={{ maxHeight: 300, overflowX: 'hideen' }}
+                treeData={cityList}
+                placeholder="选择站点所在区域"
+                treeDefaultExpandAll
+              />
+            )}
+          </FormItem>
+        </Col>
+        <Col span={12}>
+          <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} label="站点坐标">
+            {form.getFieldDecorator('coordinate', {
+              rules: [{ required: true, message: 'Please input some description...' }],
+            })(
+              <Input
+                placeholder="点击图标获取坐标"
+                suffix={
+                  <a href="https://lbs.amap.com/console/show/picker" target="_blank">
+                    <Icon type="environment" style={{ color: 'blue' }} />
+                  </a>
+                }
+              />
+            )}
+          </FormItem>
+        </Col>
+      </Row>
+      <Row>
+        <Col span={24}>
+          <FormItem labelCol={{ span: 3 }} wrapperCol={{ span: 20 }} label="站点位置">
+            {form.getFieldDecorator('location', {
+              rules: [{ required: true, message: 'Please input some description...' }],
+            })(<Input placeholder="请输入" />)}
+          </FormItem>
+        </Col>
+      </Row>
+      <Row>
+        <Col span={12}>
+          <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} label="设计容量">
+            {form.getFieldDecorator('designCount', {
+              rules: [{ required: true, message: 'Please input some description...' }],
+            })(<Input placeholder="请输入" addonAfter="kW" />)}
+          </FormItem>
+        </Col>
+        <Col span={12}>
+          <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} label="建设容量">
+            {form.getFieldDecorator('buildCount', {
+              rules: [{ required: true, message: 'Please input some description...' }],
+            })(<Input placeholder="请输入" addonAfter="kW" />)}
+          </FormItem>
+        </Col>
+      </Row>
+
+      <Row>
+        <Col span={12}>
+          <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} label="占地面积">
+            {form.getFieldDecorator('acreage', {
+              rules: [{ required: true, message: 'Please input some description...' }],
+            })(<Input placeholder="请输入" addonAfter="㎡" />)}
+          </FormItem>
+        </Col>
+        <Col span={12}>
+          <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} label="运行状态">
+            {form.getFieldDecorator('runState', {
+              rules: [{ required: true, message: 'Please input some description...' }],
+            })(
+              <Radio.Group defaultValue="0" buttonStyle="solid">
+                <Radio.Button value="0" defaultChecked={true}>
+                  运行中
+                </Radio.Button>
+                <Radio.Button value="1">建设中</Radio.Button>
+                <Radio.Button value="2">建设目标</Radio.Button>
+              </Radio.Group>
+            )}
+          </FormItem>
+        </Col>
+      </Row>
+      <Row>
+        <Col span={12}>
+          <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 14 }} label="并网状态">
+            {form.getFieldDecorator('netState', {
+              rules: [{ required: true, message: 'Please input some description...' }],
+            })(
+              <Radio.Group defaultValue="0" buttonStyle="solid">
+                <Radio.Button value="0" defaultChecked={true}>
+                  已并网
+                </Radio.Button>
+                <Radio.Button value="1">未并网</Radio.Button>
+              </Radio.Group>
+            )}
+          </FormItem>
+        </Col>
+        <Col span={12}>
+          <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 14 }} label="屋顶使用">
+            {form.getFieldDecorator('roof', {
+              rules: [{ required: true, message: 'Please input some description...' }],
+            })(
+              <Radio.Group defaultValue="0" buttonStyle="solid">
+                <Radio.Button value="0" defaultChecked={true}>
+                  电价优惠
+                </Radio.Button>
+                <Radio.Button value="1">租赁</Radio.Button>
+              </Radio.Group>
+            )}
+          </FormItem>
+        </Col>
+      </Row>
     </Modal>
   );
 });
-
 @connect(({ rule, loading }) => ({
   rule,
   loading: loading.models.rule,
