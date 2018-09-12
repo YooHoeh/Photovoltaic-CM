@@ -13,11 +13,11 @@ const menuData = [
     children: [
       {
         name: '站点列表',
-        path: 'Site',
+        path: 'site',
       },
       {
         name: '逆变器列表',
-        path: 'Inverter',
+        path: 'inverter',
       },
 
       {

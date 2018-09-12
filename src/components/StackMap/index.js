@@ -1,4 +1,3 @@
-import React from "react";
 import {
   G2,
   Chart,
@@ -20,41 +19,71 @@ class Stacked extends React.Component {
   render() {
     const data = [
       {
-        State: "WY",
-        小于5岁: 25635,
-        "5至13岁": 1890,
-        "14至17岁": 9314
+        State: "一月",
+        "逆变器1": 25635,
+        "逆变器2": 1890,
+        "逆变器3": 9314
       },
       {
-        State: "DC",
-        小于5岁: 30352,
-        "5至13岁": 20439,
-        "14至17岁": 10225
+        State: "二月",
+        "逆变器1": 30352,
+        "逆变器2": 20439,
+        "逆变器3": 10225
       },
       {
-        State: "VT",
-        小于5岁: 38253,
-        "5至13岁": 42538,
-        "14至17岁": 15757
+        State: "三月",
+        "逆变器1": 38253,
+        "逆变器2": 42538,
+        "逆变器3": 15757
       },
       {
-        State: "ND",
-        小于5岁: 51896,
-        "5至13岁": 67358,
-        "14至17岁": 18794
+        State: "四月",
+        "逆变器1": 51896,
+        "逆变器2": 67358,
+        "逆变器3": 18794
       },
       {
-        State: "AK",
-        小于5岁: 72083,
-        "5至13岁": 85640,
-        "14至17岁": 22153
-      }
+        State: "五月",
+        "逆变器1": 72083,
+        "逆变器2": 85640,
+        "逆变器3": 22153
+      },
+      {
+        State: "六月",
+        "逆变器1": 25635,
+        "逆变器2": 1890,
+        "逆变器3": 9314
+      },
+      {
+        State: "七月",
+        "逆变器1": 30352,
+        "逆变器2": 20439,
+        "逆变器3": 10225
+      },
+      {
+        State: "八月",
+        "逆变器1": 38253,
+        "逆变器2": 42538,
+        "逆变器3": 15757
+      },
+      {
+        State: "九月",
+        "逆变器1": 51896,
+        "逆变器2": 67358,
+        "逆变器3": 18794
+      },
+      {
+        State: "十月",
+        "逆变器1": 72083,
+        "逆变器2": 85640,
+        "逆变器3": 22153
+      },
     ];
     const ds = new DataSet();
     const dv = ds.createView().source(data);
     dv.transform({
       type: "fold",
-      fields: ["小于5岁", "5至13岁", "14至17岁"],
+      fields: ["逆变器1", "逆变器2", "逆变器3"],
       // 展开字段集
       key: "年龄段",
       // key字段
@@ -64,7 +93,7 @@ class Stacked extends React.Component {
     });
     return (
       <div>
-        <Chart height={400} data={dv} forceFit>
+        <Chart height={500} data={dv} forceFit>
           <Legend />
           <Coord transpose />
           <Axis
@@ -73,7 +102,7 @@ class Stacked extends React.Component {
               offset: 12
             }}
           />
-          <Axis name="人口数量" />
+          <Axis name="发电量" />
           <Tooltip />
           <Geom
             type="intervalStack"
@@ -85,6 +114,4 @@ class Stacked extends React.Component {
     );
   }
 }
-
 export default Stacked;
-
