@@ -273,26 +273,7 @@ export default class BasicLayout extends React.PureComponent {
           </Content>
           <Footer style={{ padding: 0 }}>
             <GlobalFooter
-              links={[
-                {
-                  key: '常用连接1',
-                  title: '常用链接1',
-                  href: '',
-                  blankTarget: true,
-                },
-                {
-                  key: '常用连接2',
-                  title: '常用链接2',
-                  href: '',
-                  blankTarget: true,
-                },
-                {
-                  key: '常用连接3',
-                  title: '常用链接3',
-                  href: '',
-                  blankTarget: true,
-                },
-              ]}
+
               copyright={
                 <Fragment>
                   Copyright <Icon type="copyright" /> 推荐使用火狐浏览器获取最佳浏览体验

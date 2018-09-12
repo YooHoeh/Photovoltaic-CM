@@ -105,6 +105,12 @@ export const getRouterData = app => {
     '/list/inverter': {
       component: dynamicWrapper(app, ['rule'], () => import('../routes/List/Inverter')),
     },
+    '/history/inverter': {
+      component: dynamicWrapper(app, ['global'], () => import('../routes/History/Inverter')),
+    },
+    '/history/site': {
+      component: dynamicWrapper(app, ['global'], () => import('../routes/History/Site')),
+    },
     '/exception/403': {
       component: dynamicWrapper(app, [], () => import('../routes/Exception/403')),
     },

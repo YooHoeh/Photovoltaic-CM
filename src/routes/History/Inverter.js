@@ -34,7 +34,142 @@ const getValue = obj =>
     .join(',');
 const statusMap = ['default', 'processing', 'success', 'error'];
 const status = ["待机", "并网", "故障", "关机", "离网"];
-
+const cityList = [
+  {
+    title: '郑州市',
+    value: '410100',
+    key: '410100',
+    children: [
+      {
+        title: '市辖区',
+        value: '410101',
+        key: '410101',
+      },
+      {
+        title: '中原区',
+        value: '410102',
+        key: '410102',
+      },
+      {
+        title: '二七区',
+        value: '410103',
+        key: '410103',
+      },
+      {
+        title: '管城回族区',
+        value: '410104',
+        key: '410104',
+      },
+      {
+        title: '金水区',
+        value: '410105',
+        key: '410105',
+      },
+      {
+        title: '上街区',
+        value: '410106',
+        key: '410106',
+      },
+      {
+        title: '惠济区',
+        value: '410108',
+        key: '410108',
+      },
+      {
+        title: '中牟县',
+        value: '410122',
+        key: '410122',
+      },
+      {
+        title: '巩义市',
+        value: '410181',
+        key: '410181',
+      },
+      {
+        title: '荥阳市',
+        value: '410183',
+        key: '410183',
+      },
+      {
+        title: '新密市',
+        value: '410183',
+        key: '410183',
+      },
+      {
+        title: '新郑市',
+        value: '410184',
+        key: '410184',
+      },
+      {
+        title: '登封市',
+        value: '410185',
+        key: '410185',
+      },
+    ],
+  },
+  {
+    title: '开封市',
+    value: '410200',
+    key: '410200',
+    children: [
+      {
+        title: '新郑市',
+        value: '410184',
+        key: '410184',
+      },
+      {
+        title: '新郑市',
+        value: '410184',
+        key: '410184',
+      },
+      {
+        title: '新郑市',
+        value: '410184',
+        key: '410184',
+      },
+      {
+        title: '新郑市',
+        value: '410184',
+        key: '410184',
+      },
+      {
+        title: '新郑市',
+        value: '410184',
+        key: '410184',
+      },
+      {
+        title: '新郑市',
+        value: '410184',
+        key: '410184',
+      },
+      {
+        title: '新郑市',
+        value: '410184',
+        key: '410184',
+      },
+      {
+        title: '新郑市',
+        value: '410184',
+        key: '410184',
+      },
+      {
+        title: '新郑市',
+        value: '410184',
+        key: '410184',
+      },
+      {
+        title: '新郑市',
+        value: '410184',
+        key: '410184',
+      },
+      {
+        title: '新郑市',
+        value: '410184',
+        key: '410184',
+      },
+    ],
+  },
+];
 const CreateForm = Form.create()(props => {
   const { modalVisible, form, handleAdd, handleModalVisible } = props;
   const okHandle = () => {
@@ -266,13 +401,13 @@ export default class TableList extends PureComponent {
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-          <Col md={6} sm={24}>
+          <Col md={8} sm={24}>
             <FormItem label="站点编号">
               {getFieldDecorator('no')(<Input placeholder="请输入" />)}
             </FormItem>
           </Col>
-          <Col md={6} sm={24}>
-            <FormItem label="所在区域">
+          <Col md={8} sm={24}>
+            <FormItem label="运行使用状态">
               {getFieldDecorator('status')(
                 <Select placeholder="请选择" style={{ width: '100%' }}>
                   <Option value="0">关闭</Option>
@@ -281,17 +416,7 @@ export default class TableList extends PureComponent {
               )}
             </FormItem>
           </Col>
-          <Col md={6} sm={24}>
-            <FormItem label="运行状态">
-              {getFieldDecorator('status')(
-                <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value="0">关闭</Option>
-                  <Option value="1">运行中</Option>
-                </Select>
-              )}
-            </FormItem>
-          </Col>
-          <Col md={6} sm={24}>
+          <Col md={8} sm={24}>
             <span className={styles.submitButtons}>
               <Button type="primary" htmlType="submit">
                 查询
@@ -299,11 +424,98 @@ export default class TableList extends PureComponent {
               <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
                 重置
               </Button>
+              <a style={{ marginLeft: 8 }} onClick={this.toggleForm}>
+                展开 <Icon type="down" />
+              </a>
             </span>
           </Col>
         </Row>
       </Form>
     );
+  }
+
+  renderAdvancedForm() {
+    const { form } = this.props;
+    const { getFieldDecorator } = form;
+    return (
+      <Form onSubmit={this.handleSearch} layout="inline">
+        <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+          <Col md={8} sm={24}>
+            <FormItem label="机器型号">
+              {getFieldDecorator('no')(<Input placeholder="请输入" />)}
+            </FormItem>
+          </Col>
+          <Col md={8} sm={24}>
+            <FormItem label="使用状态">
+              {getFieldDecorator('status')(
+                <Select placeholder="请选择" style={{ width: '100%' }}>
+                  <Option value="0">关闭</Option>
+                  <Option value="1">运行中</Option>
+                  <Option value="2">建设中</Option>
+                  <Option value="3">告警</Option>
+                </Select>
+              )}
+            </FormItem>
+          </Col>
+          <Col md={8} sm={24}>
+            <FormItem label="调用次数">
+              {getFieldDecorator('number')(<InputNumber style={{ width: '100%' }} />)}
+            </FormItem>
+          </Col>
+        </Row>
+        <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+          <Col md={8} sm={24}>
+            <FormItem label="更新日期">
+              {getFieldDecorator('date')(
+                <DatePicker style={{ width: '100%' }} placeholder="请输入更新日期" />
+              )}
+            </FormItem>
+          </Col>
+          <Col md={8} sm={24}>
+            <FormItem label="使用状态">
+              {getFieldDecorator('status3')(
+                <Select placeholder="请选择" style={{ width: '100%' }}>
+                  <Option value="0">关闭</Option>
+                  <Option value="1">运行中</Option>
+                  <Option value="2">建设中</Option>
+                  <Option value="3">告警</Option>
+                </Select>
+              )}
+            </FormItem>
+          </Col>
+          <Col md={8} sm={24}>
+            <FormItem label="使用状态">
+              {getFieldDecorator('status4')(
+                <Select placeholder="请选择" style={{ width: '100%' }}>
+                  <Option value="0">关闭</Option>
+                  <Option value="1">运行中</Option>
+                  <Option value="2">建设中</Option>
+                  <Option value="3">告警</Option>
+                </Select>
+              )}
+            </FormItem>
+          </Col>
+        </Row>
+        <div style={{ overflow: 'hidden' }}>
+          <div style={{ float: 'right', marginBottom: 24 }}>
+            <Button type="primary" htmlType="submit">
+              查询
+            </Button>
+            <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
+              重置
+            </Button>
+            <a style={{ marginLeft: 8 }} onClick={this.toggleForm}>
+              收起 <Icon type="up" />
+            </a>
+          </div>
+        </div>
+      </Form>
+    );
+  }
+
+  renderForm() {
+    const { expandForm } = this.state;
+    return expandForm ? this.renderAdvancedForm() : this.renderSimpleForm();
   }
 
   render() {
@@ -391,7 +603,7 @@ export default class TableList extends PureComponent {
       <PageHeaderLayout title="逆变器列表">
         <Card bordered={false}>
           <div className={styles.tableList}>
-            <div className={styles.tableListForm}>{this.renderSimpleForm()}</div>
+            <div className={styles.tableListForm}>{this.renderForm()}</div>
             <div className={styles.tableListOperator}>
               <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
                 新建逆变器

@@ -34,11 +34,11 @@ const menuData = [
     children: [
       {
         name: '逆变器查询',
-        path: '',
+        path: 'inverter',
       },
       {
         name: '站点查询',
-        path: '',
+        path: 'site',
       }
 
     ],
