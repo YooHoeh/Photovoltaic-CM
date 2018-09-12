@@ -84,16 +84,13 @@ class Stacked extends React.Component {
     dv.transform({
       type: "fold",
       fields: ["逆变器1", "逆变器2", "逆变器3"],
-      // 展开字段集
-      key: "年龄段",
-      // key字段
-      value: "人口数量",
-      // value字段
+      key: "type",
+      value: "独立分量",
       retains: ["State"] // 保留字段集，默认为除fields以外的所有字段
     });
     return (
       <div>
-        <Chart height={500} data={dv} forceFit>
+        <Chart height={490} data={dv} forceFit>
           <Legend />
           <Coord transpose />
           <Axis
@@ -106,8 +103,8 @@ class Stacked extends React.Component {
           <Tooltip />
           <Geom
             type="intervalStack"
-            position="State*人口数量"
-            color={"年龄段"}
+            position="State*独立分量"
+            color={"type"}
           />
         </Chart>
       </div>

@@ -115,6 +115,18 @@ const data = [{
   age: 32,
   address: 'London No. 2 Lake Park',
 }];
+const site = {
+  name: "光伏电站001",
+  position: "河南省郑州市中华园区北城街",
+  coordinate: "113.123124,224.123454",
+  disignCount: "50000kW",
+  buildCount: "48000kW",
+  totalPower: "60000kW",
+  runState: "建设中",
+  netState: "已并网",
+  roof: "租赁",
+  area: "200㎡"
+}
 @connect(({ rule, loading }) => ({
   rule,
 }))
@@ -135,37 +147,41 @@ export default class SiteHis extends PureComponent {
       console.log('params', pagination, filters, sorter);
     }
     const SiteInfoBorad = (site) => {
+      const item = {
+        "margin": "14px",
+      }
+
       return (
         <div>
-          <Row gutter={12}>
-            <Col>名称:{site.name}</Col>
+          <Row type="flex" justify="space-around" align="middle">
+            <Col span={7}>名称:</Col><Col span={14} style={item}>{site.name}</Col>
           </Row>
-          <Row gutter={12}>
-            <Col>位置:{site.position}</Col>
+          <Row type="flex" justify="space-around" align="middle">
+            <Col span={7}>位置:</Col><Col span={14} style={item}>{site.position}</Col>
           </Row>
-          <Row gutter={12}>
-            <Col>坐标:{site.coordinate}</Col>
+          <Row type="flex" justify="space-around" align="middle">
+            <Col span={7}>坐标:</Col><Col span={14} style={item}>{site.coordinate}</Col>
           </Row>
-          <Row gutter={12}>
-            <Col>设计容量:{site.disignCount}</Col>
+          <Row type="flex" justify="space-around" align="middle">
+            <Col span={7}>设计容量:</Col><Col span={14} style={item}>{site.disignCount}</Col>
           </Row>
-          <Row gutter={12}>
-            <Col>建设容量:{site.buildCount}</Col>
+          <Row type="flex" justify="space-around" align="middle">
+            <Col span={7}>建设容量:</Col><Col span={14} style={item}>{site.buildCount}</Col>
           </Row>
-          <Row gutter={12}>
-            <Col>占用面积:{site.area}</Col>
+          <Row type="flex" justify="space-around" align="middle">
+            <Col span={7}>占用面积:</Col><Col span={14} style={item}>{site.area}</Col>
           </Row>
-          <Row gutter={12}>
-            <Col>屋顶使用方式:{site.area}</Col>
+          <Row type="flex" justify="space-around" align="middle">
+            <Col span={7}>屋顶使用方式:</Col><Col span={14} style={item}>{site.roof}</Col>
           </Row>
-          <Row gutter={12}>
-            <Col>运行状态:{site.area}</Col>
+          <Row type="flex" justify="space-around" align="middle">
+            <Col span={7}>运行状态:</Col><Col span={14} style={item}>{site.runState}</Col>
           </Row>
-          <Row gutter={12}>
-            <Col>并网状态:{site.area}</Col>
+          <Row type="flex" justify="space-around" align="middle">
+            <Col span={7}>并网状态:</Col><Col span={14} style={item}>{site.netState}</Col>
           </Row>
-          <Row gutter={12}>
-            <Col>总光伏发电量:{site.area}</Col>
+          <Row type="flex" justify="space-around" align="middle">
+            <Col span={7}>总光伏发电量:</Col><Col span={14} style={item}>{site.totalPower}</Col>
           </Row>
         </div>
       )
@@ -188,7 +204,7 @@ export default class SiteHis extends PureComponent {
               title="站点信息"
               style={{ marginBottom: "12px" }}
             >
-              <SiteInfoBorad />
+              {SiteInfoBorad(site)}
             </Card>
           </Col>
         </Row>
