@@ -1,111 +1,128 @@
 import React, { PureComponent, Fragment } from 'react';
+import { Card, Checkbox, Row, Col, Divider, Input, DatePicker, Button } from "antd";
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
-import {
-  Row,
-  Col,
-  Card,
-  Form,
-  Input,
-  Select,
-  Icon,
-  Button,
-  Dropdown,
-  Menu,
-  InputNumber,
-  DatePicker,
-  Modal,
-  Radio,
-  message,
-  Badge,
-  Divider,
-  TreeSelect,
-  Table,
-} from 'antd';
-const FormItem = Form.Item;
-const CustomizedForm = Form.create({
-  onFieldsChange(props, changedFields) {
-    props.onChange(changedFields);
-  },
-  mapPropsToFields(props) {
-    return {
-      username: Form.createFormField({
-        ...props.username,
-        value: props.username.value,
-      }),
+const { TextArea } = Input;
+const CheckboxGroup = Checkbox.Group;
+class Maintetance extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      type: [],
+      people: '',
+      date: '',
+      logID: 'WB20180822-001',
+      content: '',
+      localtion: ''
 
     };
-  },
-  onValuesChange(_, values) {
-    console.log(123);
-  },
-})((props) => {
-  const { getFieldDecorator } = props.form;
-  const Inputt = () => {
-    return <Input style={{ border: "none", borderBottom: "1px solid #999" }} />
   }
-  return (
-    <Form layout="inline" style={{ width: "800px", border: "3px solid #999", margin: "0 auto", padding: "15px" }}>
-      <Row>
-        <h1 style={{ textAlign: "center" }}>光伏维保日志</h1>
-      </Row>
-      <Row>
-        <Col xl={12} md={24}>
-          <FormItem label="维保负责人">
-            {getFieldDecorator('people', {
-              rules: [{ required: true, message: '填写维保负责人!' }],
-            })(<Inputt />)}
-          </FormItem>
-        </Col>
-        <Col xl={12} md={24}>
-          <FormItem label="维保时间">
-            {getFieldDecorator('date', {
-              rules: [{ required: true, message: '填写维保时间!' }],
-            })(<DatePicker />)}
-          </FormItem>
-        </Col>
-      </Row>
-      <Row>
-        <FormItem label="维保站点">
-          {getFieldDecorator('people', {
-            rules: [{ required: true, message: '填写维保负责人!' }],
-          })(<Inputt />)}
-        </FormItem>
-      </Row>
-      <Row>
-        <Col >
-          <FormItem label="日志编号"> {getFieldDecorator('logID', {})(<Input defaultValue="123" disabled />)}
-          </FormItem>
-
-        </Col>
-      </Row>
-    </Form>
-  );
-});
-class AddLog extends React.Component {
-  state = {
-    fields: {
-      username: {
-        value: '',
-      },
-    },
-  };
-
-  handleFormChange = (changedFields) => {
-    this.setState(({ fields }) => ({
-      fields: { ...fields, ...changedFields },
-    }));
+  onResetHandle = () => {
+    this.setState({
+      type: [],
+      people: '',
+      date: '',
+      content: '',
+      localtion: ''
+    })
+  }
+  onDateChange = (date, dateString) => {
+    this.setState({ date: dateString })
+    console.log(dateString);
+  }
+  onCheckChange = (checkedValues) => {
+    this.setState({
+      type: checkedValues,
+    })
+    console.log(checkedValues)
+  }
+  onTextAreaChange = (e) => {
+    const { value } = e.target;
+    this.setState({
+      content: value,
+    })
+    console.log(value)
+  }
+  onPeopleChange = (e) => {
+    const { value } = e.target;
+    this.setState({
+      people: value,
+    })
+    console.log(value)
+    console.log("123")
+  }
+  onLocaltionChange = (e) => {
+    const { value } = e.target;
+    console.log(value)
+    this.setState({
+      localtion: value,
+    })
+  }
+  submitHandle = () => {
+    console.log(this.state)
   }
   render() {
-    const fields = this.state.fields;
+    const options = [
+      { label: '并网问题', value: '0' },
+      { label: '逆变器', value: '1' },
+      { label: '光伏组件', value: '2' },
+      { label: '站点环境', value: '3' },
+      { label: '其他', value: '4' },
+    ];
     return (
-      <PageHeaderLayout title="新建维保日志">
-        <Card
-          bordered={false}
-        >
-          <CustomizedForm {...fields} onChange={this.handleFormChange} />
+      <PageHeaderLayout title="维保日志">
+        <Card style={{ width: "800px",margin:"0 auto" }}>
+          <h1 style={{ textAlign: "center" }}>维保日志</h1>
+          <span style={{ float: "right" }}>编号：{this.state.logID}</span>
+          <Divider />
+          <Row>
+            <Col span={3}>
+              负责人员：
+            </Col>
+            <Col span={6}>
+              <Input onChange={this.onPeopleChange} value={this.state.people} />
+            </Col>
+            <Col span={3} offset={4}>
+              维保时间：
+            </Col>
+            <Col span={6}>
+              <DatePicker onChange={this.onDateChange} />
+            </Col>
+          </Row>
+          <Divider />
+          <Row>
+            <Col span={3}>维保站点：</Col>
+            <Col span={19}><Input onChange={this.onLocaltionChange} value={this.state.localtion} /></Col>
+          </Row>
+          <Divider />
+          <Row>
+            <Col span={3}>
+              维保类型:
+            </Col>
+            <Col >
+              <CheckboxGroup options={options} onChange={this.onCheckChange} value={this.state.type} />
+            </Col>
+          </Row>
+          <Divider />
+          <Row>
+            <Col span={3} >
+              维保内容:
+            </Col>
+            <Col span={19}>
+              <TextArea rows={20} onChange={this.onTextAreaChange} value={this.state.content} />
+            </Col>
+          </Row>
+          <Divider />
+          <Row>
+            <Col span={3} offset={17}>
+              <Button onClick={this.onResetHandle} >重置</Button>
+            </Col>
+            <Col span={3}>
+              <Button type="primary" onClick={this.submitHandle}>确认</Button>
+            </Col>
+          </Row>
         </Card>
       </PageHeaderLayout>
     )
   }
 }
-export default AddLog;
+export default Maintetance;
