@@ -47,12 +47,6 @@ const menuData = [
     name: '告警管理',
     icon: 'warning',
     path: 'warming',
-    children: [
-      {
-        name: '历史告警',
-        path: '',
-      }
-    ],
   },
   {
     name: '系统管理',

@@ -78,6 +78,18 @@ class Stacked extends React.Component {
         "逆变器2": 85640,
         "逆变器3": 22153
       },
+      {
+        State: "十一月",
+        "逆变器1": 30352,
+        "逆变器2": 20439,
+        "逆变器3": 10225
+      },
+      {
+        State: "十二月",
+        "逆变器1": 38253,
+        "逆变器2": 42538,
+        "逆变器3": 15757
+      },
     ];
     const ds = new DataSet();
     const dv = ds.createView().source(data);

@@ -19,12 +19,12 @@ import {
   Badge,
   Divider,
   TreeSelect,
-  Table
+  Table,
 } from 'antd';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import Stacked from "../../components/StackMap";
 import styles from './Site.less';
-
+const { RangePicker } = DatePicker;
 const columns = [{
   title: 'Name',
   dataIndex: 'name',
@@ -193,7 +193,9 @@ export default class SiteHis extends PureComponent {
             <Card
               bordered={false}
               title="站点发电量组成"
-              style={{ marginBottom: "12px" }}
+              style={{ marginBottom: "12px", overflow: "hidden" }}
+              extra={<RangePicker onChange={onChange} />}
+
             >
               <Stacked />
             </Card>
