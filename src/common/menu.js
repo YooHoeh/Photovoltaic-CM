@@ -71,7 +71,17 @@ const menuData = [
   {
     name: '维保管理',
     icon: 'calculator',
-    path: 'maintenance ',
+    path: 'maintenance',
+    children: [
+      {
+        name: '维保日志列表',
+        path: 'list'
+      }, 
+      {
+        name: '新建维保日志',
+        path: 'add'
+      }
+    ],
 
   },
 ];

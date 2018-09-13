@@ -111,6 +111,12 @@ export const getRouterData = app => {
     '/history/site': {
       component: dynamicWrapper(app, ['global'], () => import('../routes/History/Site')),
     },
+    '/maintenance/add': {
+      component: dynamicWrapper(app, ['global'], () => import('../routes/Maintenance/AddNewLog')),
+    },
+    '/maintenance/list': {
+      component: dynamicWrapper(app, ['global'], () => import('../routes/Maintenance/LogList')),
+    },
     '/exception/403': {
       component: dynamicWrapper(app, [], () => import('../routes/Exception/403')),
     },
