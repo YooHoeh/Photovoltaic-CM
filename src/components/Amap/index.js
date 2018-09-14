@@ -116,7 +116,28 @@ class MapCard extends React.Component {
             // 设置查询行政区级别为 城市 
             level: 'city'
           })
+          AMap.event.addListener(mapInstance, 'zoomend', function () {
+            console.log('当前缩放级别：' + mapInstance.getZoom());
+          });
+    addPlygons()
+        });
+        //获取系统使用者的所在位置用于显示默认信息
+        mapInstance.plugin('AMap.CitySearch', function () {
+          var citySearch = new AMap.CitySearch()
+          citySearch.getLocalCity(function (status, result) {
+            if (status === 'complete' && result.info === 'OK') {
+              // 查询成功，result即为当前所在城市信息
+              console.log(result.city)
+              handleCity(result.city)
+              saveWeatherInfo(result.city);
+            } else {
+              console.log("地理信息获取失败")
 
+            }
+          })
+        })
+        //添加覆盖物
+         function addPlygons() {
           drawCity(district, '郑州市', '#f3deed');
           drawCity(district, '开封市', '#fadeb9');
           drawCity(district, '洛阳市', '#fadeb9');
@@ -134,30 +155,14 @@ class MapCard extends React.Component {
           drawCity(district, '驻马店市', '#c5e4df');
           drawCity(district, '南阳市', '#f3deed');
           drawCity(district, '信阳市', '#d2ddf1');
-          drawCity(district, '济源市', '#fadeb9');
-        });
-        //获取系统使用者的所在位置用于显示默认信息
-        mapInstance.plugin('AMap.CitySearch', function () {
-          var citySearch = new AMap.CitySearch()
-          citySearch.getLocalCity(function (status, result) {
-            if (status === 'complete' && result.info === 'OK') {
-              // 查询成功，result即为当前所在城市信息
-              console.log(result.city)
-              handleCity(result.city)
-              saveWeatherInfo(result.city);
-            } else {
-              console.log("地理信息获取失败")
-
-            }
-          })
-        })
-        console.log(mapInstance.getZoom());
-
-        //添加覆盖物
+          drawCity(district, '济源市', '#f3deed');
+        }
+        //添加覆盖物函数
+       
         function drawCity(district, cname, fcolor) {
           district.search(cname, function (status, result) {
             const bounds = result.districtList[0].boundaries;
-            const polygons = [];
+            var polygons = [];
             if (bounds) {
               for (let i = 0, l = bounds.length; i < l; i++) {
                 let polygon = new AMap.Polygon({
@@ -178,6 +183,7 @@ class MapCard extends React.Component {
             }
           });
         }
+        var overlayGroup = new AMap.OverlayGroup(polygons);
         //区域点击事件
         function cityClick(city) {
           saveWeatherInfo(city);
