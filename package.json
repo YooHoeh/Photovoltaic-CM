@@ -19,6 +19,7 @@
     "test:all": "node ./tests/run-tests.js",
     "prettier": "prettier --write ./src/**/**/**/*"
   },
+  "homepage": "./",
   "dependencies": {
     "@antv/data-set": "^0.9.0",
     "@babel/polyfill": "^7.0.0-beta.36",

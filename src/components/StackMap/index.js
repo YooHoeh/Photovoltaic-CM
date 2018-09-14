@@ -14,6 +14,7 @@ import {
   Util
 } from "bizcharts";
 import DataSet from "@antv/data-set";
+import React from "react";
 
 class Stacked extends React.Component {
   render() {
@@ -104,7 +105,6 @@ class Stacked extends React.Component {
       <div>
         <Chart height={490} data={dv} forceFit>
           <Legend />
-          <Coord transpose />
           <Axis
             name="State"
             label={{

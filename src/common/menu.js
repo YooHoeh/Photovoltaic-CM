@@ -65,18 +65,18 @@ const menuData = [
   },
   {
     name: '财务管理',
-    icon: 'profile',
+    icon: 'calculator',
     path: 'financial',
   },
   {
     name: '维保管理',
-    icon: 'calculator',
+    icon: 'profile',
     path: 'maintenance',
     children: [
       {
         name: '维保日志列表',
         path: 'list'
-      }, 
+      },
       {
         name: '新建维保日志',
         path: 'add'

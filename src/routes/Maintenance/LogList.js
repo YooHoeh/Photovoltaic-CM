@@ -1,5 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
-import { Card, Checkbox, Row, Col, Divider, Input, DatePicker, Button, Table,Tag } from "antd";
+import { Card, Checkbox, Row, Col, Divider, Input, DatePicker, Button, Table, Tag } from "antd";
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 const { TextArea } = Input;
 const CheckboxGroup = Checkbox.Group;
@@ -7,32 +7,13 @@ const { RangePicker } = DatePicker;
 const columns = [{
   title: '维保负责人',
   dataIndex: 'name',
-  filters: [{
-    text: '雷军',
-    value: '雷军',
-  }, {
-    text: '马化腾',
-    value: '马化腾',
-  },
-  {
-    text: '柳传志',
-    value: '柳传志',
-  }, {
-    text: '罗永浩',
-    value: '罗永浩',
-  },
-  ],
-  // specify the condition of filtering result
-  // here is that finding the name started with `value`
-  onFilter: (value, record) => record.name.indexOf(value) === 0,
   sorter: (a, b) => a.name.length - b.name.length,
 }, {
   title: '维保站点',
   dataIndex: 'localtion',
-  onFilter: (value, record) => record.length.indexOf(value) === 0,
   sorter: (a, b) => a.localtion.length - b.localtion.length,
 }, {
-  title: '维保内容',
+  title: '维保类型',
   dataIndex: 'type',
   filters: [{
     text: '并网问题',
@@ -55,53 +36,61 @@ const columns = [{
   sorter: (a, b) => a.type.length - b.type.length,
   render: type => (
     <span>
-      {type.map(type => <Tag color="blue" >{"1"}</Tag>)}
+      {type.map(item => {
+        switch (item) {
+          case 0:
+            return <Tag color="#2db7f5">并网问题</Tag>;
+          case 1:
+            return <Tag color="#2db7f5">逆变器</Tag>;
+          case 2:
+            return <Tag color="#2db7f5">光伏组件</Tag>;
+          case 3:
+            return <Tag color="#2db7f5">站点环境</Tag>;
+          case 4:
+            return <Tag color="#2db7f5">其他</Tag>;
+          default: break;
+        }
+      })}
     </span>
   ),
 }, {
   title: "维保时间",
   dataIndex: "time",
-  sorter: (a, b) => a.time - b.time,
+  sorter: (a, b) => a.time.length - b.time.length,
 
 }];
-// const typeTag = [
-//   <Tag color="#f50">并网问题</Tag>,
-//   <Tag color="#2db7f5">逆变器</Tag>,
-//   <Tag color="#87d068">光伏组件</Tag>,
-//   <Tag color="#108ee9">站点环境</Tag>,
-//   <Tag color="#108ee9">其他</Tag>
-// ]
+
 const data = [{
   key: '1',
   name: '雷军',
-  localtion: "某光伏站点",
+  localtion: "伏站点",
   type: [0, 2, 3],
-  time: "2018-09-01"
+  time: "1018-12-01"
 }, {
   key: '2',
   name: '罗永浩',
-  localtion: "某光伏站点",
+  localtion: "光伏站点",
   type: [0, 3],
-  time: "2018-09-01"
+  time: "2018-09-03"
 
 }, {
   key: '4',
   name: '柳传志',
-  localtion: "某光伏站点",
+  localtion: "某光站点",
   type: [0],
-  time: "2018-09-01"
+  time: "2018-09-02"
 }, {
   key: '5',
   name: '马化腾',
-  localtion: "某光伏站点",
+  localtion: "某光伏点",
   type: [1, 4],
   time: "2018-09-01"
 
 }, {
   key: '6',
   name: '罗永浩',
-  localtion: "某光伏站点",
-  type: [4],
+  localtion: "某点",
+  type: [0, 1, 2, 3, 4],
   time: "2018-09-01"
 
 }, {
@@ -109,7 +98,7 @@ const data = [{
   name: '雷军',
   localtion: "某光伏站点",
   type: [2, 3],
-  time: "2018-09-01"
+  time: "2017-09-01"
 }];
 class Maintetance extends React.Component {
   constructor(props) {

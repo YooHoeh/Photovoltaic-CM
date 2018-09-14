@@ -69,8 +69,8 @@ class Maintetance extends React.Component {
       { label: '其他', value: '4' },
     ];
     return (
-      <PageHeaderLayout title="维保日志">
-        <Card style={{ width: "800px",margin:"0 auto" }}>
+      <PageHeaderLayout title="新建维保日志">
+        <Card style={{ width: "800px", margin: "0 auto" }}>
           <h1 style={{ textAlign: "center" }}>维保日志</h1>
           <span style={{ float: "right" }}>编号：{this.state.logID}</span>
           <Divider />

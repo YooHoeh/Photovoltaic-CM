@@ -2,6 +2,8 @@ import { Map, Polygon, Markers } from 'react-amap';
 import { Icon, Row, Col, message } from "antd";
 import { stringToPosition } from "../../utils/utils";
 import styles from "./index.less"
+import React from "react";
+
 
 //图例
 const legend = (date) => {
