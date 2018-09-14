@@ -301,29 +301,29 @@ const CreateForm = Form.create()(props => {
       </Row>
       <Row>
         <Col span={12}>
-          <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 14 }} label="并网状态">
+          <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} label="并网状态">
             {form.getFieldDecorator('netState', {
               rules: [{ required: true, message: 'Please input some description...' }],
             })(
-              <Radio.Group defaultValue="0" buttonStyle="solid">
-                <Radio.Button value="0" defaultChecked={true}>
+              <Radio.Group defaultValue="0" buttonStyle="solid" style={{ width: "100%" }}>
+                <Radio.Button value="0" defaultChecked={true} style={{ width: "49%",textAlign:"center" }}>
                   已并网
                 </Radio.Button>
-                <Radio.Button value="1">未并网</Radio.Button>
+                <Radio.Button value="1" style={{ width: "49%",textAlign:"center"  }}>未并网</Radio.Button>
               </Radio.Group>
             )}
           </FormItem>
         </Col>
         <Col span={12}>
-          <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 14 }} label="屋顶使用">
+          <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} label="屋顶使用">
             {form.getFieldDecorator('roof', {
               rules: [{ required: true, message: 'Please input some description...' }],
             })(
-              <Radio.Group defaultValue="0" buttonStyle="solid">
-                <Radio.Button value="0" defaultChecked={true}>
+              <Radio.Group defaultValue="0" buttonStyle="solid" style={{ width: "100%" }}>
+                <Radio.Button value="0" defaultChecked={true} style={{ width: "49%",textAlign:"center"}}>
                   电价优惠
                 </Radio.Button>
-                <Radio.Button value="1">租赁</Radio.Button>
+                <Radio.Button value="1" style={{ width: "49%",textAlign:"center"}} >租赁</Radio.Button>
               </Radio.Group>
             )}
           </FormItem>
