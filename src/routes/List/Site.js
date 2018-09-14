@@ -254,7 +254,7 @@ const CreateForm = Form.create()(props => {
           <FormItem labelCol={{ span: 3 }} wrapperCol={{ span: 20 }} label="站点位置">
             {form.getFieldDecorator('location', {
               rules: [{ required: true, message: 'Please input some description...' }],
-            })(<Input placeholder="请输入" />)}
+            })(<Input placeholder="请输入" addonBefore="郑州市-金水区-公安局" />)}
           </FormItem>
         </Col>
       </Row>
@@ -306,10 +306,10 @@ const CreateForm = Form.create()(props => {
               rules: [{ required: true, message: 'Please input some description...' }],
             })(
               <Radio.Group defaultValue="0" buttonStyle="solid" style={{ width: "100%" }}>
-                <Radio.Button value="0" defaultChecked={true} style={{ width: "49%",textAlign:"center" }}>
+                <Radio.Button value="0" defaultChecked={true} style={{ width: "49%", textAlign: "center" }}>
                   已并网
                 </Radio.Button>
-                <Radio.Button value="1" style={{ width: "49%",textAlign:"center"  }}>未并网</Radio.Button>
+                <Radio.Button value="1" style={{ width: "49%", textAlign: "center" }}>未并网</Radio.Button>
               </Radio.Group>
             )}
           </FormItem>
@@ -320,10 +320,10 @@ const CreateForm = Form.create()(props => {
               rules: [{ required: true, message: 'Please input some description...' }],
             })(
               <Radio.Group defaultValue="0" buttonStyle="solid" style={{ width: "100%" }}>
-                <Radio.Button value="0" defaultChecked={true} style={{ width: "49%",textAlign:"center"}}>
+                <Radio.Button value="0" defaultChecked={true} style={{ width: "49%", textAlign: "center" }}>
                   电价优惠
                 </Radio.Button>
-                <Radio.Button value="1" style={{ width: "49%",textAlign:"center"}} >租赁</Radio.Button>
+                <Radio.Button value="1" style={{ width: "49%", textAlign: "center" }} >租赁</Radio.Button>
               </Radio.Group>
             )}
           </FormItem>
