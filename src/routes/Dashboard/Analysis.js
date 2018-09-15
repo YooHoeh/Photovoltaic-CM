@@ -177,6 +177,7 @@ export default class Analysis extends Component {
       salesTypeDataOnline,
       salesTypeDataOffline,
     } = chart;
+    const { allHomePageInfo } = global
     const salesPieData =
       salesType === 'all'
         ? salesTypeData
@@ -316,16 +317,16 @@ export default class Analysis extends Component {
     const warnColumns = [
       {
         title: '站点名字',
-        dataIndex: 'keyword',
-        key: 'keyword',
+        dataIndex: 'name',
+        key: 'name',
         render: text => <a href="/">{text}</a>,
       },
 
       {
         title: '告警逆变器数量',
-        dataIndex: 'count',
-        key: 'count',
-        sorter: (a, b) => a.count - b.count,
+        dataIndex: 'num',
+        key: 'num',
+        sorter: (a, b) => a.num - b.num,
         className: styles.alignRight,
       },
 
@@ -380,12 +381,12 @@ export default class Analysis extends Component {
                   <Icon type="info-circle-o" />
                 </Tooltip>
               }
-              total={numeral(global.installNum).format('0,0')}
-              footer={<Field label="今年已建设" value="1211" />}
+              total={numeral(allHomePageInfo.station_all).format('0,0')}
+              footer={<Field label="今年已建设" value={allHomePageInfo.station_year} />}
               contentHeight={49}
             >
               <Row>
-                <Col span={12}> <Field label="运行中" value="1211" /></Col>
+                <Col span={12}> <Field label="运行中" value={allHomePageInfo.station_year} /></Col>
                 <Col span={12}> <Field label="建设中" value="1211" /></Col>
               </Row>
               <Row>
@@ -407,8 +408,8 @@ export default class Analysis extends Component {
                   <Icon type="info-circle-o" />
                 </Tooltip>
               }
-              total={() => <Yuan>{global.totalPower}</Yuan>}
-              footer={<Field label="日发电量" value={`${numeral(global.dayPower).format('0,0')}瓦`} />}
+              total={numeral(allHomePageInfo.total_powers).format('0,0')}
+              footer={<Field label="日发电量" value={`${numeral(allHomePageInfo.day_power).format('0,0')}瓦`} />}
               contentHeight={46}
             >
               <Trend flag="up" style={{ marginRight: 16 }}>
@@ -431,8 +432,8 @@ export default class Analysis extends Component {
                   <Icon type="info-circle-o" />
                 </Tooltip>
               }
-              total={numeral(global.carbon).format('0,0') + " Kg"}
-              footer={<Field label="日碳补偿量" value={numeral(global.dayCarbon).format('0,0')} />}
+              total={numeral(allHomePageInfo.total_carbon).format('0,0') + " Kg"}
+              footer={<Field label="日碳补偿量" value={numeral(allHomePageInfo.day_carbon).format('0,0') + "Kg"} />}
               contentHeight={46}
             >
               <MiniArea color="#975FE4" data={visitData} />
@@ -469,7 +470,7 @@ export default class Analysis extends Component {
               bodyStyle={{ padding: 12 }}
               style={{ minHeight: 550 }}
             >
-              <MapCard dispatch={this.props.dispatch} station={global.allStation} ></MapCard>
+              <MapCard dispatch={this.props.dispatch} station={allHomePageInfo.area_station} ></MapCard>
               {/* <iframe src="http://127.0.0.1:5500/HtmlPage1.html"
                 className={styles.mapInter}>
               </iframe> */}
@@ -608,7 +609,7 @@ export default class Analysis extends Component {
                 rowKey={record => record.index}
                 size="small"
                 columns={warnColumns}
-                dataSource={searchData}
+                dataSource={allHomePageInfo.warning_info}
                 pagination={{
                   style: { marginBottom: 0 },
                   pageSize: 5,

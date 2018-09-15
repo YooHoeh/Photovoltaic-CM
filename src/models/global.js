@@ -69,42 +69,7 @@ export default {
           installNum: response.station_all,
         },
       });
-      yield put({
-        type: 'save',
-        payload: {
-          totalPower: response.total_power,
-        },
-      });
-      yield put({
-        type: 'save',
-        payload: {
-          dayPower: response.day_power,
-        },
-      });
-      yield put({
-        type: 'save',
-        payload: {
-          carbon: response.day_carbon,
-        },
-      });
-      yield put({
-        type: 'save',
-        payload: {
-          dayCarbon: response.day_carbon,
-        },
-      });
-      yield put({
-        type: 'save',
-        payload: {
-          allStation: response.area_station,
-        },
-      });
-      yield put({
-        type: 'save',
-        payload: {
-          warningList: response.warning,
-        },
-      });
+
     },
   },
   reducers: {
