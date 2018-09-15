@@ -30,10 +30,10 @@ class MapCard extends React.Component {
     this.mapCenter = { longitude: 113.782939, latitude: 33.969338 };
     const marks = () => (
       this.props.station.map((item, index) => ({
-        position: stringToPosition(item.S_COORDINATE),
-        siteType: item.S_STATUS,
-        siteName: item.S_NAME,
-        siteID: item.S_ID,
+        position: stringToPosition(item.coordinate),
+        siteType: item.status,
+        siteName: item.name,
+        siteID: item.id,
       }))
     )
     this.state = {

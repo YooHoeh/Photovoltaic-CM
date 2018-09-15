@@ -8,7 +8,7 @@ export default {
     city: "郑州",
     weather: {},
     mapView: "city", //判断显示地区地图还是站点地图
-    allHomePageInfo: "",
+    allHomePageInfo: {},
     installNum: '',
     totalPower: '',
     dayPower: '',
@@ -66,31 +66,31 @@ export default {
       yield put({
         type: 'save',
         payload: {
-          installNum: response.s_install,
+          installNum: response.station_all,
         },
       });
       yield put({
         type: 'save',
         payload: {
-          totalPower: response.s_total_power,
+          totalPower: response.total_power,
         },
       });
       yield put({
         type: 'save',
         payload: {
-          dayPower: response.s_day_power,
+          dayPower: response.day_power,
         },
       });
       yield put({
         type: 'save',
         payload: {
-          carbon: response.s_e_d_carbon,
+          carbon: response.day_carbon,
         },
       });
       yield put({
         type: 'save',
         payload: {
-          dayCarbon: response.s_e_d_day_carbon,
+          dayCarbon: response.day_carbon,
         },
       });
       yield put({

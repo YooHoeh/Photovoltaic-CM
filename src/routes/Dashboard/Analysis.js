@@ -31,7 +31,6 @@ import NumberInfo from 'components/NumberInfo';
 import CountDown from 'components/CountDown';
 
 import { getTimeDistance } from '../../utils/utils';
-import { cityNameToCode } from "../../utils/city"
 
 import styles from './Analysis.less';
 import MapCard from 'components/Amap';
@@ -155,7 +154,6 @@ export default class Analysis extends Component {
       type: 'chart/ttt',
     });
 
-    // const { global } = this.props;
     const { chart } = this.props;
     const { tt } = chart;
 
@@ -189,12 +187,10 @@ export default class Analysis extends Component {
     const WeatherFooter = () => {
       if (weather == undefined) {
         return (
-
           <div>无法获取天气数据</div>
         )
       } else {
         return (
-
           <div style={{ whiteSpace: 'nowrap', overflow: 'hidden' }}>
             发布时间： {weather.发布时间}
           </div>

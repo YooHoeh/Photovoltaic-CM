@@ -1,6 +1,33 @@
 import moment from 'moment';
 import { parse, stringify } from 'qs';
-
+const cityList = [
+  { name: "郑州市", code: 4101 },
+  { name: "开封市", code: 4102 },
+  { name: "洛阳市", code: 4103 },
+  { name: "平顶山市", code: 4104 },
+  { name: "安阳市", code: 4105 },
+  { name: "鹤壁市", code: 4106 },
+  { name: "新乡市", code: 4107 },
+  { name: "焦作市", code: 4108 },
+  { name: "濮阳市", code: 4109 },
+  { name: "许昌市", code: 4110 },
+  { name: "漯河市", code: 4111 },
+  { name: "三门峡市", code: 4112 },
+  { name: "商丘市", code: 4114 },
+  { name: "周口市", code: 4116 },
+  { name: "驻马店市", code: 4117 },
+  { name: "南阳市", code: 4113 },
+  { name: "信阳市", code: 4115 },
+  { name: "济源市", code: 4118 },
+]
+export const cityNameToCode = (name) => {
+  cityList.map((i) => {
+    if (name == i.name) {
+      console.log(i.code)
+      return i.code;
+    }
+  })
+}
 export function fixedZero(val) {
   return val * 1 < 10 ? `0${val}` : val;
 }
