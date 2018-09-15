@@ -108,18 +108,16 @@ class MapCard extends React.Component {
         //绘制指定地区覆盖物
         mapInstance.plugin('AMap.DistrictSearch', function () {
           mapInstance.setDefaultCursor("pointer");
-          // 创建行政区查询对象
-          var district = new AMap.DistrictSearch({
-            subdistrict: 2,
-            // 返回行政区边界坐标等具体信息
-            extensions: 'all',
-            // 设置查询行政区级别为 城市 
-            level: 'city'
-          })
+          addPlygons()
+          const polygons = mapInstance.getAllOverlays("polygon")
           AMap.event.addListener(mapInstance, 'zoomend', function () {
             console.log('当前缩放级别：' + mapInstance.getZoom());
+
+            if (mapInstance.getZoom() > 9) {
+              mapInstance.remove(polygons);
+            }
           });
-    addPlygons()
+
         });
         //获取系统使用者的所在位置用于显示默认信息
         mapInstance.plugin('AMap.CitySearch', function () {
@@ -137,29 +135,36 @@ class MapCard extends React.Component {
           })
         })
         //添加覆盖物
-         function addPlygons() {
-          drawCity(district, '郑州市', '#f3deed');
-          drawCity(district, '开封市', '#fadeb9');
-          drawCity(district, '洛阳市', '#fadeb9');
-          drawCity(district, '平顶山市', '#c7e3b3');
-          drawCity(district, '安阳市', '#c5e4df');
-          drawCity(district, '鹤壁市', '#f3deed');
-          drawCity(district, '新乡市', '#d2ddf1');
-          drawCity(district, '焦作市', '#c5e4df');
-          drawCity(district, '濮阳市', '#c7e3b3');
-          drawCity(district, '许昌市', '#c5e4df');
-          drawCity(district, '漯河市', '#f3deed');
-          drawCity(district, '三门峡市', '#d2ddf1');
-          drawCity(district, '商丘市', '#d2ddf1');
-          drawCity(district, '周口市', '#c7e3b3');
-          drawCity(district, '驻马店市', '#c5e4df');
-          drawCity(district, '南阳市', '#f3deed');
-          drawCity(district, '信阳市', '#d2ddf1');
-          drawCity(district, '济源市', '#f3deed');
+        function addPlygons() {
+          drawCity('郑州市', '#f3deed');
+          drawCity('开封市', '#fadeb9');
+          drawCity('洛阳市', '#fadeb9');
+          drawCity('平顶山市', '#c7e3b3');
+          drawCity('安阳市', '#c5e4df');
+          drawCity('鹤壁市', '#f3deed');
+          drawCity('新乡市', '#d2ddf1');
+          drawCity('焦作市', '#c5e4df');
+          drawCity('濮阳市', '#c7e3b3');
+          drawCity('许昌市', '#c5e4df');
+          drawCity('漯河市', '#f3deed');
+          drawCity('三门峡市', '#d2ddf1');
+          drawCity('商丘市', '#d2ddf1');
+          drawCity('周口市', '#c7e3b3');
+          drawCity('驻马店市', '#c5e4df');
+          drawCity('南阳市', '#f3deed');
+          drawCity('信阳市', '#d2ddf1');
+          drawCity('济源市', '#f3deed');
         }
         //添加覆盖物函数
-       
-        function drawCity(district, cname, fcolor) {
+        function drawCity(cname, fcolor) {
+          // 创建行政区查询对象
+          var district = new AMap.DistrictSearch({
+            subdistrict: 2,
+            // 返回行政区边界坐标等具体信息
+            extensions: 'all',
+            // 设置查询行政区级别为 城市 
+            level: 'city'
+          })
           district.search(cname, function (status, result) {
             const bounds = result.districtList[0].boundaries;
             var polygons = [];
@@ -183,7 +188,7 @@ class MapCard extends React.Component {
             }
           });
         }
-        var overlayGroup = new AMap.OverlayGroup(polygons);
+        // var overlayGroup = new AMap.OverlayGroup(polygons);
         //区域点击事件
         function cityClick(city) {
           saveWeatherInfo(city);

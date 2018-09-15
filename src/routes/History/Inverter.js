@@ -22,7 +22,7 @@ import {
   Table,
 } from 'antd';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
-import Stacked from "../../components/StackMap";
+import Basiccolumn from "../../components/Basiccolumn";
 import styles from './Inverter.less';
 const { RangePicker } = DatePicker;
 const columns = [{
@@ -206,7 +206,7 @@ export default class SiteHis extends PureComponent {
               style={{ marginBottom: "12px" }}
               extra={<RangePicker onChange={onChange} />}
             >
-              <Stacked />
+              <Basiccolumn />
             </Card>
           </Col>
           <Col md={8} sm={24}>

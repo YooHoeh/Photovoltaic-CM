@@ -17,22 +17,22 @@ const columns = [{
   dataIndex: 'type',
   filters: [{
     text: '并网问题',
-    value: '0',
+    value: 0,
   }, {
     text: '逆变器',
-    value: '1',
+    value: 1,
   }, {
     text: '光伏组件',
-    value: '2',
+    value: 2,
   }, {
     text: '站点环境',
-    value: '3',
+    value: 3,
   }, {
     text: '其他',
-    value: '4',
+    value: 4,
   }],
-  filterMultiple: false,
-  onFilter: (value, record) => record.type.indexOf(value) === 0,
+  filterMultiple: true,
+  onFilter: (value, record) => record.type.map(item => (item === value)),
   sorter: (a, b) => a.type.length - b.type.length,
   render: type => (
     <span>
