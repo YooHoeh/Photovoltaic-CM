@@ -29,12 +29,13 @@ class MapCard extends React.Component {
     super(props);
     this.mapCenter = { longitude: 113.782939, latitude: 33.969338 };
     const marks = () => (
-      this.props.station.map((item, index) => ({
-        position: stringToPosition(item.coordinate),
-        siteType: item.status,
-        siteName: item.name,
-        siteID: item.id,
-      }))
+      this.props.station ?
+        this.props.station.map((item, index) => ({
+          position: stringToPosition(item.coordinate),
+          siteType: item.status,
+          siteName: item.name,
+          siteID: item.id,
+        })) : ''
     )
     this.state = {
       markers: marks()
@@ -103,19 +104,21 @@ class MapCard extends React.Component {
 
       },
     }
+    var polygons = [];
     const amapEvents = {
       created: (mapInstance) => {
         //绘制指定地区覆盖物
         mapInstance.plugin('AMap.DistrictSearch', function () {
           mapInstance.setDefaultCursor("pointer");
           addPlygons()
-          const polygons = mapInstance.getAllOverlays("polygon")
+          // var polygons = mapInstance.getAllOverlays("polygon")
+          console.log("pppp" + polygons)
           AMap.event.addListener(mapInstance, 'zoomend', function () {
             console.log('当前缩放级别：' + mapInstance.getZoom());
 
-            if (mapInstance.getZoom() > 9) {
-              mapInstance.remove(polygons);
-            }
+            mapInstance.getZoom() > 9 ?
+              mapInstance.remove(polygons) :
+              mapInstance.add(polygons)
           });
 
         });
@@ -158,7 +161,7 @@ class MapCard extends React.Component {
         //添加覆盖物函数
         function drawCity(cname, fcolor) {
           // 创建行政区查询对象
-          var district = new AMap.DistrictSearch({
+          const district = new AMap.DistrictSearch({
             subdistrict: 2,
             // 返回行政区边界坐标等具体信息
             extensions: 'all',
@@ -167,7 +170,7 @@ class MapCard extends React.Component {
           })
           district.search(cname, function (status, result) {
             const bounds = result.districtList[0].boundaries;
-            var polygons = [];
+
             if (bounds) {
               for (let i = 0, l = bounds.length; i < l; i++) {
                 let polygon = new AMap.Polygon({
@@ -188,7 +191,6 @@ class MapCard extends React.Component {
             }
           });
         }
-        // var overlayGroup = new AMap.OverlayGroup(polygons);
         //区域点击事件
         function cityClick(city) {
           saveWeatherInfo(city);

@@ -235,20 +235,6 @@ export default class Analysis extends Component {
 
       }
     };
-    const menu = (
-      <Menu>
-        <Menu.Item>操作一</Menu.Item>
-        <Menu.Item>操作二</Menu.Item>
-      </Menu>
-    );
-
-    const iconGroup = (
-      <span className={styles.iconGroup}>
-        <Dropdown overlay={menu} placement="bottomRight">
-          <Icon type="ellipsis" />
-        </Dropdown>
-      </span>
-    );
 
     const salesExtra = (
       <div className={styles.salesExtraWrap}>
@@ -259,12 +245,6 @@ export default class Analysis extends Component {
           <a className={this.isActive('week')} onClick={() => this.selectDate('week')}>
             昨日
           </a>
-          {/* <a className={this.isActive('month')} onClick={() => this.selectDate('month')}>
-            本月
-          </a>
-          <a className={this.isActive('year')} onClick={() => this.selectDate('year')}>
-            全年
-          </a> */}
         </div>
         <RangePicker
           value={rangePickerValue}
@@ -334,30 +314,7 @@ export default class Analysis extends Component {
 
     const activeKey = currentTabKey || (offlineData[0] && offlineData[0].name);
 
-    const CustomTab = ({ data, currentTabKey: currentKey }) => (
-      <Row gutter={8} style={{ width: 138, margin: '8px 0' }}>
-        <Col span={12}>
-          <NumberInfo
-            title={data.name}
-            subTitle="转化率"
-            gap={2}
-            total={`${data.cvr * 100}%`}
-            theme={currentKey !== data.name && 'light'}
-          />
-        </Col>
-        <Col span={12} style={{ paddingTop: 36 }}>
-          <Pie
-            animate={false}
-            color={currentKey !== data.name && '#BDE4FF'}
-            inner={0.55}
-            tooltip={false}
-            margin={[0, 0, 0, 0]}
-            percent={data.cvr * 100}
-            height={64}
-          />
-        </Col>
-      </Row>
-    );
+
 
     const topColResponsiveProps = {
       xs: 24,
@@ -470,7 +427,7 @@ export default class Analysis extends Component {
               bodyStyle={{ padding: 12 }}
               style={{ minHeight: 550 }}
             >
-              {allHomePageInfo.area_station && <MapCard dispatch={this.props.dispatch} station={allHomePageInfo.area_station} ></MapCard>}
+              <MapCard dispatch={this.props.dispatch} station={allHomePageInfo.area_station} ></MapCard>
               {/* <iframe src="http://127.0.0.1:5500/HtmlPage1.html"
                 className={styles.mapInter}>
               </iframe> */}
