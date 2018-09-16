@@ -481,7 +481,7 @@ export default class TableList extends PureComponent {
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
-            <FormItem label="站点编号">
+            <FormItem label="所在区域">
               {getFieldDecorator('no')(<Input placeholder="请输入" />)}
             </FormItem>
           </Col>

@@ -76,14 +76,16 @@ export default class Analysis extends Component {
     rangePickerValue: getTimeDistance('year'),
 
   };
+  componentWillMount() {
+    this.initHomePage()
 
+  }
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
       type: 'chart/fetch',
     });
-    this.initHomePage()
-
+    setInterval(this.initHomePage, 15000)
   }
 
   componentWillUnmount() {
