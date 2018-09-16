@@ -381,9 +381,9 @@ export default class Analysis extends Component {
     };
 
     return (
-      // allHomePageInfo.status === undefined
-      //   ? "等我一下我还在加载呢"
-      //   :
+      allHomePageInfo.status === undefined
+        ? "等我一下我还在加载呢"
+        :
       < Fragment >
         {console.log(allHomePageInfo.status)}
         <Row gutter={12}>
@@ -401,7 +401,7 @@ export default class Analysis extends Component {
               footer={<Field label="今年已建设" value={allHomePageInfo.station_year} />}
               contentHeight={49}
             >
-              {/* {allHomePageInfo.status
+               {allHomePageInfo.status
                 ? "数据获取异常"
                 : <Fragment>
                   <Row>
@@ -413,7 +413,7 @@ export default class Analysis extends Component {
                     <Col span={12}> <Field label="告警" value={allHomePageInfo.status.status3} /></Col>
                   </Row>
                 </Fragment>
-              } */}
+              } 
             </ChartCard>
           </Col>
           <Col {...topColResponsiveProps}>
