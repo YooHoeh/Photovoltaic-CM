@@ -3,6 +3,7 @@ import { Icon, Row, Col, message } from "antd";
 import { stringToPosition } from "../../utils/utils";
 import styles from "./index.less"
 import React from "react";
+import  IconFont from "../IconFont";
 
 
 //图例
@@ -47,13 +48,13 @@ class MapCard extends React.Component {
   renderMarkerLayout(extData) {
     switch (extData.siteType) {
       case "1":
-        return <Icon type="caret-down" theme="filled" style={{ fontSize: '18px', color: 'aqua' }} />
+        return <IconFont type="icon-ditu"  style={{ fontSize: '18px', color: 'aqua' }} />
       case "2":
-        return <Icon type="caret-down" theme="filled" style={{ fontSize: '18px', color: 'blueviolet' }} />
+        return <IconFont type="icon-ditu"  style={{ fontSize: '18px', color: 'blueviolet' }} />
       case "3":
-        return <Icon type="caret-down" theme="filled" style={{ fontSize: '18px', color: 'darkred' }} />
+        return <IconFont type="icon-ditu"  style={{ fontSize: '18px', color: 'darkred' }} />
       case "0":
-        return <Icon type="caret-down" theme="filled" style={{ fontSize: '18px', color: 'chartreuse' }} />
+        return <IconFont type="icon-ditu"  style={{ fontSize: '18px', color: 'chartreuse' }} />
     }
   }
   render() {

@@ -85,7 +85,7 @@ export default class Analysis extends Component {
     dispatch({
       type: 'chart/fetch',
     });
-    setInterval(this.initHomePage, 15000)
+    // setInterval(this.initHomePage, 900000)
   }
 
   componentWillUnmount() {
