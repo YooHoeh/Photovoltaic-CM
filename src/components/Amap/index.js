@@ -3,7 +3,7 @@ import { Icon, Row, Col, message } from "antd";
 import { stringToPosition } from "../../utils/utils";
 import styles from "./index.less"
 import React from "react";
-import  IconFont from "../IconFont";
+import IconFont from "../IconFont";
 
 
 //图例
@@ -21,6 +21,11 @@ const legend = (date) => {
         <Col span="12"><span style={{ color: "darkred", fontSize: "large", display: "inline-block", }}>●</span>告警</Col>
       </Row>
     </div>
+  )
+}
+const refresh = () => {
+  return (
+    <Icon type="retweet" theme="outlined" />
   )
 }
 class MapCard extends React.Component {
@@ -48,13 +53,13 @@ class MapCard extends React.Component {
   renderMarkerLayout(extData) {
     switch (extData.siteType) {
       case "1":
-        return <IconFont type="icon-ditu"  style={{ fontSize: '18px', color: 'aqua' }} />
+        return <IconFont type="icon-ditu" style={{ fontSize: '18px', color: 'aqua' }} />
       case "2":
-        return <IconFont type="icon-ditu"  style={{ fontSize: '18px', color: 'blueviolet' }} />
+        return <IconFont type="icon-ditu" style={{ fontSize: '18px', color: 'blueviolet' }} />
       case "3":
-        return <IconFont type="icon-ditu"  style={{ fontSize: '18px', color: 'darkred' }} />
+        return <IconFont type="icon-ditu" style={{ fontSize: '18px', color: 'darkred' }} />
       case "0":
-        return <IconFont type="icon-ditu"  style={{ fontSize: '18px', color: 'chartreuse' }} />
+        return <IconFont type="icon-ditu" style={{ fontSize: '18px', color: 'chartreuse' }} />
     }
   }
   render() {
@@ -73,21 +78,19 @@ class MapCard extends React.Component {
         type: 'global/saveCity',
         payload: city
       });
-      dispatch({
-        type: 'global/changeMapView',
-        payload: "city"
-      });
+
     };
     //保存站点action
+    const { dispatch } = this.props;
     const handleSite = (siteName, siteID) => {
       const { dispatch } = this.props;
       dispatch({
-        type: 'global/saveSite',
-        payload: { siteName, siteID }
-      });
-      dispatch({
         type: 'global/changeMapView',
         payload: "site"
+      });
+      dispatch({
+        type: 'global/saveSite',
+        payload: { siteName, siteID }
       });
     };
     const markersEvents = {
@@ -194,8 +197,13 @@ class MapCard extends React.Component {
         }
         //区域点击事件
         function cityClick(city) {
+
           saveWeatherInfo(city);
           handleCity(city)
+          dispatch({
+            type: 'global/changeMapView',
+            payload: "city"
+          });
           mapInstance.setCity(city)
           console.log("区域被点击")
 
@@ -244,7 +252,7 @@ class MapCard extends React.Component {
         amapkey='3614606168564bdf7ccd53cf9d2b7669'
         version='1.4.2'
         resizeEnable='true'
-        zoom='7.1'
+        zoom='7'
         features={['bg', "point"]}
         zooms={[6, 18]}
         center={this.mapCenter}

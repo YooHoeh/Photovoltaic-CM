@@ -398,29 +398,23 @@ export default class TableList extends PureComponent {
     });
   };
 
-  handleMenuClick = e => {
+  handleMenuClick = () => {
     const { dispatch } = this.props;
     const { selectedRows } = this.state;
 
     if (!selectedRows) return;
-
-    switch (e.key) {
-      case 'remove':
-        dispatch({
-          type: 'rule/remove',
-          payload: {
-            no: selectedRows.map(row => row.no).join(','),
-          },
-          callback: () => {
-            this.setState({
-              selectedRows: [],
-            });
-          },
+    dispatch({
+      type: 'rule/remove',
+      payload: {
+        no: selectedRows.map(row => row.no).join(','),
+      },
+      callback: () => {
+        this.setState({
+          selectedRows: [],
         });
-        break;
-      default:
-        break;
-    }
+      },
+    });
+
   };
 
   handleSelectRows = rows => {
@@ -593,16 +587,9 @@ export default class TableList extends PureComponent {
               <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
                 新建站点
               </Button>
-              {selectedRows.length > 0 && (
-                <span>
-                  <Button>批量操作</Button>
-                  <Dropdown overlay={menu}>
-                    <Button>
-                      更多操作 <Icon type="down" />
-                    </Button>
-                  </Dropdown>
-                </span>
-              )}
+              <span>
+                <Button onClick={this.handleMenuClick} selectedKeys={[]}>批量操作</Button>
+              </span>
             </div>
             <StandardTable
               selectedRows={selectedRows}

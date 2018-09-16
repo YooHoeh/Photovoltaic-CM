@@ -7,7 +7,7 @@ export default {
     notices: [],
     city: "郑州",
     weather: {},
-    mapView: "city", //判断显示地区地图还是站点地图
+    mapView: "", //判断显示地区地图还是站点地图
     allHomePageInfo: {},
     installNum: '',
     totalPower: '',
