@@ -34,7 +34,7 @@ import { getTimeDistance } from '../../utils/utils';
 
 import styles from './Analysis.less';
 import MapCard from 'components/Amap';
-
+import IconFont from "../../components/IconFont";
 const { TabPane } = Tabs;
 const { RangePicker } = DatePicker;
 const targetTime = new Date().getTime() + 3900000;
