@@ -184,29 +184,21 @@ export default class TableList extends PureComponent {
     });
   };
 
-  handleMenuClick = e => {
+  handleMenuClick = () => {
     const { dispatch } = this.props;
     const { selectedRows } = this.state;
-
     if (!selectedRows) return;
-
-    switch (e.key) {
-      case 'remove':
-        dispatch({
-          type: 'rule/remove',
-          payload: {
-            no: selectedRows.map(row => row.no).join(','),
-          },
-          callback: () => {
-            this.setState({
-              selectedRows: [],
-            });
-          },
+    dispatch({
+      type: 'rule/remove',
+      payload: {
+        no: selectedRows.map(row => row.no).join(','),
+      },
+      callback: () => {
+        this.setState({
+          selectedRows: [],
         });
-        break;
-      default:
-        break;
-    }
+      },
+    });
   };
 
   handleSelectRows = rows => {
@@ -375,13 +367,6 @@ export default class TableList extends PureComponent {
       },
     ];
 
-    const menu = (
-      <Menu onClick={this.handleMenuClick} selectedKeys={[]}>
-        <Menu.Item key="remove">删除</Menu.Item>
-        <Menu.Item key="approval">批量审批</Menu.Item>
-      </Menu>
-    );
-
     const parentMethods = {
       handleAdd: this.handleAdd,
       handleModalVisible: this.handleModalVisible,
@@ -396,16 +381,19 @@ export default class TableList extends PureComponent {
               <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
                 新建逆变器
               </Button>
-              {selectedRows.length > 0 && (
-                <span>
-                  <Button>批量操作</Button>
-                  <Dropdown overlay={menu}>
-                    <Button>
-                      更多操作 <Icon type="down" />
-                    </Button>
-                  </Dropdown>
-                </span>
-              )}
+              {selectedRows.length > 0
+                ? (
+                  <span>
+                    <Button onClick={this.handleMenuClick} selectedKeys={[]}>删除</Button>
+                  </span>
+                )
+                : (
+                  <span>
+                    <Button disabled>删除</Button>
+                  </span>
+
+                )
+              }
             </div>
             <StandardTable
               selectedRows={selectedRows}

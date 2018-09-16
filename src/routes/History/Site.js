@@ -20,6 +20,7 @@ import {
   Divider,
   TreeSelect,
   Table,
+  Tooltip,
 } from 'antd';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import Stacked from "../../components/StackMap";
@@ -127,6 +128,40 @@ const site = {
   roof: "租赁",
   area: "200㎡"
 }
+const siteInfo =
+  <div>
+    <Row type="flex" justify="space-around" align="middle">
+      <Col span={7}>名称:</Col><Col span={14} style={{ margin: "3px" }}>{site.name}</Col>
+    </Row>
+    <Row type="flex" justify="space-around" align="middle">
+      <Col span={7}>位置:</Col><Col span={14} style={{ margin: "3px" }}>{site.position}</Col>
+    </Row>
+    <Row type="flex" justify="space-around" align="middle">
+      <Col span={7}>坐标:</Col><Col span={14} style={{ margin: "3px" }}>{site.coordinate}</Col>
+    </Row>
+    <Row type="flex" justify="space-around" align="middle">
+      <Col span={7}>设计容量:</Col><Col span={14} style={{ margin: "3px" }}>{site.disignCount}</Col>
+    </Row>
+    <Row type="flex" justify="space-around" align="middle">
+      <Col span={7}>建设容量:</Col><Col span={14} style={{ margin: "3px" }}>{site.buildCount}</Col>
+    </Row>
+    <Row type="flex" justify="space-around" align="middle">
+      <Col span={7}>占用面积:</Col><Col span={14} style={{ margin: "3px" }}>{site.area}</Col>
+    </Row>
+    <Row type="flex" justify="space-around" align="middle">
+      <Col span={7}>屋顶使用方式:</Col><Col span={14} style={{ margin: "3px" }}>{site.roof}</Col>
+    </Row>
+    <Row type="flex" justify="space-around" align="middle">
+      <Col span={7}>运行状态:</Col><Col span={14} style={{ margin: "3px" }}>{site.runState}</Col>
+    </Row>
+    <Row type="flex" justify="space-around" align="middle">
+      <Col span={7}>并网状态:</Col><Col span={14} style={{ margin: "3px" }}>{site.netState}</Col>
+    </Row>
+    <Row type="flex" justify="space-around" align="middle">
+      <Col span={7}>总光伏发电量:</Col><Col span={14} style={{ margin: "3px" }}>{site.totalPower}</Col>
+    </Row>
+  </div>
+
 @connect(({ rule, loading }) => ({
   rule,
 }))
@@ -146,69 +181,19 @@ export default class SiteHis extends PureComponent {
     function onChange(pagination, filters, sorter) {
       console.log('params', pagination, filters, sorter);
     }
-    const SiteInfoBorad = (site) => {
-      const item = {
-        "margin": "14px",
-      }
 
-      return (
-        <div>
-          <Row type="flex" justify="space-around" align="middle">
-            <Col span={7}>名称:</Col><Col span={14} style={item}>{site.name}</Col>
-          </Row>
-          <Row type="flex" justify="space-around" align="middle">
-            <Col span={7}>位置:</Col><Col span={14} style={item}>{site.position}</Col>
-          </Row>
-          <Row type="flex" justify="space-around" align="middle">
-            <Col span={7}>坐标:</Col><Col span={14} style={item}>{site.coordinate}</Col>
-          </Row>
-          <Row type="flex" justify="space-around" align="middle">
-            <Col span={7}>设计容量:</Col><Col span={14} style={item}>{site.disignCount}</Col>
-          </Row>
-          <Row type="flex" justify="space-around" align="middle">
-            <Col span={7}>建设容量:</Col><Col span={14} style={item}>{site.buildCount}</Col>
-          </Row>
-          <Row type="flex" justify="space-around" align="middle">
-            <Col span={7}>占用面积:</Col><Col span={14} style={item}>{site.area}</Col>
-          </Row>
-          <Row type="flex" justify="space-around" align="middle">
-            <Col span={7}>屋顶使用方式:</Col><Col span={14} style={item}>{site.roof}</Col>
-          </Row>
-          <Row type="flex" justify="space-around" align="middle">
-            <Col span={7}>运行状态:</Col><Col span={14} style={item}>{site.runState}</Col>
-          </Row>
-          <Row type="flex" justify="space-around" align="middle">
-            <Col span={7}>并网状态:</Col><Col span={14} style={item}>{site.netState}</Col>
-          </Row>
-          <Row type="flex" justify="space-around" align="middle">
-            <Col span={7}>总光伏发电量:</Col><Col span={14} style={item}>{site.totalPower}</Col>
-          </Row>
-        </div>
-      )
-    }
     return (
       <PageHeaderLayout title="站点查询">
-        <Row gutter={12}>
-          <Col md={16} sm={24} >
-            <Card
-              bordered={false}
-              title="站点发电量组成"
-              style={{ marginBottom: "12px", overflow: "hidden" }}
-              extra={<RangePicker onChange={onChange} />}
+        <Row >
+          <Card
+            bordered={false}
+            title={<Tooltip placement="bottomLeft" title={siteInfo}>{site.name + "站点信息"}</Tooltip>}
+            style={{ marginBottom: "12px", overflow: "hidden" }}
+            extra={<RangePicker onChange={onChange} />}
 
-            >
-              <Stacked />
-            </Card>
-          </Col>
-          <Col md={8} sm={24}>
-            <Card
-              bordered={false}
-              title="站点信息"
-              style={{ marginBottom: "12px" }}
-            >
-              {SiteInfoBorad(site)}
-            </Card>
-          </Col>
+          >
+            <Stacked />
+          </Card>
         </Row>
         <Row>
           <Col>

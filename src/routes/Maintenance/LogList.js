@@ -32,7 +32,13 @@ const columns = [{
     value: 4,
   }],
   filterMultiple: true,
-  onFilter: (value, record) => record.type.map(item => (item === value)),
+  onFilter: (value, record) => (
+    record.type.map(item => {
+      if (item == value) { return true }
+    }
+
+    )
+  ),
   sorter: (a, b) => a.type.length - b.type.length,
   render: type => (
     <span>

@@ -566,12 +566,7 @@ export default class TableList extends PureComponent {
       },
     ];
 
-    const menu = (
-      <Menu onClick={this.handleMenuClick} selectedKeys={[]}>
-        <Menu.Item key="remove">删除</Menu.Item>
-        <Menu.Item key="approval">批量审批</Menu.Item>
-      </Menu>
-    );
+
 
     const parentMethods = {
       handleAdd: this.handleAdd,
@@ -587,9 +582,19 @@ export default class TableList extends PureComponent {
               <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
                 新建站点
               </Button>
-              <span>
-                <Button onClick={this.handleMenuClick} selectedKeys={[]}>批量操作</Button>
-              </span>
+              {selectedRows.length > 0
+                ? (
+                  <span>
+                    <Button onClick={this.handleMenuClick} selectedKeys={[]}>删除</Button>
+                  </span>
+                )
+                : (
+                  <span>
+                    <Button disabled>删除</Button>
+                  </span>
+
+                )
+              }
             </div>
             <StandardTable
               selectedRows={selectedRows}

@@ -16,6 +16,7 @@ import {
   Modal,
   Radio,
   message,
+  Tooltip,
   Badge,
   Divider,
   TreeSelect,
@@ -50,7 +51,7 @@ const columns = [{
   onFilter: (value, record) => record.name.indexOf(value) === 0,
   sorter: (a, b) => a.name.length - b.name.length,
 }, {
-  title: 'Age',
+  title: '逆变器编号',
   dataIndex: 'age',
   defaultSortOrder: 'descend',
   sorter: (a, b) => a.age - b.age,
@@ -127,6 +128,49 @@ const inverter = {
   date: " Sep 13 2018 09:11:36",
   totalPower: "2000kW"
 }
+const inverterInfo =
+  <div>
+    <Row type="flex" justify="space-around" align="middle">
+      <Col span={7}>编号:</Col>
+      <Col span={14} style={{ margin: "3px" }}>{inverter.id}</Col>
+    </Row>
+    <Row type="flex" justify="space-around" align="middle">
+      <Col span={7}>所属站点:</Col>
+      <Col span={14} style={{ margin: "3px" }}>{inverter.site}</Col>
+    </Row>
+    <Row type="flex" justify="space-around" align="middle">
+      <Col span={7}>机器型号:</Col>
+      <Col span={14} style={{ margin: "3px" }}>{inverter.model}</Col>
+    </Row>
+    <Row type="flex" justify="space-around" align="middle">
+      <Col span={7}>机器串号:</Col>
+      <Col span={14} style={{ margin: "3px" }}>{inverter.serial}</Col>
+    </Row>
+    <Row type="flex" justify="space-around" align="middle">
+      <Col span={7}>协议类型:</Col>
+      <Col span={14} style={{ margin: "3px" }}>{inverter.agreement}</Col>
+    </Row>
+    <Row type="flex" justify="space-around" align="middle">
+      <Col span={7}>光伏组串总数:</Col>
+      <Col span={14} style={{ margin: "3px" }}>{inverter.mpptNum}</Col>
+    </Row>
+    <Row type="flex" justify="space-around" align="middle">
+      <Col span={7}>光伏支路总数:</Col>
+      <Col span={14} style={{ margin: "3px" }}>{inverter.pvNum}</Col>
+    </Row>
+    <Row type="flex" justify="space-around" align="middle">
+      <Col span={7}>总光伏发电量:</Col>
+      <Col span={14} style={{ margin: "3px" }}>{inverter.totalPower}</Col>
+    </Row>
+    <Row type="flex" justify="space-around" align="middle">
+      <Col span={7}>运行状态状态:</Col>
+      <Col span={14} style={{ margin: "3px" }}>{inverter.runState}</Col>
+    </Row>
+    <Row type="flex" justify="space-around" align="middle">
+      <Col span={7}>更新时间:</Col>
+      <Col span={14} style={{ margin: "3px" }}>{inverter.date}</Col>
+    </Row>
+  </div>
 @connect(({ rule, loading }) => ({
   rule,
 }))
@@ -146,78 +190,18 @@ export default class SiteHis extends PureComponent {
     function onChange(pagination, filters, sorter) {
       console.log('params', pagination, filters, sorter);
     }
-    const SiteInfoBorad = (inverter) => {
-      const item = {
-        "margin": "14px",
-      }
 
-      return (
-        <div>
-          <Row type="flex" justify="space-around" align="middle">
-            <Col span={7}>编号:</Col>
-            <Col span={14} style={item}>{inverter.id}</Col>
-          </Row>
-          <Row type="flex" justify="space-around" align="middle">
-            <Col span={7}>所属站点:</Col>
-            <Col span={14} style={item}>{inverter.site}</Col>
-          </Row>
-          <Row type="flex" justify="space-around" align="middle">
-            <Col span={7}>机器型号:</Col>
-            <Col span={14} style={item}>{inverter.model}</Col>
-          </Row>
-          <Row type="flex" justify="space-around" align="middle">
-            <Col span={7}>机器串号:</Col>
-            <Col span={14} style={item}>{inverter.serial}</Col>
-          </Row>
-          <Row type="flex" justify="space-around" align="middle">
-            <Col span={7}>协议类型:</Col>
-            <Col span={14} style={item}>{inverter.agreement}</Col>
-          </Row>
-          <Row type="flex" justify="space-around" align="middle">
-            <Col span={7}>光伏组串总数:</Col>
-            <Col span={14} style={item}>{inverter.mpptNum}</Col>
-          </Row>
-          <Row type="flex" justify="space-around" align="middle">
-            <Col span={7}>光伏支路总数:</Col>
-            <Col span={14} style={item}>{inverter.pvNum}</Col>
-          </Row>
-          <Row type="flex" justify="space-around" align="middle">
-            <Col span={7}>总光伏发电量:</Col>
-            <Col span={14} style={item}>{inverter.totalPower}</Col>
-          </Row>
-          <Row type="flex" justify="space-around" align="middle">
-            <Col span={7}>运行状态状态:</Col>
-            <Col span={14} style={item}>{inverter.runState}</Col>
-          </Row>
-          <Row type="flex" justify="space-around" align="middle">
-            <Col span={7}>更新时间:</Col>
-            <Col span={14} style={item}>{inverter.date}</Col>
-          </Row>
-        </div>
-      )
-    }
     return (
       <PageHeaderLayout title="逆变器查询">
-        <Row gutter={12}>
-          <Col md={16} sm={24} >
-            <Card
-              bordered={false}
-              title="逆变器发电量"
-              style={{ marginBottom: "12px" }}
-              extra={<RangePicker onChange={onChange} />}
-            >
-              <Basiccolumn />
-            </Card>
-          </Col>
-          <Col md={8} sm={24}>
-            <Card
-              bordered={false}
-              title="逆变器信息"
-              style={{ marginBottom: "12px" }}
-            >
-              {SiteInfoBorad(inverter)}
-            </Card>
-          </Col>
+        <Row >
+          <Card
+            bordered={false}
+            title={<Tooltip placement="bottomLeft" title={inverterInfo}>{inverter.id + "逆变器发电量"}</Tooltip>}
+            style={{ marginBottom: "12px" }}
+            extra={<RangePicker onChange={onChange} />}
+          >
+            <Basiccolumn />
+          </Card>
         </Row>
         <Row>
           <Col>
