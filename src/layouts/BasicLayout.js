@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Layout, Icon, message, BackTop } from 'antd';
+import { Layout, Icon, message, BackTop, Modal, Button } from 'antd';
 import DocumentTitle from 'react-document-title';
 import { connect } from 'dva';
 import { Route, Redirect, Switch, routerRedux } from 'dva/router';
@@ -87,7 +87,6 @@ let isMobile;
 enquireScreen(b => {
   isMobile = b;
 });
-
 @connect(({ user, global = {}, loading }) => ({
   currentUser: user.currentUser,
   collapsed: global.collapsed,
@@ -96,6 +95,7 @@ enquireScreen(b => {
   weather: global.weather,
   city: global.city,
 }))
+
 export default class BasicLayout extends React.PureComponent {
   static childContextTypes = {
     location: PropTypes.object,
@@ -104,8 +104,22 @@ export default class BasicLayout extends React.PureComponent {
 
   state = {
     isMobile,
+    visible: 'false',
+    modalType: ''
   };
 
+  openUserData = () => {
+    this.setState({
+      visible: true,
+      modalType: 'user'
+    })
+  }
+  openPassWord = () => {
+    this.setState({
+      visible: true,
+      modalType: 'user'
+    })
+  }
   getChildContext() {
     const { location, routerData } = this.props;
     return {
@@ -170,7 +184,6 @@ export default class BasicLayout extends React.PureComponent {
   };
 
   handleMenuCollapse = collapsed => {
-    console.log("菜单折叠吗？" + collapsed)
     const { dispatch } = this.props;
     dispatch({
       type: 'global/changeLayoutCollapsed',
@@ -189,9 +202,11 @@ export default class BasicLayout extends React.PureComponent {
 
   handleMenuClick = ({ key }) => {
     const { dispatch } = this.props;
-    if (key === 'triggerError') {
-      dispatch(routerRedux.push('/exception/trigger'));
-      return;
+    if (key === 'user') {
+      console.log("user")
+    }
+    if (key === 'psk') {
+      console.log("psk")
     }
     if (key === 'logout') {
       dispatch({
@@ -223,7 +238,6 @@ export default class BasicLayout extends React.PureComponent {
     const baseRedirect = this.getBaseRedirect();
     const layout = (
       <Layout>
-
         <SiderMenu
           logo={logo}
           // 不带Authorized参数的情况下如果没有权限,会强制跳到403界面
