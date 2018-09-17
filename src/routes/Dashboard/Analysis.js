@@ -12,6 +12,7 @@ import {
   Tooltip,
   Menu,
   Dropdown,
+  Spin,
   message
 } from 'antd';
 import numeral from 'numeral';
@@ -382,171 +383,133 @@ export default class Analysis extends Component {
 
     return (
       allHomePageInfo.status === undefined
-        ? "等我一下我还在加载呢"
-        :
-      < Fragment >
-        {console.log(allHomePageInfo.status)}
-        <Row gutter={12}>
-          <Col {...topColResponsiveProps}>
-            <ChartCard
-              bordered={false}
-              title="装机容量"
-              loading={loading}
-              action={
-                <Tooltip title="指标说明">
-                  <Icon type="info-circle-o" />
-                </Tooltip>
-              }
-              total={numeral(allHomePageInfo.station_all).format('0,0')}
-              footer={<Field label="今年已建设" value={allHomePageInfo.station_year} />}
-              contentHeight={49}
-            >
-               {allHomePageInfo.status
-                ? "数据获取异常"
-                : <Fragment>
-                  <Row>
-                    <Col span={12}> <Field label="运行中" value={allHomePageInfo.status.status0} /></Col>
-                    <Col span={12}> <Field label="建设中" value={allHomePageInfo.status.status1} /></Col>
-                  </Row>
-                  <Row>
-                    <Col span={12}> <Field label="建设目标" value={allHomePageInfo.status.status2} /></Col>
-                    <Col span={12}> <Field label="告警" value={allHomePageInfo.status.status3} /></Col>
-                  </Row>
-                </Fragment>
-              } 
-            </ChartCard>
-          </Col>
-          <Col {...topColResponsiveProps}>
-            <ChartCard
-              bordered={false}
-              title="总发电量"
-              loading={loading}
-              onClick={this.ttt}
-              action={
-                <Tooltip title="指标说明">
-                  <Icon type="info-circle-o" />
-                </Tooltip>
-              }
-              total={numeral(allHomePageInfo.total_power).format('0,0')}
-              footer={<Field label="日发电量" value={`${numeral(allHomePageInfo.day_power).format('0,0')}瓦`} />}
-              contentHeight={46}
-            >
-              <Trend flag="up" style={{ marginRight: 16 }}>
-                周同比
+        ?
+        <Spin
+         tip=" 若长时间未加载，请刷新重试"
+          size="large" 
+          style={{ display:"flex",alignItems:"center",justifyContent:"center",lineHeight:"calc(40vh)" }}
+          />
+        : (
+          < Fragment >
+            {console.log(allHomePageInfo.status)}
+            <Row gutter={12}>
+              <Col {...topColResponsiveProps}>
+                <ChartCard
+                  bordered={false}
+                  title="装机容量"
+                  loading={loading}
+                  action={
+                    <Tooltip title="指标说明">
+                      <Icon type="info-circle-o" />
+                    </Tooltip>
+                  }
+                  total={numeral(allHomePageInfo.station_all).format('0,0')}
+                  footer={<Field label="今年已建设" value={allHomePageInfo.station_year} />}
+                  contentHeight={49}
+                >
+                  {allHomePageInfo.status
+                    ? "数据获取异常"
+                    : <Fragment>
+                      <Row>
+                        <Col span={12}> <Field label="运行中" value={allHomePageInfo.status.status0} /></Col>
+                        <Col span={12}> <Field label="建设中" value={allHomePageInfo.status.status1} /></Col>
+                      </Row>
+                      <Row>
+                        <Col span={12}> <Field label="建设目标" value={allHomePageInfo.status.status2} /></Col>
+                        <Col span={12}> <Field label="告警" value={allHomePageInfo.status.status3} /></Col>
+                      </Row>
+                    </Fragment>
+                  }
+                </ChartCard>
+              </Col>
+              <Col {...topColResponsiveProps}>
+                <ChartCard
+                  bordered={false}
+                  title="总发电量"
+                  loading={loading}
+                  onClick={this.ttt}
+                  action={
+                    <Tooltip title="指标说明">
+                      <Icon type="info-circle-o" />
+                    </Tooltip>
+                  }
+                  total={numeral(allHomePageInfo.total_power).format('0,0')}
+                  footer={<Field label="日发电量" value={`${numeral(allHomePageInfo.day_power).format('0,0')}瓦`} />}
+                  contentHeight={46}
+                >
+                  <Trend flag="up" style={{ marginRight: 16 }}>
+                    周同比
                 <span className={styles.trendText}>12%</span>
-              </Trend>
-              <Trend flag="down">
-                日环比
+                  </Trend>
+                  <Trend flag="down">
+                    日环比
                 <span className={styles.trendText}>11%</span>
-              </Trend>
-            </ChartCard>
-          </Col>
-          <Col {...topColResponsiveProps}>
-            <ChartCard
-              bordered={false}
-              title="碳补偿量"
-              loading={loading}
-              action={
-                <Tooltip title="指标说明">
-                  <Icon type="info-circle-o" />
-                </Tooltip>
-              }
-              total={numeral(allHomePageInfo.total_carbon).format('0,0') + " Kg"}
-              footer={<Field label="日碳补偿量" value={numeral(allHomePageInfo.day_carbon).format('0,0') + "Kg"} />}
-              contentHeight={46}
-            >
-              <MiniArea color="#975FE4" data={visitData} />
-            </ChartCard>
-          </Col>
+                  </Trend>
+                </ChartCard>
+              </Col>
+              <Col {...topColResponsiveProps}>
+                <ChartCard
+                  bordered={false}
+                  title="碳补偿量"
+                  loading={loading}
+                  action={
+                    <Tooltip title="指标说明">
+                      <Icon type="info-circle-o" />
+                    </Tooltip>
+                  }
+                  total={numeral(allHomePageInfo.total_carbon).format('0,0') + " Kg"}
+                  footer={<Field label="日碳补偿量" value={numeral(allHomePageInfo.day_carbon).format('0,0') + "Kg"} />}
+                  contentHeight={46}
+                >
+                  <MiniArea color="#975FE4" data={visitData} />
+                </ChartCard>
+              </Col>
 
-          <Col {...topColResponsiveProps}>
-            <ChartCard
-              bordered={false}
-              title="天气信息"
-              loading={loading}
-              action={
-                <Tooltip title="指标说明">
-                  <Icon type="info-circle-o" />
-                </Tooltip>
-              }
-              footer={<WeatherFooter />}
-            >
-              {weatherCard()}
-            </ChartCard>
-          </Col>
-        </Row>
-        <Row gutter={12}>
-          <Col xl={18} lg={24} md={24} sm={24} xs={24}>
-            <Card
-              loading={loading}
-              className={styles.salesCard}
-              bordered={false}
-              bodyStyle={{ padding: 12 }}
-              style={{ minHeight: 550, marginBottom: 12 }}
-            >
-              <MapCard dispatch={this.props.dispatch} station={allHomePageInfo.area_station} ></MapCard>
-              {/* <iframe src="http://127.0.0.1:5500/HtmlPage1.html"
-                className={styles.mapInter}>
-              </iframe> */}
-            </Card>
-          </Col>
-          <Col xl={6} lg={24} md={24} sm={24} xs={24}>
-            {global.mapView === '' ? (
-              <Card
-                loading={loading}
-                bordered={false}
-                className={styles.salesCard}
-                title="全省站点信息"
-                bodyStyle={{ padding: 12 }}
-                style={{ minHeight: 550, marginBottom: 12 }}
-              >
-                <Table
-                  rowKey={record => record.index}
-                  size="small"
-                  columns={columns}
-                  dataSource={searchData}
-                  pagination={{
-                    style: { marginBottom: 0 },
-                    pageSize: 10,
-                  }}
-                />
-              </Card>
-            )
-              : (global.mapView === "city" ? (
+              <Col {...topColResponsiveProps}>
+                <ChartCard
+                  bordered={false}
+                  title="天气信息"
+                  loading={loading}
+                  action={
+                    <Tooltip title="指标说明">
+                      <Icon type="info-circle-o" />
+                    </Tooltip>
+                  }
+                  footer={<WeatherFooter />}
+                >
+                  {weatherCard()}
+                </ChartCard>
+              </Col>
+            </Row>
+            <Row gutter={12}>
+              <Col xl={18} lg={24} md={24} sm={24} xs={24}>
                 <Card
                   loading={loading}
-                  bordered={false}
                   className={styles.salesCard}
-                  title={city + "区域站点信息"}
+                  bordered={false}
                   bodyStyle={{ padding: 12 }}
                   style={{ minHeight: 550, marginBottom: 12 }}
-                  extra={<span onClick={backToAll} style={{ color: "#7086bb" }}>显示全省信息</span>}
                 >
-                  <Table
-                    rowKey={record => record.index}
-                    size="small"
-                    columns={columns}
-                    dataSource={searchData}
-                    pagination={{
-                      style: { marginBottom: 0 },
-                      pageSize: 10,
-                    }}
-                  />
-                </Card>) : (
+                  <MapCard dispatch={this.props.dispatch} station={allHomePageInfo.area_station} ></MapCard>
+                  {/* <iframe src="http://127.0.0.1:5500/HtmlPage1.html"
+                className={styles.mapInter}>
+              </iframe> */}
+                </Card>
+              </Col>
+              <Col xl={6} lg={24} md={24} sm={24} xs={24}>
+                {global.mapView === '' ? (
                   <Card
                     loading={loading}
                     bordered={false}
                     className={styles.salesCard}
-                    title={global.siteName}
+                    title="全省站点信息"
                     bodyStyle={{ padding: 12 }}
                     style={{ minHeight: 550, marginBottom: 12 }}
-                    extra={<span onClick={backToAll} style={{ color: "#7086bb" }}>显示全省信息</span>}
-
                   >
                     <Table
                       rowKey={record => record.index}
                       size="small"
-                      columns={siteColumns}
+                      columns={columns}
                       dataSource={searchData}
                       pagination={{
                         style: { marginBottom: 0 },
@@ -554,132 +517,176 @@ export default class Analysis extends Component {
                       }}
                     />
                   </Card>
-                ))
-            }
-          </Col>
-        </Row>
-        <Row >
-          {
-            global.mapView === "" ? (
-              <Card
-                loading={loading}
-                className={styles.offlineCard}
-                bordered={false}
-                title="全省总量曲线图"
-                bodyStyle={{ padding: 12 }}
-                style={{ marginBottom: 12 }}
-              >
-                <div style={{ padding: '0 24px' }}>
-                  <TimelineChart
-                    height={400}
-                    data={offlineChartData1}
-                    titleMap={{ y1: '发电量', y2: '碳补偿量' }}
-                  />
-                </div>
-              </Card>
-            ) :
-              global.mapView === "city" ? (
+                )
+                  : (global.mapView === "city" ? (
+                    <Card
+                      loading={loading}
+                      bordered={false}
+                      className={styles.salesCard}
+                      title={city + "区域站点信息"}
+                      bodyStyle={{ padding: 12 }}
+                      style={{ minHeight: 550, marginBottom: 12 }}
+                      extra={<span onClick={backToAll} style={{ color: "#7086bb" }}>显示全省信息</span>}
+                    >
+                      <Table
+                        rowKey={record => record.index}
+                        size="small"
+                        columns={columns}
+                        dataSource={searchData}
+                        pagination={{
+                          style: { marginBottom: 0 },
+                          pageSize: 10,
+                        }}
+                      />
+                    </Card>) : (
+                      <Card
+                        loading={loading}
+                        bordered={false}
+                        className={styles.salesCard}
+                        title={global.siteName}
+                        bodyStyle={{ padding: 12 }}
+                        style={{ minHeight: 550, marginBottom: 12 }}
+                        extra={<span onClick={backToAll} style={{ color: "#7086bb" }}>显示全省信息</span>}
+
+                      >
+                        <Table
+                          rowKey={record => record.index}
+                          size="small"
+                          columns={siteColumns}
+                          dataSource={searchData}
+                          pagination={{
+                            style: { marginBottom: 0 },
+                            pageSize: 10,
+                          }}
+                        />
+                      </Card>
+                    ))
+                }
+              </Col>
+            </Row>
+            <Row >
+              {
+                global.mapView === "" ? (
+                  <Card
+                    loading={loading}
+                    className={styles.offlineCard}
+                    bordered={false}
+                    title="全省总量曲线图"
+                    bodyStyle={{ padding: 12 }}
+                    style={{ marginBottom: 12 }}
+                  >
+                    <div style={{ padding: '0 24px' }}>
+                      <TimelineChart
+                        height={400}
+                        data={offlineChartData1}
+                        titleMap={{ y1: '发电量', y2: '碳补偿量' }}
+                      />
+                    </div>
+                  </Card>
+                ) :
+                  global.mapView === "city" ? (
+                    <Card
+                      loading={loading}
+                      className={styles.offlineCard}
+                      bordered={false}
+                      title={city + "区域总量曲线图"}
+                      bodyStyle={{ padding: '0 0 12px 0' }}
+                      style={{ marginBottom: 12 }}
+                      extra={<span onClick={backToAll} style={{ color: "#7086bb" }}>显示全省信息</span>}
+
+                    >
+                      <div style={{ padding: '0 24px' }}>
+                        <TimelineChart
+                          height={400}
+                          data={offlineChartData1}
+                          titleMap={{ y1: '发电量', y2: '碳补偿量' }}
+                        />
+                      </div>
+                    </Card>) : (<Card
+                      loading={loading}
+                      title={global.siteName + "曲线图"}
+                      className={styles.offlineCard}
+                      bordered={false}
+                      bodyStyle={{ padding: '0 0 12px 0' }}
+                      style={{ marginBottom: 12 }}
+                      extra={<span onClick={backToAll} style={{ color: "#7086bb" }}>显示全省信息</span>}
+                    >
+                      <div style={{ padding: '0 24px' }}>
+                        <TimelineChart
+                          height={400}
+                          data={offlineChartData1}
+                          titleMap={{ y1: '发电量', y2: '碳补偿量' }}
+                        />
+                      </div>
+                    </Card>)
+              }
+            </Row>
+            <Row gutter={12}>
+              <Col xl={18} lg={24} md={24} sm={24} xs={24}>
                 <Card
                   loading={loading}
-                  className={styles.offlineCard}
                   bordered={false}
-                  title={city + "区域总量曲线图"}
-                  bodyStyle={{ padding: '0 0 12px 0' }}
+                  bodyStyle={{ padding: 0 }}
                   style={{ marginBottom: 12 }}
-                  extra={<span onClick={backToAll} style={{ color: "#7086bb" }}>显示全省信息</span>}
-
                 >
-                  <div style={{ padding: '0 24px' }}>
-                    <TimelineChart
-                      height={400}
-                      data={offlineChartData1}
-                      titleMap={{ y1: '发电量', y2: '碳补偿量' }}
-                    />
-                  </div>
-                </Card>) : (<Card
-                  loading={loading}
-                  title={global.siteName + "曲线图"}
-                  className={styles.offlineCard}
-                  bordered={false}
-                  bodyStyle={{ padding: '0 0 12px 0' }}
-                  style={{ marginBottom: 12 }}
-                  extra={<span onClick={backToAll} style={{ color: "#7086bb" }}>显示全省信息</span>}
-                >
-                  <div style={{ padding: '0 24px' }}>
-                    <TimelineChart
-                      height={400}
-                      data={offlineChartData1}
-                      titleMap={{ y1: '发电量', y2: '碳补偿量' }}
-                    />
-                  </div>
-                </Card>)
-          }
-        </Row>
-        <Row gutter={12}>
-          <Col xl={18} lg={24} md={24} sm={24} xs={24}>
-            <Card
-              loading={loading}
-              bordered={false}
-              bodyStyle={{ padding: 0 }}
-              style={{ marginBottom: 12 }}
-            >
-              <div className={styles.salesCard}>
-                <Tabs tabBarExtraContent={salesExtra} size="large" tabBarStyle={{ marginBottom: 24 }}>
-                  <TabPane tab="发电量" key="sales">
-                    <div className={styles.salesBar}>
-                      <Bar height={295} title={"发电量 " + nowTime} data={salesData} />
-                    </div>
-                  </TabPane>
-                  <TabPane tab="碳补偿" key="views">
-                    <Row>
-                      <Col xl={16} lg={12} md={12} sm={24} xs={24}>
+                  <div className={styles.salesCard}>
+                    <Tabs tabBarExtraContent={salesExtra} size="large" tabBarStyle={{ marginBottom: 24 }}>
+                      <TabPane tab="发电量" key="sales">
                         <div className={styles.salesBar}>
-                          <Bar height={292} title={"碳补偿量" + nowTime} data={salesData} />
+                          <Bar height={295} title={"发电量 " + nowTime} data={salesData} />
                         </div>
-                      </Col>
-                      <Col xl={8} lg={12} md={12} sm={24} xs={24}>
-                        <div className={styles.salesRank}>
-                          <h4 className={styles.rankingTitle}>站点碳补偿排名</h4>
-                          <ul className={styles.rankingList}>
-                            {rankingListData.map((item, i) => (
-                              <li key={item.title}>
-                                <span className={i < 3 ? styles.active : ''}>{i + 1}</span>
-                                <span>{item.title}</span>
-                                <span>{numeral(item.total).format('0,0')}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      </Col>
-                    </Row>
-                  </TabPane>
-                </Tabs>
-              </div>
-            </Card>
-          </Col>
-          <Col xl={6} lg={24} md={24} sm={24} xs={24}>
-            <Card
-              loading={loading}
-              bordered={false}
-              className={styles.salesCard}
-              title="告警列表"
-              bodyStyle={{ paddingBottom: 13 }}
-              style={{ marginBottom: 12 }}
-            >
-              <Table
-                rowKey={record => record.index}
-                size="small"
-                columns={warnColumns}
-                dataSource={allHomePageInfo.warning_info}
-                pagination={{
-                  style: { marginBottom: 0 },
-                  pageSize: 5,
-                }}
-              />
-            </Card>
-          </Col>
-        </Row>
-      </Fragment >
-    );
+                      </TabPane>
+                      <TabPane tab="碳补偿" key="views">
+                        <Row>
+                          <Col xl={16} lg={12} md={12} sm={24} xs={24}>
+                            <div className={styles.salesBar}>
+                              <Bar height={292} title={"碳补偿量" + nowTime} data={salesData} />
+                            </div>
+                          </Col>
+                          <Col xl={8} lg={12} md={12} sm={24} xs={24}>
+                            <div className={styles.salesRank}>
+                              <h4 className={styles.rankingTitle}>站点碳补偿排名</h4>
+                              <ul className={styles.rankingList}>
+                                {rankingListData.map((item, i) => (
+                                  <li key={item.title}>
+                                    <span className={i < 3 ? styles.active : ''}>{i + 1}</span>
+                                    <span>{item.title}</span>
+                                    <span>{numeral(item.total).format('0,0')}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          </Col>
+                        </Row>
+                      </TabPane>
+                    </Tabs>
+                  </div>
+                </Card>
+              </Col>
+              <Col xl={6} lg={24} md={24} sm={24} xs={24}>
+                <Card
+                  loading={loading}
+                  bordered={false}
+                  className={styles.salesCard}
+                  title="告警列表"
+                  bodyStyle={{ paddingBottom: 13 }}
+                  style={{ marginBottom: 12 }}
+                >
+                  <Table
+                    rowKey={record => record.index}
+                    size="small"
+                    columns={warnColumns}
+                    dataSource={allHomePageInfo.warning_info}
+                    pagination={{
+                      style: { marginBottom: 0 },
+                      pageSize: 5,
+                    }}
+                  />
+                </Card>
+              </Col>
+            </Row>
+          </Fragment >
+        )
+    )
   }
 }
