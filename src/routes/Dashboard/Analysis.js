@@ -671,6 +671,7 @@ export default class Analysis extends Component {
                 title="告警列表"
                 bodyStyle={{ paddingBottom: 13 }}
                 style={{ marginBottom: 12 }}
+              // contentHeight:
               >
                 <Table
                   rowKey={record => record.index}
