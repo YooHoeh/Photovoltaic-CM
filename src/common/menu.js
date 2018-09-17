@@ -46,22 +46,7 @@ const menuData = [
   {
     name: '告警管理',
     icon: 'warning',
-    path: 'warming',
-  },
-  {
-    name: '系统管理',
-    icon: 'check-circle-o',
-    path: 'manager',
-    children: [
-      {
-        name: '用户管理',
-        path: '',
-      },
-      {
-        name: '系统日志',
-        path: '',
-      },
-    ],
+    path: 'warning',
   },
   {
     name: '财务管理',
@@ -81,8 +66,21 @@ const menuData = [
         name: '新建维保日志',
         path: 'add'
       }
+    ]
+  }, {
+    name: '系统管理',
+    icon: 'check-circle-o',
+    path: 'manager',
+    children: [
+      {
+        name: '用户管理',
+        path: '',
+      },
+      {
+        name: '系统日志',
+        path: '',
+      },
     ],
-
   },
 ];
 

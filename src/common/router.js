@@ -108,6 +108,9 @@ export const getRouterData = app => {
     '/history/inverter': {
       component: dynamicWrapper(app, ['global'], () => import('../routes/History/Inverter')),
     },
+    '/warning': {
+      component: dynamicWrapper(app, ['global'], () => import('../routes/Warning')),
+    },
     '/history/site': {
       component: dynamicWrapper(app, ['global'], () => import('../routes/History/Site')),
     },
@@ -137,12 +140,7 @@ export const getRouterData = app => {
     '/user/login': {
       component: dynamicWrapper(app, ['login'], () => import('../routes/User/Login')),
     },
-    '/user/register': {
-      component: dynamicWrapper(app, ['register'], () => import('../routes/User/Register')),
-    },
-    '/user/register-result': {
-      component: dynamicWrapper(app, [], () => import('../routes/User/RegisterResult')),
-    },
+
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
     // },
