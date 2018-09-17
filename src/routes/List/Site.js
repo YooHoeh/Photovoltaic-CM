@@ -514,19 +514,19 @@ export default class TableList extends PureComponent {
     const columns = [
       {
         title: '站点名称',
-        dataIndex: 'no',
+        dataIndex: 'name',
       },
       {
-        title: '描述',
-        dataIndex: 'description',
+        title: '所属区域',
+        dataIndex: 'city',
       },
       {
         title: '站点位置  ',
-        dataIndex: 'description',
+        dataIndex: 'location',
       },
       {
         title: '建设容量',
-        dataIndex: 'callNo',
+        dataIndex: 'buildContain',
         sorter: true,
         align: 'right',
         render: val => `${val} 千`,
@@ -548,6 +548,10 @@ export default class TableList extends PureComponent {
           {
             text: status[2],
             value: 2,
+          },
+          {
+            text: status[3],
+            value: 3,
           },
         ],
         onFilter: (value, record) => record.status.toString() === value,

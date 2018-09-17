@@ -130,17 +130,11 @@ class MapCard extends React.Component {
         mapInstance.plugin('AMap.DistrictSearch', function () {
           mapInstance.setDefaultCursor("pointer");
           addPlygons()
-          // var polygons = mapInstance.getAllOverlays("polygon")
-          console.log("pppp" + polygons)
-
-          const ece = AMap.event.addDomListener(refreshbtn, "click", refreshClick());
-
           AMap.event.addListener(mapInstance, 'zoomend', function () {
             console.log('当前缩放级别：' + mapInstance.getZoom());
-
-            mapInstance.getZoom() > 9 ?
-              mapInstance.remove(polygons) :
-              mapInstance.add(polygons)
+            mapInstance.getZoom() > 9
+              ? mapInstance.remove(polygons)
+              : mapInstance.add(polygons)
           });
 
         });
