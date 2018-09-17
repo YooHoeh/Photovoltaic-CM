@@ -1,5 +1,5 @@
 import { Map, Polygon, Markers } from 'react-amap';
-import { Icon, Row, Col, message } from "antd";
+import { Icon, Row, Col, message, Button } from "antd";
 import { stringToPosition } from "../../utils/utils";
 import styles from "./index.less"
 import React from "react";
@@ -23,21 +23,30 @@ const Legend = () => {
     </div>
   )
 }
-const Refresh = () => {
+const Refresh = (props) => {
+  const map = props.__map__;
+  const refreshClick = () => {
+    console.log("dianle ")
+    // clickListener = AMap.event.addListener(map, "click", () => {
+    map.setZoomAndCenter(7, [113.782939, 33.969338]);
+
+    // })
+  }
   return (
-    <Icon
-      type="retweet"
-      theme="outlined"
+    <Button
+      onClick={refreshClick}
       id="refreshBtn"
+      type="primary"
       style={{
-        fontSize: "30px", color: "blue", position: "absolute", top: "28px", right: "28px", zIndex: "999999", padding: "8px", opacity: ".7"
-      }} />
+        color: "#fff", position: "absolute", top: "28px", right: "28px", zIndex: "999999", opacity: ".7"
+      }} > 归位</Button >
   )
 }
 class MapCard extends React.Component {
 
 
   constructor(props) {
+    var refreshbtn = document.getElementById("refreshBtn");
     super(props);
     this.mapCenter = { longitude: 113.782939, latitude: 33.969338 };
     const marks = () => (
@@ -115,7 +124,6 @@ class MapCard extends React.Component {
       },
     }
     var polygons = [];
-    var refreshbtn = document.getElementById("refreshBtn")
     const amapEvents = {
       created: (mapInstance) => {
         //绘制指定地区覆盖物
@@ -124,14 +132,7 @@ class MapCard extends React.Component {
           addPlygons()
           // var polygons = mapInstance.getAllOverlays("polygon")
           console.log("pppp" + polygons)
-          var refreshClick = () => {
-            console.log("dianle ")
-            remove();
-            clickListener = AMap.event.addListener(mapInstance, "click", () => {
-              mapInstance.setZoomAndCenter(7, [113.782939, 33.969338]);
 
-            })
-          }
           const ece = AMap.event.addDomListener(refreshbtn, "click", refreshClick());
 
           AMap.event.addListener(mapInstance, 'zoomend', function () {
@@ -265,7 +266,6 @@ class MapCard extends React.Component {
         // minHeight: 400
       }} >
       <Legend />
-      <Refresh />
       <Map
         amapkey='3614606168564bdf7ccd53cf9d2b7669'
         version='1.4.2'
@@ -282,6 +282,7 @@ class MapCard extends React.Component {
           events={markersEvents}
         // useCluster
         />
+        <Refresh />
       </Map>
     </div >
   }
