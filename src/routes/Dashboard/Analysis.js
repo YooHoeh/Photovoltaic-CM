@@ -203,7 +203,7 @@ export default class Analysis extends Component {
       }
     }
 
-    const weatherCard = () => {
+    const WeatherCard = () => {
       const weatherIcon = (weather) => {
         switch (weather) {
           case "晴":
@@ -254,7 +254,7 @@ export default class Analysis extends Component {
         return <div>无法获取天气数据</div>
       } else {
         return (
-          <div className={styles.weatherCard}>
+          <div >
             <Row>
               <Col span="10" >
                 <Row>
@@ -403,11 +403,10 @@ export default class Analysis extends Component {
                 }
                 total={numeral(allHomePageInfo.station_all).format('0,0')}
                 footer={<Field label="今年已建设" value={allHomePageInfo.station_year} />}
-                contentHeight={49}
+                contentHeight={46}
               >
                 {allHomePageInfo.status
-                  ? "数据获取异常"
-                  : <Fragment>
+                  ? <Fragment>
                     <Row>
                       <Col span={12}> <Field label="运行中" value={allHomePageInfo.status.status0} /></Col>
                       <Col span={12}> <Field label="建设中" value={allHomePageInfo.status.status1} /></Col>
@@ -417,6 +416,7 @@ export default class Analysis extends Component {
                       <Col span={12}> <Field label="告警" value={allHomePageInfo.status.status3} /></Col>
                     </Row>
                   </Fragment>
+                  : "数据获取异常"
                 }
               </ChartCard>
             </Col>
@@ -473,9 +473,11 @@ export default class Analysis extends Component {
                     <Icon type="info-circle-o" />
                   </Tooltip>
                 }
+                contentHeight={46}
                 footer={<WeatherFooter />}
+                total=""
               >
-                {weatherCard()}
+                <WeatherCard />
               </ChartCard>
             </Col>
           </Row>
