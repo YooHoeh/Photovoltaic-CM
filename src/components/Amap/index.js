@@ -7,7 +7,7 @@ import IconFont from "../IconFont";
 
 
 //图例
-const legend = (date) => {
+const Legend = () => {
   return (
     <div style={{
       position: "absolute", bottom: "28px", right: "28px", zIndex: "999999", padding: "8px", width: "160px", minWidth: "150px", height: "80px", minHeight: "50px", backgroundColor: "#2f65af", opacity: ".7", borderRadius: "15px", textAlign: "start"
@@ -23,9 +23,15 @@ const legend = (date) => {
     </div>
   )
 }
-const refresh = () => {
+const Refresh = () => {
   return (
-    <Icon type="retweet" theme="outlined" />
+    <Icon
+      type="retweet"
+      theme="outlined"
+      id="refreshBtn"
+      style={{
+        fontSize: "30px", color: "blue", position: "absolute", top: "28px", right: "28px", zIndex: "999999", padding: "8px", opacity: ".7"
+      }} />
   )
 }
 class MapCard extends React.Component {
@@ -109,6 +115,7 @@ class MapCard extends React.Component {
       },
     }
     var polygons = [];
+    var refreshbtn = document.getElementById("refreshBtn")
     const amapEvents = {
       created: (mapInstance) => {
         //绘制指定地区覆盖物
@@ -117,6 +124,16 @@ class MapCard extends React.Component {
           addPlygons()
           // var polygons = mapInstance.getAllOverlays("polygon")
           console.log("pppp" + polygons)
+          var refreshClick = () => {
+            console.log("dianle ")
+            remove();
+            clickListener = AMap.event.addListener(mapInstance, "click", () => {
+              mapInstance.setZoomAndCenter(7, [113.782939, 33.969338]);
+
+            })
+          }
+          const ece = AMap.event.addDomListener(refreshbtn, "click", refreshClick());
+
           AMap.event.addListener(mapInstance, 'zoomend', function () {
             console.log('当前缩放级别：' + mapInstance.getZoom());
 
@@ -247,7 +264,8 @@ class MapCard extends React.Component {
         height: 530,
         // minHeight: 400
       }} >
-      {legend()}
+      <Legend />
+      <Refresh />
       <Map
         amapkey='3614606168564bdf7ccd53cf9d2b7669'
         version='1.4.2'
