@@ -170,7 +170,18 @@ const cityList = [
     ],
   },
 ];
-const CreateForm = Form.create()(props => {
+const CreateForm = Form.create({
+  onFieldsChange(props, changedFields) {
+    props.onChange(changedFields);
+  },
+  mapPropsToFields(props) {
+    return {
+    };
+  },
+  onValuesChange(_, values) {
+    console.log(values);
+  },
+})(props => {
   const { modalVisible, form, handleAdd, handleModalVisible } = props;
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
@@ -209,7 +220,7 @@ const CreateForm = Form.create()(props => {
         </Col>
         <Col span={12}>
           <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} label="站点名称">
-            {form.getFieldDecorator('desc', {
+            {form.getFieldDecorator('name', {
               rules: [{ required: true, message: 'Please input some description...' }],
             })(<Input placeholder="请输入" />)}
           </FormItem>
@@ -278,7 +289,7 @@ const CreateForm = Form.create()(props => {
       <Row>
         <Col span={12}>
           <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} label="占地面积">
-            {form.getFieldDecorator('acreage', {
+            {form.getFieldDecorator('area', {
               rules: [{ required: true, message: 'Please input some description...' }],
             })(<Input placeholder="请输入" addonAfter="㎡" />)}
           </FormItem>
@@ -287,8 +298,9 @@ const CreateForm = Form.create()(props => {
           <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} label="运行状态">
             {form.getFieldDecorator('runState', {
               rules: [{ required: true, message: 'Please input some description...' }],
+              initialValue: "1"
             })(
-              <Radio.Group defaultValue="0" buttonStyle="solid">
+              <Radio.Group buttonStyle="solid">
                 <Radio.Button value="0" defaultChecked={true}>
                   运行中
                 </Radio.Button>
@@ -304,6 +316,7 @@ const CreateForm = Form.create()(props => {
           <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} label="并网状态">
             {form.getFieldDecorator('netState', {
               rules: [{ required: true, message: 'Please input some description...' }],
+              initialValue: "1"
             })(
               <Radio.Group buttonStyle="solid" style={{ width: "100%" }}>
                 <Radio.Button value="0" defaultChecked={true} style={{ width: "49%", textAlign: "center" }}>
@@ -318,6 +331,7 @@ const CreateForm = Form.create()(props => {
           <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} label="屋顶使用">
             {form.getFieldDecorator('roof', {
               rules: [{ required: true, message: 'Please input some description...' }],
+              initialValue: "0"
             })(
               <Radio.Group buttonStyle="solid" style={{ width: "100%" }}>
                 <Radio.Button value="0" defaultChecked={true} style={{ width: "49%", textAlign: "center" }}>
@@ -344,6 +358,41 @@ export default class TableList extends PureComponent {
     expandForm: false,
     selectedRows: [],
     formValues: {},
+    fields: {
+      id: {
+        value: '',
+      },
+      name: {
+        value: '',
+      },
+      locaNum: {
+        value: '',
+      },
+      coordinate: {
+        value: '',
+      },
+      location: {
+        value: '',
+      },
+      designCount: {
+        value: '',
+      },
+      buildCount: {
+        value: '',
+      },
+      area: {
+        value: '',
+      },
+      runState: {
+        value: '',
+      },
+      netState: {
+        value: '',
+      },
+      roof: {
+        value: '',
+      },
+    },
   };
 
   componentDidMount() {
@@ -503,7 +552,11 @@ export default class TableList extends PureComponent {
       </Form>
     );
   }
-
+  handleFormChange = (changedFields) => {
+    this.setState(({ fields }) => ({
+      fields: { ...fields, ...changedFields },
+    }));
+  }
   render() {
     const {
       rule: { data },
@@ -610,7 +663,7 @@ export default class TableList extends PureComponent {
             />
           </div>
         </Card>
-        <CreateForm {...parentMethods} modalVisible={modalVisible} />
+        <CreateForm {...parentMethods} modalVisible={modalVisible} onChange={this.handleFormChange} />
       </PageHeaderLayout>
     );
   }

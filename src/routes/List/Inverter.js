@@ -105,6 +105,7 @@ const CreateForm = Form.create()(props => {
       <FormItem labelCol={{ span: 7 }} wrapperCol={{ span: 16 }} label="协议类型">
         {form.getFieldDecorator('runState', {
           rules: [{ required: true, message: 'Please input some description...' }],
+          initialValue: "0"
         })(
           <Radio.Group buttonStyle="solid">
             <Radio.Button value="0" >
