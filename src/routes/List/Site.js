@@ -305,7 +305,7 @@ const CreateForm = Form.create()(props => {
             {form.getFieldDecorator('netState', {
               rules: [{ required: true, message: 'Please input some description...' }],
             })(
-              <Radio.Group defaultValue="0" buttonStyle="solid" style={{ width: "100%" }}>
+              <Radio.Group buttonStyle="solid" style={{ width: "100%" }}>
                 <Radio.Button value="0" defaultChecked={true} style={{ width: "49%", textAlign: "center" }}>
                   已并网
                 </Radio.Button>
@@ -319,7 +319,7 @@ const CreateForm = Form.create()(props => {
             {form.getFieldDecorator('roof', {
               rules: [{ required: true, message: 'Please input some description...' }],
             })(
-              <Radio.Group defaultValue="0" buttonStyle="solid" style={{ width: "100%" }}>
+              <Radio.Group buttonStyle="solid" style={{ width: "100%" }}>
                 <Radio.Button value="0" defaultChecked={true} style={{ width: "49%", textAlign: "center" }}>
                   电价优惠
                 </Radio.Button>

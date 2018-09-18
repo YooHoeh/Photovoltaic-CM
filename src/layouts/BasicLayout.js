@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Layout, Icon, message, BackTop, Modal, Button } from 'antd';
+import { Layout, Icon, message, BackTop, Modal, Button, From } from 'antd';
 import DocumentTitle from 'react-document-title';
 import { connect } from 'dva';
 import { Route, Redirect, Switch, routerRedux } from 'dva/router';
@@ -262,11 +262,12 @@ export default class BasicLayout extends React.PureComponent {
             footer={[
               <Button key="back" onClick={this.onCancleModal}>取消</Button>,
               <Button key="submit" type="primary" onClick={this.handleSetPSK}>
-                更新资料修改密码
+                修改密码
           </Button>,
             ]}
           >
             修改密码
+
         </Modal>
           : <Modal
             visible={isVisible}

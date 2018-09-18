@@ -106,8 +106,8 @@ const CreateForm = Form.create()(props => {
         {form.getFieldDecorator('runState', {
           rules: [{ required: true, message: 'Please input some description...' }],
         })(
-          <Radio.Group defaultValue="0" buttonStyle="solid">
-            <Radio.Button value="0" defaultChecked={true}>
+          <Radio.Group buttonStyle="solid">
+            <Radio.Button value="0" >
               三相协议
                 </Radio.Button>
             <Radio.Button value="1">单相协议</Radio.Button>
