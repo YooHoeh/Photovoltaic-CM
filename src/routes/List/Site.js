@@ -174,6 +174,7 @@ const CreateForm = Form.create({
   onFieldsChange(props, changedFields) {
     props.onChange(changedFields);
   },
+
   mapPropsToFields(props) {
     return {
       id: Form.createFormField({
@@ -226,7 +227,7 @@ const CreateForm = Form.create({
     console.log(values);
   },
 })(props => {
-  const { modalVisible, form, handleAdd, handleModalVisible } = props;
+  const { modalVisible, form, handleAdd, handleModalVisible, fields } = props;
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
       if (err) return;
@@ -404,7 +405,7 @@ export default class TableList extends PureComponent {
     formValues: {},
     fields: {
       id: {
-        value: '',
+        value: '11234567',
       },
       name: {
         value: '',
@@ -673,6 +674,7 @@ export default class TableList extends PureComponent {
     const parentMethods = {
       handleAdd: this.handleAdd,
       handleModalVisible: this.handleModalVisible,
+      field: this.state.fields
     };
 
     return (
@@ -708,7 +710,7 @@ export default class TableList extends PureComponent {
             />
           </div>
         </Card>
-        <CreateForm {...parentMethods}{...fields} modalVisible={modalVisible} onChange={this.handleFormChange} />
+        <CreateForm {...parentMethods} modalVisible={modalVisible} onChange={this.handleFormChange} />
       </PageHeaderLayout>
     );
   }
