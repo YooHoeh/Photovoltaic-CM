@@ -176,6 +176,50 @@ const CreateForm = Form.create({
   },
   mapPropsToFields(props) {
     return {
+      id: Form.createFormField({
+        ...props.id,
+        value: props.value
+      }),
+      name: Form.createFormField({
+        ...props.name,
+        value: props.value
+      }),
+      localNum: Form.createFormField({
+        ...props.localNum,
+        value: props.value
+      }),
+      coordinate: Form.createFormField({
+        ...props.coordinate,
+        value: props.value
+      }),
+      location: Form.createFormField({
+        ...props.location,
+        value: props.value
+      }),
+      designCount: Form.createFormField({
+        ...props.designCount,
+        value: props.value
+      }),
+      buildCount: Form.createFormField({
+        ...props.buildCount,
+        value: props.value
+      }),
+      area: Form.createFormField({
+        ...props.area,
+        value: props.value
+      }),
+      runState: Form.createFormField({
+        ...props.runState,
+        value: props.value
+      }),
+      netState: Form.createFormField({
+        ...props.netState,
+        value: props.value
+      }),
+      roof: Form.createFormField({
+        ...props.roof,
+        value: props.value
+      }),
     };
   },
   onValuesChange(_, values) {
@@ -563,6 +607,7 @@ export default class TableList extends PureComponent {
       loading,
     } = this.props;
     const { selectedRows, modalVisible } = this.state;
+    const fields = this.state.fields;
 
     const columns = [
       {
@@ -663,7 +708,7 @@ export default class TableList extends PureComponent {
             />
           </div>
         </Card>
-        <CreateForm {...parentMethods} modalVisible={modalVisible} onChange={this.handleFormChange} />
+        <CreateForm {...parentMethods}{...fields} modalVisible={modalVisible} onChange={this.handleFormChange} />
       </PageHeaderLayout>
     );
   }
