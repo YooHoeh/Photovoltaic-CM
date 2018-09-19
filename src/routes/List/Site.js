@@ -594,8 +594,6 @@ export default class TableList extends PureComponent {
       loading,
     } = this.props;
     const { selectedRows, modalVisible } = this.state;
-    const fields = this.state.fields;
-
     const columns = [
       {
         title: '站点名称',
@@ -660,7 +658,7 @@ export default class TableList extends PureComponent {
     const parentMethods = {
       handleAdd: this.handleAdd,
       handleModalVisible: this.handleModalVisible,
-      fields,
+      fields: this.state.fields
     };
 
     return (

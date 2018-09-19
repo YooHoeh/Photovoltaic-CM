@@ -39,35 +39,20 @@ const CreateForm = Form.create({
       id: Form.createFormField({
         value: fields.id.value
       }),
-      name: Form.createFormField({
-        value: fields.name.value
+      site: Form.createFormField({
+        value: fields.site.value
       }),
-      locaNum: Form.createFormField({
-        value: fields.locaNum.value
+      model: Form.createFormField({
+        value: fields.model.value
       }),
-      coordinate: Form.createFormField({
-        value: fields.coordinate.value
+      agreement: Form.createFormField({
+        value: fields.agreement.value
       }),
-      location: Form.createFormField({
-        value: fields.location.value
+      mpptNum: Form.createFormField({
+        value: fields.mpptNum.value
       }),
-      designCount: Form.createFormField({
-        value: fields.designCount.value
-      }),
-      buildCount: Form.createFormField({
-        value: fields.buildCount.value
-      }),
-      area: Form.createFormField({
-        value: fields.area.value
-      }),
-      runState: Form.createFormField({
-        value: fields.runState.value
-      }),
-      netState: Form.createFormField({
-        value: fields.netState.value
-      }),
-      roof: Form.createFormField({
-        value: fields.roof.value
+      pvNum: Form.createFormField({
+        value: fields.pvNum.value
       }),
     };
   },
@@ -122,7 +107,7 @@ const CreateForm = Form.create({
       </FormItem>
 
       <FormItem labelCol={{ span: 7 }} wrapperCol={{ span: 15 }} label="组串总数">
-        {form.getFieldDecorator('coordinate', {
+        {form.getFieldDecorator('mpptNum', {
           rules: [{ required: true, message: 'Please input some description...' }],
         })(
           <Input
@@ -132,7 +117,7 @@ const CreateForm = Form.create({
       </FormItem>
 
       <FormItem labelCol={{ span: 7 }} wrapperCol={{ span: 15 }} label="支路总数">
-        {form.getFieldDecorator('coordinate', {
+        {form.getFieldDecorator('pvNum', {
           rules: [{ required: true, message: 'Please input some description...' }],
         })(
           <Input
@@ -192,18 +177,6 @@ export default class TableList extends PureComponent {
       pvNum: {
         value: '',
       },
-      area: {
-        value: '',
-      },
-      runState: {
-        value: '1',
-      },
-      netState: {
-        value: '1',
-      },
-      roof: {
-        value: '0',
-      }
     }
   };
 
@@ -449,7 +422,7 @@ export default class TableList extends PureComponent {
     const parentMethods = {
       handleAdd: this.handleAdd,
       handleModalVisible: this.handleModalVisible,
-      fields,
+      fields: this.state.fields
     };
 
     return (
