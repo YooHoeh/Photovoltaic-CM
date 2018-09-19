@@ -88,18 +88,16 @@ const CreateForm = Form.create({
         </Button>,
       ]}
     >
-
+      <FormItem labelCol={{ span: 7 }} wrapperCol={{ span: 15 }} label="所属站点">
+        {form.getFieldDecorator('site', {
+          rules: [{ required: true, message: 'Please input some description...' }],
+        })(<Select></Select>)}
+      </FormItem>
       <FormItem labelCol={{ span: 7 }} wrapperCol={{ span: 15 }} label="逆变器编号">
         {form.getFieldDecorator('id', {
           rules: [{ required: true, message: 'Please input some description...' }],
         })(<Input placeholder="请输入" />)}
       </FormItem>
-      <FormItem labelCol={{ span: 7 }} wrapperCol={{ span: 15 }} label="所属站点编号">
-        {form.getFieldDecorator('site', {
-          rules: [{ required: true, message: 'Please input some description...' }],
-        })(<Input placeholder="请输入" />)}
-      </FormItem>
-
       <FormItem labelCol={{ span: 7 }} wrapperCol={{ span: 15 }} label="机器型号">
         {form.getFieldDecorator('model', {
           rules: [{ required: true, message: 'Please input some description...' }],
@@ -169,7 +167,7 @@ export default class TableList extends PureComponent {
         value: '',
       },
       agreement: {
-        value: '',
+        value: '0',
       },
       mpptNum: {
         value: '',
