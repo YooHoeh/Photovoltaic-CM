@@ -120,6 +120,15 @@ export const getRouterData = app => {
     '/maintenance/list': {
       component: dynamicWrapper(app, ['global'], () => import('../routes/Maintenance/LogList')),
     },
+    '/manager/user': {
+      component: dynamicWrapper(app, [], () => import('../routes/Manager/UserManager')),
+    },
+    '/manager/log': {
+      component: dynamicWrapper(app, [], () => import('../routes/Manager/SystemLog')),
+    },
+    '/profile': {
+      component: dynamicWrapper(app, [], () => import('../routes/Profile')),
+    },
     '/exception/403': {
       component: dynamicWrapper(app, [], () => import('../routes/Exception/403')),
     },
@@ -130,9 +139,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () => import('../routes/Exception/500')),
     },
     '/exception/trigger': {
-      component: dynamicWrapper(app, ['error'], () =>
-        import('../routes/Exception/triggerException')
-      ),
+      component: dynamicWrapper(app, ['error'], () => import('../routes/Exception/triggerException')),
     },
     '/user': {
       component: dynamicWrapper(app, [], () => import('../layouts/UserLayout')),

@@ -104,34 +104,8 @@ export default class BasicLayout extends React.PureComponent {
 
   state = {
     isMobile,
-    isVisible: false,
-    modalType: ''
   };
 
-  openUserData = () => {
-    this.setState({
-      isVisible: true,
-      modalType: 'user'
-    })
-  }
-  openPassWord = () => {
-    this.setState({
-      isVisible: true,
-      modalType: 'psk'
-    })
-  }
-  onCancleModal = () => {
-    this.setState({
-      isVisible: false,
-      modalType: ''
-    })
-  }
-  handleSetPSK = () => {
-    console.log("修改密码Action")
-  }
-  handleSetUserData = () => {
-    console.log("修改用户信息Action")
-  }
   getChildContext() {
     const { location, routerData } = this.props;
     return {
@@ -216,11 +190,9 @@ export default class BasicLayout extends React.PureComponent {
     const { dispatch } = this.props;
     if (key === 'user') {
       console.log("user")
-      this.openUserData()
     }
     if (key === 'psk') {
       console.log("psk")
-      this.openPassWord()
     }
     if (key === 'logout') {
       dispatch({
@@ -250,41 +222,7 @@ export default class BasicLayout extends React.PureComponent {
     } = this.props;
     const { isMobile: mb, isVisible, modalType } = this.state;
     const baseRedirect = this.getBaseRedirect();
-    const Modals = () => {
-      return (
 
-        modalType === 'psk'
-          ? <Modal
-            visible={isVisible}
-            title="修改密码"
-            onOk={this.handleSetPSK}
-            onCancel={this.onCancleModal}
-            footer={[
-              <Button key="back" onClick={this.onCancleModal}>取消</Button>,
-              <Button key="submit" type="primary" onClick={this.handleSetPSK}>
-                修改密码
-          </Button>,
-            ]}
-          >
-            修改密码
-
-        </Modal>
-          : <Modal
-            visible={isVisible}
-            title="修改个人资料"
-            onOk={this.handleSetUserData}
-            onCancel={this.onCancleModal}
-            footer={[
-              <Button key="back" onClick={this.onCancleModal}>取消</Button>,
-              <Button key="submit" type="primary" onClick={this.handleSetUserData}>
-                更新资料
-        </Button>,
-            ]}
-          >
-            更新资料
-        </Modal>
-      )
-    }
     const layout = (
       <Layout>
         <SiderMenu
@@ -332,7 +270,6 @@ export default class BasicLayout extends React.PureComponent {
               <Redirect exact from="/" to={baseRedirect} />
               <Route render={NotFound} />
             </Switch>
-            <Modals />
             <BackTop />
           </Content>
           <Footer style={{ padding: 0 }}>

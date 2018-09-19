@@ -7,6 +7,16 @@ const menuData = [
     path: 'dashboard/analysis',
   },
   {
+    name: '告警管理',
+    icon: 'warning',
+    path: 'warning',
+  },
+  {
+    name: '财务管理',
+    icon: 'calculator',
+    path: 'financial',
+  },
+  {
     name: '站点管理',
     icon: 'form',
     path: 'list',
@@ -44,16 +54,6 @@ const menuData = [
     ],
   },
   {
-    name: '告警管理',
-    icon: 'warning',
-    path: 'warning',
-  },
-  {
-    name: '财务管理',
-    icon: 'calculator',
-    path: 'financial',
-  },
-  {
     name: '维保管理',
     icon: 'profile',
     path: 'maintenance',
@@ -69,19 +69,23 @@ const menuData = [
     ]
   }, {
     name: '系统管理',
-    icon: 'check-circle-o',
+    icon: 'setting',
     path: 'manager',
     children: [
       {
         name: '用户管理',
-        path: '',
+        path: 'user',
       },
       {
         name: '系统日志',
-        path: '',
+        path: 'log',
       },
     ],
-  },
+  }, {
+    name: '账户管理',
+    icon: 'user',
+    path: 'profile',
+  }
 ];
 
 
