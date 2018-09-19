@@ -1,6 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
-import moment from 'moment';
 import {
   Row,
   Col,
@@ -8,18 +7,12 @@ import {
   Form,
   Input,
   Select,
-  Icon,
   Button,
-  Dropdown,
-  Menu,
-  InputNumber,
-  DatePicker,
   Modal,
   message,
   Badge,
   Divider,
   Radio,
-  TreeSelect
 } from 'antd';
 import StandardTable from 'components/StandardTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
@@ -35,7 +28,53 @@ const getValue = obj =>
 const statusMap = ['default', 'processing', 'success', 'error'];
 const status = ["待机", "并网", "故障", "关机", "离网"];
 
-const CreateForm = Form.create()(props => {
+const CreateForm = Form.create({
+  onFieldsChange(props, changedFields) {
+    props.onChange(changedFields);
+  },
+
+  mapPropsToFields(props) {
+    const fields = props.fields;
+    return {
+      id: Form.createFormField({
+        value: fields.id.value
+      }),
+      name: Form.createFormField({
+        value: fields.name.value
+      }),
+      locaNum: Form.createFormField({
+        value: fields.locaNum.value
+      }),
+      coordinate: Form.createFormField({
+        value: fields.coordinate.value
+      }),
+      location: Form.createFormField({
+        value: fields.location.value
+      }),
+      designCount: Form.createFormField({
+        value: fields.designCount.value
+      }),
+      buildCount: Form.createFormField({
+        value: fields.buildCount.value
+      }),
+      area: Form.createFormField({
+        value: fields.area.value
+      }),
+      runState: Form.createFormField({
+        value: fields.runState.value
+      }),
+      netState: Form.createFormField({
+        value: fields.netState.value
+      }),
+      roof: Form.createFormField({
+        value: fields.roof.value
+      }),
+    };
+  },
+  onValuesChange(_, values) {
+    console.log(values);
+  },
+})(props => {
   const { modalVisible, form, handleAdd, handleModalVisible } = props;
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
@@ -71,13 +110,13 @@ const CreateForm = Form.create()(props => {
         })(<Input placeholder="请输入" />)}
       </FormItem>
       <FormItem labelCol={{ span: 7 }} wrapperCol={{ span: 15 }} label="所属站点编号">
-        {form.getFieldDecorator('id', {
+        {form.getFieldDecorator('site', {
           rules: [{ required: true, message: 'Please input some description...' }],
         })(<Input placeholder="请输入" />)}
       </FormItem>
 
       <FormItem labelCol={{ span: 7 }} wrapperCol={{ span: 15 }} label="机器型号">
-        {form.getFieldDecorator('desc', {
+        {form.getFieldDecorator('model', {
           rules: [{ required: true, message: 'Please input some description...' }],
         })(<Input placeholder="请输入" />)}
       </FormItem>
@@ -103,7 +142,7 @@ const CreateForm = Form.create()(props => {
       </FormItem>
 
       <FormItem labelCol={{ span: 7 }} wrapperCol={{ span: 16 }} label="协议类型">
-        {form.getFieldDecorator('runState', {
+        {form.getFieldDecorator('agreement', {
           rules: [{ required: true, message: 'Please input some description...' }],
           initialValue: "0"
         })(
@@ -131,6 +170,41 @@ export default class TableList extends PureComponent {
     expandForm: false,
     selectedRows: [],
     formValues: {},
+    fields: {
+      id: {
+        value: '11234567',
+      },
+      site: {
+        value: '',
+      },
+      model: {
+        value: '',
+      },
+      serial: {
+        value: '',
+      },
+      agreement: {
+        value: '',
+      },
+      mpptNum: {
+        value: '',
+      },
+      pvNum: {
+        value: '',
+      },
+      area: {
+        value: '',
+      },
+      runState: {
+        value: '1',
+      },
+      netState: {
+        value: '1',
+      },
+      roof: {
+        value: '0',
+      }
+    }
   };
 
   componentDidMount() {
@@ -298,7 +372,11 @@ export default class TableList extends PureComponent {
       </Form>
     );
   }
-
+  handleFormChange = (changedFields) => {
+    this.setState(({ fields }) => ({
+      fields: { ...fields, ...changedFields },
+    }));
+  }
   render() {
     const {
       rule: { data },
@@ -371,6 +449,7 @@ export default class TableList extends PureComponent {
     const parentMethods = {
       handleAdd: this.handleAdd,
       handleModalVisible: this.handleModalVisible,
+      fields,
     };
 
     return (
@@ -406,7 +485,7 @@ export default class TableList extends PureComponent {
             />
           </div>
         </Card>
-        <CreateForm {...parentMethods} modalVisible={modalVisible} />
+        <CreateForm {...parentMethods} modalVisible={modalVisible} onChange={this.handleFormChange} />
       </PageHeaderLayout>
     );
   }

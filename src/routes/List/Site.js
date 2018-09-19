@@ -176,50 +176,40 @@ const CreateForm = Form.create({
   },
 
   mapPropsToFields(props) {
+    const fields = props.fields;
     return {
       id: Form.createFormField({
-        ...props.id,
-        value: props.value
+        value: fields.id.value
       }),
       name: Form.createFormField({
-        ...props.name,
-        value: props.value
+        value: fields.name.value
       }),
-      localNum: Form.createFormField({
-        ...props.localNum,
-        value: props.value
+      locaNum: Form.createFormField({
+        value: fields.locaNum.value
       }),
       coordinate: Form.createFormField({
-        ...props.coordinate,
-        value: props.value
+        value: fields.coordinate.value
       }),
       location: Form.createFormField({
-        ...props.location,
-        value: props.value
+        value: fields.location.value
       }),
       designCount: Form.createFormField({
-        ...props.designCount,
-        value: props.value
+        value: fields.designCount.value
       }),
       buildCount: Form.createFormField({
-        ...props.buildCount,
-        value: props.value
+        value: fields.buildCount.value
       }),
       area: Form.createFormField({
-        ...props.area,
-        value: props.value
+        value: fields.area.value
       }),
       runState: Form.createFormField({
-        ...props.runState,
-        value: props.value
+        value: fields.runState.value
       }),
       netState: Form.createFormField({
-        ...props.netState,
-        value: props.value
+        value: fields.netState.value
       }),
       roof: Form.createFormField({
-        ...props.roof,
-        value: props.value
+        value: fields.roof.value
       }),
     };
   },
@@ -227,9 +217,10 @@ const CreateForm = Form.create({
     console.log(values);
   },
 })(props => {
-  const { modalVisible, form, handleAdd, handleModalVisible, fields } = props;
+  const { modalVisible, form, handleAdd, handleModalVisible } = props;
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
+      console.log(fieldsValue)
       if (err) return;
       form.resetFields();
       handleAdd(fieldsValue);
@@ -279,11 +270,10 @@ const CreateForm = Form.create({
             })(
               <TreeSelect
                 style={{ width: '100%' }}
-                value={cityList[1].children[0].title}
                 dropdownStyle={{ maxHeight: 300, overflowX: 'hideen' }}
                 treeData={cityList}
                 placeholder="选择站点所在区域"
-                treeDefaultExpandAll
+              // treeDefaultExpandAll
               />
             )}
           </FormItem>
@@ -343,7 +333,6 @@ const CreateForm = Form.create({
           <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} label="运行状态">
             {form.getFieldDecorator('runState', {
               rules: [{ required: true, message: 'Please input some description...' }],
-              initialValue: "1"
             })(
               <Radio.Group buttonStyle="solid">
                 <Radio.Button value="0" defaultChecked={true}>
@@ -361,7 +350,6 @@ const CreateForm = Form.create({
           <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} label="并网状态">
             {form.getFieldDecorator('netState', {
               rules: [{ required: true, message: 'Please input some description...' }],
-              initialValue: "1"
             })(
               <Radio.Group buttonStyle="solid" style={{ width: "100%" }}>
                 <Radio.Button value="0" defaultChecked={true} style={{ width: "49%", textAlign: "center" }}>
@@ -376,7 +364,6 @@ const CreateForm = Form.create({
           <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} label="屋顶使用">
             {form.getFieldDecorator('roof', {
               rules: [{ required: true, message: 'Please input some description...' }],
-              initialValue: "0"
             })(
               <Radio.Group buttonStyle="solid" style={{ width: "100%" }}>
                 <Radio.Button value="0" defaultChecked={true} style={{ width: "49%", textAlign: "center" }}>
@@ -429,17 +416,16 @@ export default class TableList extends PureComponent {
         value: '',
       },
       runState: {
-        value: '',
+        value: '1',
       },
       netState: {
-        value: '',
+        value: '1',
       },
       roof: {
-        value: '',
-      },
-    },
-  };
-
+        value: '0',
+      }
+    }
+  }
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
@@ -674,7 +660,7 @@ export default class TableList extends PureComponent {
     const parentMethods = {
       handleAdd: this.handleAdd,
       handleModalVisible: this.handleModalVisible,
-      field: this.state.fields
+      fields,
     };
 
     return (
