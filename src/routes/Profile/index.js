@@ -1,77 +1,97 @@
 import React, { Fragment } from 'react';
-import { Card, Icon, Tabs, Row, Col, Form, Input, Button } from "antd";
+import { Card, Icon, Tabs, Row, Col, Form, Input, Button, message, Alert } from "antd";
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 var md5 = require('md5');
 
 const TabPane = Tabs.TabPane;
-const FormItem = Form.Item;
 const { TextArea } = Input;
 
-const DataTab = Form.create({
-  onFieldsChange(props, changedFields) {
-    props.onChange(changedFields);
-  },
-  mapPropsToFields(props) {
-    return {
-      username: Form.createFormField({
-        ...props.username,
-        value: props.username
-      }),
-    };
-  },
-  onValuesChange(_, values) {
-    console.log(values);
-  },
-})((props) => {
-  const { getFieldDecorator } = props.form;
+const DataTab = (props) => {
+  var newDate = new Object()
+  const data = props;
+  const formChange = (e) => {
+    const key = e.target.name;
+    const value = e.target.value;
+    newDate[key] = value;
+    console.log(newDate)
+  }
+  const submitData = () => {
+    console.log(newDate);
+
+  }
+
   return (
-    <Form layout="horizontal" style={{ margin: "0 auto", width: "800px" }}>
-      <FormItem label="用户名" labelCol={{ span: 7 }} wrapperCol={{ span: 15 }} >
-        {getFieldDecorator('username', {
-          rules: [{ required: true, message: 'Username is required!' }],
-        })(<Input />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 7 }} wrapperCol={{ span: 15 }} label="联系电话">
-        {getFieldDecorator('tel', {
-          rules: [{ required: true, message: 'Username is required!' }],
-        })(<Input />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 7 }} wrapperCol={{ span: 15 }} label="电子邮件">
-        {getFieldDecorator('email', {
-          rules: [{ required: true, message: 'Username is required!' }],
-        })(<Input />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 7 }} wrapperCol={{ span: 15 }} label="备注 ">
-        {getFieldDecorator('others', {
-          rules: [{ required: true, message: 'Username is required!' }],
-        })(<TextArea rows={4} />)}
-      </FormItem>
-    </Form>
-  );
-});
+    <div style={{ margin: "0 auto", width: "400px", height: "200px" }} onChange={formChange}>
+      <Row gutter={3} style={{ margin: "15px auto" }}>
+        <Col span={7} style={{ textAlign: "end" }}>用户编号：</Col>
+        <Col span={15}>{data.userID}</Col>
+      </Row>
+      <Row gutter={3} style={{ margin: "15px auto" }}>
+        <Col span={7} style={{ textAlign: "end" }}>身份类型：</Col>
+        <Col span={15}>{data.userType}</Col>
+      </Row>
+      <Row gutter={3} style={{ margin: "15px auto" }}>
+        <Col span={7} style={{ textAlign: "end" }}>用户名：</Col>
+        <Col span={15}><Input defaultValue={data.userName} name="userName" /></Col>
+      </Row>
+      <Row gutter={3} style={{ margin: "15px auto" }}>
+        <Col span={7} style={{ textAlign: "end" }}>联系电话：</Col>
+        <Col span={15}><Input defaultValue={data.tel} name="tel" /></Col>
+      </Row>
+      <Row gutter={3} style={{ margin: "15px auto" }}>
+        <Col span={7} style={{ textAlign: "end" }}>Email：</Col>
+        <Col span={15}><Input defaultValue={data.email} name="email" /></Col>
+      </Row>
+      <Row gutter={3} style={{ margin: "15px auto" }}>
+        <Row gutter={3} style={{ margin: "15px auto" }}>
+          <Col span={7} style={{ textAlign: "end" }}>备注：</Col>
+          <Col span={15}><TextArea defaultValue={data.others} name="others" /></Col>
+        </Row>
+        <Col span={15} offset={22}><Button type="primary" onClick={submitData}>修改资料</Button></Col>
+      </Row>
+    </div>
+  )
+
+}
 const PskTab = () => {
-  const put = (e) => {
-    console.log(md5(e.target.value))
+  var newPsk = new Object();
+  const formChange = (e) => {
+
+    const key = e.target.name;
+    const value = md5(e.target.value);
+    newPsk[key] = value;
+    console.log(newPsk)
+  }
+  const submitPsk = () => {
+    console.log(newPsk);
+    if (newPsk.old === undefined) {
+      message.warning('请输入原密码')
+    }
+    if (newPsk.new != confirm) {
+      message.warning('两次密码不一致请重新输入')
+
+    }
+
+
   }
   return (
-    <div style={{ margin: "0 auto", width: "400px", height: "200px" }}>
+    <div style={{ margin: "0 auto", width: "400px", height: "200px" }} onChange={formChange}>
       <Row gutter={3} style={{ margin: "15px auto" }}>
-        <Col span={7} style={{ textAlign: "end" }}>原始密码：</Col><Col span={15}><Input onChange={put} /></Col>
+        <Col span={7} style={{ textAlign: "end" }}>原始密码：</Col>
+        <Col span={15}><Input type="password" name="old" /></Col>
       </Row>
       <Row gutter={3} style={{ margin: "15px auto" }}>
-        <Col span={7} style={{ textAlign: "end" }}>新密码:</Col><Col span={15}><Input onChange={put} /></Col>
+        <Col span={7} style={{ textAlign: "end" }}>新密码：</Col>
+        <Col span={15}><Input type="password" name="new" /></Col>
       </Row>
       <Row gutter={3} style={{ margin: "15px auto" }}>
-        <Col span={7} style={{ textAlign: "end" }}>确认密码:</Col><Col span={15}><Input onChange={put} /></Col>
+        <Col span={7} style={{ textAlign: "end" }}>确认密码：</Col>
+        <Col span={15}><Input type="password" name="confirm" /></Col>
       </Row>
       <Row gutter={3} style={{ margin: "15px auto" }}>
-        <Col span={15}><Button type="primary">修改密码</Button></Col>
+        <Col span={15} offset={22}><Button type="primary" onClick={submitPsk}>修改密码</Button></Col>
       </Row>
-
-
-
     </div>
-
   );
 };
 
@@ -79,37 +99,27 @@ class Profile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      fields: {
-        data: {
-          username: '153',
-          userID: '',
-          userType: '',
-          tel: '',
-          email: '',
-          others: ''
-        },
-        pass: {
-          old: '',
-          new: '',
-          confirm: ''
-        }
-      }
+      data: {
+        userName: '153',
+        userID: '213123321',
+        userType: '管理员',
+        tel: '18722333344',
+        email: '112321@sina.com',
+        others: '呗组湖北㕚'
+      },
     };
   }
-
-  handleDataChange = (changedFields) => {
-    this.setState(({ fields }) => ({
-      data: { ...fields, ...changedFields },
-    }));
+  handleChangeState = (fields, target) => {
   }
+
   render() {
-    const fields = this.state.fields;
+    const data = this.state.data;
     return (
       <PageHeaderLayout title="用户资料">
         <Card >
           <Tabs defaultActiveKey="1">
             <TabPane tab={<span><Icon type="idcard" />个人资料</span>} key="1">
-              <DataTab {...fields.data} onChange={this.handleDataChange} />
+              <DataTab {...data} />
             </TabPane>
             <TabPane tab={<span><Icon type="key" />修改密码</span>} key="2">
               <PskTab />
