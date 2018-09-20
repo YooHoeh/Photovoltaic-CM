@@ -27,18 +27,13 @@ import {
   Pie,
   TimelineChart,
 } from 'components/Charts';
-import Trend from 'components/Trend';
-import NumberInfo from 'components/NumberInfo';
-import CountDown from 'components/CountDown';
-
+import Trend from '../../components/Trend';
 import { getTimeDistance } from '../../utils/utils';
-
 import styles from './Analysis.less';
-import MapCard from 'components/Amap';
+import MapCard from '../../components/Amap';
 import IconFont from "../../components/IconFont";
 const { TabPane } = Tabs;
 const { RangePicker } = DatePicker;
-const targetTime = new Date().getTime() + 3900000;
 const rankingListData = [];
 for (let i = 0; i < 7; i += 1) {
   rankingListData.push({
@@ -389,7 +384,6 @@ export default class Analysis extends Component {
         />
         :
         < Fragment >
-          {console.log(allHomePageInfo.status)}
           <Row gutter={12}>
             <Col {...topColResponsiveProps}>
               <ChartCard

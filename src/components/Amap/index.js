@@ -46,7 +46,6 @@ class MapCard extends React.Component {
 
 
   constructor(props) {
-    var refreshbtn = document.getElementById("refreshBtn");
     super(props);
     this.mapCenter = { longitude: 113.782939, latitude: 33.969338 };
     const marks = () => (
@@ -57,11 +56,13 @@ class MapCard extends React.Component {
           siteName: item.name,
           siteID: item.id,
         })) : ''
+
     )
     this.state = {
-      markers: marks()
+      markers: marks(),
     }
 
+    console.log("啥玩意儿啊" + JSON.stringify(marks()))
   }
 
   //添加站点Marks,根据状态返回不同标记
@@ -274,7 +275,6 @@ class MapCard extends React.Component {
           markers={this.state.markers}
           render={this.renderMarkerLayout}
           events={markersEvents}
-        // useCluster
         />
         <Refresh />
       </Map>

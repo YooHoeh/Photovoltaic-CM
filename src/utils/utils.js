@@ -33,10 +33,11 @@ export function fixedZero(val) {
 }
 
 export function stringToPosition(str) {
+  console.log(str)
   const positonArr = str.split(",");
   return {
-    longitude: positonArr[0],
-    latitude: positonArr[1]
+    longitude: parseFloat(positonArr[0]),
+    latitude: parseFloat(positonArr[1])
   }
 }
 export function getTimeDistance(type) {
