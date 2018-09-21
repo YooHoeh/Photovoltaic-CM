@@ -72,7 +72,9 @@ export default class GlobalHeader extends PureComponent {
     const menu = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
         <Menu.Item key="user">
-          <Icon type="user" />资料修改
+          <Link to="/profile">
+            <Icon type="user" />资料修改
+          </Link>
         </Menu.Item>
         <Menu.Item key="psk">
           <Icon type="key" />密码修改
@@ -81,7 +83,7 @@ export default class GlobalHeader extends PureComponent {
         <Menu.Item key="logout">
           <Icon type="logout" />退出登录
         </Menu.Item>
-      </Menu>
+      </Menu >
     );
     const noticeData = this.getNoticeData();
     return (
