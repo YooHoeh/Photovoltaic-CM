@@ -1,6 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import { Card, Button, Form, Input, Select, Tree, Transfer, Modal, Table, Divider, Tag, Radio } from 'antd'
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
+import TextArea from 'antd/lib/input/TextArea';
 
 const FormItem = Form.Item;
 const columns = [{
@@ -118,35 +119,86 @@ const NewUser = Form.create()(
       const { visible, onCancel, onCreate, form } = this.props;
       const { getFieldDecorator } = form;
       return (
+        <Modal
+          title="添加用户"
+          visible={visible}
+          onOk={onCreate}
+          onCancel={onCancel}
+        >
+          <Form>
+            <FormItem label="用户名">
+              {getFieldDecorator('userName', {
+                rules: [{ required: true, message: '请输入用户名' }],
+              })(
+                <Input />
+              )}
+            </FormItem>
 
-        <Form>
-          <FormItem label="用户名">
-            {getFieldDecorator('userName', {
-              rules: [{ required: true, message: '请输入用户名' }],
-            })(
-              <Input />
-            )}
-          </FormItem>
-
-          <FormItem label="账户类型">
-            {getFieldDecorator('userType', {
-              initialValue: 'admin',
-              rules: [{ required: true, message: '必须选择用户类型' }],
-            })(
-              <Radio.Group>
-                <Radio value="suAdmin">超级管理员</Radio>
-                <Radio value="admin">管理员</Radio>
-                <Radio value="VT">维运人员</Radio>
-                <Radio value="VP">维保人员</Radio>
-                <Radio value="demo">演示</Radio>
-              </Radio.Group>
-            )}
-          </FormItem>
-        </Form >
-
+            <FormItem label="账户类型">
+              {getFieldDecorator('userType', {
+                initialValue: 'admin',
+                rules: [{ required: true, message: '必须选择用户类型' }],
+              })(
+                <Radio.Group>
+                  <Radio value="suAdmin">超级管理员</Radio>
+                  <Radio value="admin">管理员</Radio>
+                  <Radio value="VT">维运人员</Radio>
+                  <Radio value="VP">维保人员</Radio>
+                  <Radio value="demo">演示</Radio>
+                </Radio.Group>
+              )}
+            </FormItem>
+            <FormItem label="联系方式">
+              {getFieldDecorator('tel', {
+              })(
+                <Input />
+              )}
+            </FormItem>
+            <FormItem label="Email">
+              {getFieldDecorator('email', {
+              })(
+                <Input />
+              )}
+            </FormItem>
+            <FormItem label="备注">
+              {getFieldDecorator('others', {
+              })(
+                <TextArea />
+              )}
+            </FormItem>
+          </Form >
+        </Modal>
       )
     }
   })
+const PermissonEdit = Form.create()(
+  class extends React.Component {
+
+    render() {
+      const { visible, onCancel, onCreate, form } = this.props;
+      const { getFieldDecorator } = form;
+      return (
+        <Modal
+          title="修改权限"
+          visible={visible}
+          onOk={onCreate}
+          onCancel={onCancel}
+        >
+          <Form>
+            <FormItem label="用户名">
+              {getFieldDecorator('userName', {
+                rules: [{ required: true, message: '请输入用户名' }],
+              })(
+                <div>dasd</div>
+              )}
+            </FormItem>
+          </Form>
+        </Modal>
+      )
+    }
+  }
+)
+
 class UserManager extends React.Component {
   constructor(props) {
     super(props);
@@ -162,26 +214,54 @@ class UserManager extends React.Component {
   setpermissionVisbale(permissionVisbale) {
     this.setState({ permissionVisbale });
   }
+  saveFormRef = (formRef) => {
+    this.formRef = formRef;
+  }
+  handleNewUserCreate = () => {
+    const form = this.formRef.props.form;
+    form.validateFields((err, values) => {
+      if (err) {
+        return;
+      }
+      console.log('Received values of form: ', values);
+      form.resetFields();
+      this.setnewUserVisibale(false)
+
+    });
+  }
+  handlePermissionCreate = () => {
+    const form = this.formRef.props.form;
+    form.validateFields((err, values) => {
+      if (err) {
+        return;
+      }
+
+      console.log('Received values of form: ', values);
+      form.resetFields();
+      this.setpermissionVisbale(false)
+
+
+    });
+  }
   render() {
 
     return (
       <PageHeaderLayout title="用户管理">
-        <Modal
-          title="添加用户"
+
+        <NewUser
+          wrappedComponentRef={this.saveFormRef}
           visible={this.state.newUserVisibale}
-          onOk={() => this.setnewUserVisibale(false)}
           onCancel={() => { this.setnewUserVisibale(false) }}
-        >
-          <NewUser />
-        </Modal>
-        <Modal
-          title="修改权限"
+          onCreate={this.handleNewUserCreate}
+        />
+
+        <PermissonEdit
+          wrappedComponentRef={this.saveFormRef}
           visible={this.state.permissionVisbale}
-          onOk={() => this.setpermissionVisbale(false)}
           onCancel={() => { this.setpermissionVisbale(false) }}
-        >
-          修改权限
-        </Modal>
+          onCreate={this.handlePermissionCreate}
+        />
+
         <Card >
           <Button type="primary" style={{ margin: "8px 8px" }} onClick={() => this.setnewUserVisibale(true)}>添加用户</Button>
           <Button type="primary" style={{ margin: "8px 8px" }} onClick={() => this.setpermissionVisbale(true)}>修改权限</Button>

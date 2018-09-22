@@ -30,6 +30,7 @@ export default class LoginPage extends Component {
         payload: {
           ...values,
           type,
+          agent: navigator.userAgent
         },
       });
     }
