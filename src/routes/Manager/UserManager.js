@@ -2,7 +2,8 @@ import React, { PureComponent, Fragment } from 'react';
 import { Card, Button, Form, Input, Select, Tree, Transfer, Modal, Table, Divider, Tag, Radio } from 'antd'
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import TextArea from 'antd/lib/input/TextArea';
-
+const Option = Select.Option;
+const TreeNode = Tree.TreeNode;
 const FormItem = Form.Item;
 const columns = [{
   title: '用户编号',
@@ -172,7 +173,36 @@ const NewUser = Form.create()(
   })
 const PermissonEdit = Form.create()(
   class extends React.Component {
-
+    onCheck = (checkedKeys) => {
+      this.props.patchMenuInfo(checkedKeys);
+    };
+    renderTreeNodes = (data, key = '') => {
+      return data.map((item) => {
+        let parentKey = key + item.key;
+        if (item.children) {
+          return (
+            <TreeNode title={item.title} key={parentKey} dataRef={item}>
+              {this.renderTreeNodes(item.children, parentKey)}
+            </TreeNode>
+          );
+        } else if (item.btnList) {
+          return (
+            <TreeNode title={item.title} key={parentKey} dataRef={item}>
+              {this.renderBtnTreedNode(item, parentKey)}
+            </TreeNode>
+          );
+        }
+        return <TreeNode {...item} />;
+      });
+    };
+    renderBtnTreedNode = (menu, parentKey = '') => {
+      const btnTreeNode = []
+      menu.btnList.forEach((item) => {
+        console.log(parentKey + '-btn-' + item.key);
+        btnTreeNode.push(<TreeNode title={item.title} key={parentKey + '-btn-' + item.key} />);
+      })
+      return btnTreeNode;
+    }
     render() {
       const { visible, onCancel, onCreate, form } = this.props;
       const { getFieldDecorator } = form;
@@ -184,13 +214,16 @@ const PermissonEdit = Form.create()(
           onCancel={onCancel}
         >
           <Form>
-            <FormItem label="用户名">
-              {getFieldDecorator('userName', {
-                rules: [{ required: true, message: '请输入用户名' }],
-              })(
-                <div>dasd</div>
-              )}
-            </FormItem>
+            <Tree
+              checkable
+              defaultExpandAll
+              onCheck={(checkedKeys) => this.onCheck(checkedKeys)}
+              checkedKeys={menuInfo || []}
+            >
+              <TreeNode title="平台权限" key="platform_all">
+                {this.renderTreeNodes(menuConfig)}
+              </TreeNode>
+            </Tree>
           </Form>
         </Modal>
       )
