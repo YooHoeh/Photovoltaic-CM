@@ -2,6 +2,7 @@ import React, { PureComponent, Fragment } from 'react';
 import { Card, Button, Form, Input, Select, Tree, Transfer, Modal, Table, Divider, Tag, Radio } from 'antd'
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import TextArea from 'antd/lib/input/TextArea';
+import { menuData } from "../../common/menu";
 const Option = Select.Option;
 const TreeNode = Tree.TreeNode;
 const FormItem = Form.Item;
@@ -171,41 +172,51 @@ const NewUser = Form.create()(
       )
     }
   })
+
 const PermissonEdit = Form.create()(
   class extends React.Component {
+    state = {
+      expandedKeys: [],
+      autoExpandParent: true,
+      checkedKeys: [],
+      selectedKeys: [],
+    }
+
+    onExpand = (expandedKeys) => {
+      console.log('onExpand', expandedKeys);
+      // if not set autoExpandParent to false, if children expanded, parent can not collapse.
+      // or, you can remove all expanded children keys.
+      this.setState({
+        expandedKeys,
+        autoExpandParent: false,
+      });
+    }
+
     onCheck = (checkedKeys) => {
-      this.props.patchMenuInfo(checkedKeys);
-    };
-    renderTreeNodes = (data, key = '') => {
+      console.log('onCheck', checkedKeys);
+      this.setState({ checkedKeys });
+    }
+
+    onSelect = (selectedKeys, info) => {
+      console.log('onSelect', info);
+      this.setState({ selectedKeys });
+    }
+
+    renderTreeNodes = (data) => {
       return data.map((item) => {
-        let parentKey = key + item.key;
         if (item.children) {
           return (
-            <TreeNode title={item.title} key={parentKey} dataRef={item}>
-              {this.renderTreeNodes(item.children, parentKey)}
-            </TreeNode>
-          );
-        } else if (item.btnList) {
-          return (
-            <TreeNode title={item.title} key={parentKey} dataRef={item}>
-              {this.renderBtnTreedNode(item, parentKey)}
+            <TreeNode title={item.name} key={item.key} dataRef={item} selectable="false">
+              {this.renderTreeNodes(item.children)}
             </TreeNode>
           );
         }
-        return <TreeNode {...item} />;
+        return <TreeNode title={item.name} key={item.key} dataRef={item} />;
       });
-    };
-    renderBtnTreedNode = (menu, parentKey = '') => {
-      const btnTreeNode = []
-      menu.btnList.forEach((item) => {
-        console.log(parentKey + '-btn-' + item.key);
-        btnTreeNode.push(<TreeNode title={item.title} key={parentKey + '-btn-' + item.key} />);
-      })
-      return btnTreeNode;
     }
+
     render() {
-      const { visible, onCancel, onCreate, form } = this.props;
-      const { getFieldDecorator } = form;
+      const { visible, onCancel, onCreate } = this.props;
       return (
         <Modal
           title="修改权限"
@@ -213,18 +224,17 @@ const PermissonEdit = Form.create()(
           onOk={onCreate}
           onCancel={onCancel}
         >
-          <Form>
-            <Tree
-              checkable
-              defaultExpandAll
-              onCheck={(checkedKeys) => this.onCheck(checkedKeys)}
-              checkedKeys={menuInfo || []}
-            >
-              <TreeNode title="平台权限" key="platform_all">
-                {this.renderTreeNodes(menuConfig)}
-              </TreeNode>
-            </Tree>
-          </Form>
+          <Tree
+            checkable
+            onExpand={this.onExpand}
+            expandedKeys={this.state.expandedKeys}
+            autoExpandParent={this.state.autoExpandParent}
+            onCheck={this.onCheck}
+            checkedKeys={this.state.checkedKeys}
+            defaultExpandAll={true}
+          >
+            {this.renderTreeNodes(menuData)}
+          </Tree>
         </Modal>
       )
     }
@@ -292,6 +302,12 @@ class UserManager extends React.Component {
           visible={this.state.permissionVisbale}
           onCancel={() => { this.setpermissionVisbale(false) }}
           onCreate={this.handlePermissionCreate}
+          menuInfo={this.state.menuInfo || []}
+          patchMenuInfo={(checkedKeys) => {
+            this.setState({
+              menuInfo: checkedKeys
+            });
+          }}
         />
 
         <Card >
