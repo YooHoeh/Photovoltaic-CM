@@ -1,6 +1,8 @@
 import React, { PureComponent, Fragment } from 'react';
-import { Card, Button, Form, Input, Select, Tree, Transfer, Modal, Table, Divider, Tag } from 'antd'
+import { Card, Button, Form, Input, Select, Tree, Transfer, Modal, Table, Divider, Tag, Radio } from 'antd'
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
+
+const FormItem = Form.Item;
 const columns = [{
   title: '用户编号',
   dataIndex: 'userID',
@@ -51,10 +53,9 @@ const columns = [{
   align: 'right',
   render: (text, record) => (
     <span>
-      <a href="javascript:;">管理权限</a>
+      <a href="javascript:;">修改角色</a>
       <Divider type='vertical' />
       <a href="javascript:;">删除用户</a>
-
     </span>
   ),
 }];
@@ -111,20 +112,79 @@ const data = [
   },
 ];
 
+const NewUser = Form.create()(
+  class extends React.Component {
+    render() {
+      const { visible, onCancel, onCreate, form } = this.props;
+      const { getFieldDecorator } = form;
+      return (
+
+        <Form>
+          <FormItem label="用户名">
+            {getFieldDecorator('userName', {
+              rules: [{ required: true, message: '请输入用户名' }],
+            })(
+              <Input />
+            )}
+          </FormItem>
+
+          <FormItem label="账户类型">
+            {getFieldDecorator('userType', {
+              initialValue: 'admin',
+              rules: [{ required: true, message: '必须选择用户类型' }],
+            })(
+              <Radio.Group>
+                <Radio value="suAdmin">超级管理员</Radio>
+                <Radio value="admin">管理员</Radio>
+                <Radio value="VT">维运人员</Radio>
+                <Radio value="VP">维保人员</Radio>
+                <Radio value="demo">演示</Radio>
+              </Radio.Group>
+            )}
+          </FormItem>
+        </Form >
+
+      )
+    }
+  })
 class UserManager extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      newUserVisibale: false,
+      permissionVisbale: false
     };
   }
+  setnewUserVisibale(newUserVisibale) {
+    this.setState({ newUserVisibale });
+  }
 
+  setpermissionVisbale(permissionVisbale) {
+    this.setState({ permissionVisbale });
+  }
   render() {
 
     return (
       <PageHeaderLayout title="用户管理">
+        <Modal
+          title="添加用户"
+          visible={this.state.newUserVisibale}
+          onOk={() => this.setnewUserVisibale(false)}
+          onCancel={() => { this.setnewUserVisibale(false) }}
+        >
+          <NewUser />
+        </Modal>
+        <Modal
+          title="修改权限"
+          visible={this.state.permissionVisbale}
+          onOk={() => this.setpermissionVisbale(false)}
+          onCancel={() => { this.setpermissionVisbale(false) }}
+        >
+          修改权限
+        </Modal>
         <Card >
-          <Button type="primary" style={{ margin: "8px 0" }}>添加用户</Button>
+          <Button type="primary" style={{ margin: "8px 8px" }} onClick={() => this.setnewUserVisibale(true)}>添加用户</Button>
+          <Button type="primary" style={{ margin: "8px 8px" }} onClick={() => this.setpermissionVisbale(true)}>修改权限</Button>
           <Table columns={columns} dataSource={data} />
         </Card>
       </PageHeaderLayout>

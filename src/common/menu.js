@@ -4,7 +4,7 @@ const menuData = [
   {
     name: '首页',
     icon: 'dashboard',
-    path: 'dashboard/analysis',
+    path: 'dashboard',
   },
   {
     name: '告警管理',

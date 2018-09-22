@@ -58,7 +58,7 @@ const PskTab = () => {
   const formChange = (e) => {
 
     const key = e.target.name;
-    const value = md5(e.target.value);
+    const value = md5(md5(e.target.value));
     newPsk[key] = value;
     console.log(newPsk)
   }

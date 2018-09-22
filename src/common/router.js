@@ -96,7 +96,7 @@ export const getRouterData = app => {
     '//': {
       component: dynamicWrapper(app, ['user', 'login'], () => import('../routes/Dashboard/Analysis')),
     },
-    '/dashboard/analysis': {
+    '/dashboard': {
       component: dynamicWrapper(app, ['chart', 'global'], () => import('../routes/Dashboard/Analysis')),
     },
     '/list/site': {
