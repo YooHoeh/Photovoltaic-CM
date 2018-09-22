@@ -67,7 +67,7 @@ const PskTab = () => {
     if (newPsk.old === undefined) {
       message.warning('请输入原密码')
     }
-    if (newPsk.new != confirm) {
+    if (newPsk.new != newPsk.confirm) {
       message.warning('两次密码不一致请重新输入')
 
     }

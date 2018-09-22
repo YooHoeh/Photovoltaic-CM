@@ -140,7 +140,6 @@ const NewUser = Form.create()(
                 rules: [{ required: true, message: '必须选择用户类型' }],
               })(
                 <Radio.Group>
-                  <Radio value="suAdmin">超级管理员</Radio>
                   <Radio value="admin">管理员</Radio>
                   <Radio value="VT">维运人员</Radio>
                   <Radio value="VP">维保人员</Radio>
