@@ -380,7 +380,7 @@ export default class Analysis extends Component {
           allHomePageInfo.city_today.map(item => {
             day.push({
               x: codeToCityName(item.city),
-              y: item.power
+              y: parseInt(item.power)
             })
 
           })
@@ -398,7 +398,7 @@ export default class Analysis extends Component {
           allHomePageInfo.city_yestoday.map(item => {
             day.push({
               x: codeToCityName(item.city),
-              y: item.power
+              y: parseInt(item.power)
             })
           })
         }
@@ -458,13 +458,13 @@ export default class Analysis extends Component {
                     <Icon type="info-circle-o" />
                   </Tooltip>
                 }
-                total={numeral(allHomePageInfo.total_power).format('0,0')}
-                footer={<Field label="日发电量" value={`${numeral(allHomePageInfo.day_power).format('0,0')}瓦`} />}
+                total={numeral(allHomePageInfo.total_power).format('0,0') + ' 千瓦'}
+                footer={<Field label="日发电量" value={`${numeral(allHomePageInfo.day_power).format('0,0')} 千瓦`} />}
                 contentHeight={46}
               >
                 <Row>
-                  <Col span={12}>今年发电量：</Col>
-                  <Col span={12}>本月发电量：</Col>
+                  <Col span={12}><Field label="今年发电量：" value={`${numeral(allHomePageInfo.year.power).format('0,0')} 千瓦`} /></Col>
+                  <Col span={12}><Field label="本月发电量：" value={`${numeral(allHomePageInfo.month.power).format('0,0')} 千瓦`} /></Col>
                 </Row>
               </ChartCard>
             </Col>
@@ -483,8 +483,8 @@ export default class Analysis extends Component {
                 contentHeight={46}
               >
                 <Row>
-                  <Col span={12}>今年碳补偿量：</Col>
-                  <Col span={12}>本月碳补偿量：</Col>
+                  <Col span={12}><Field label="今年碳补偿量：" value={`${numeral(allHomePageInfo.year.carbon).format('0,0')} Kg`} /></Col>
+                  <Col span={12}><Field label="本月碳补偿量：" value={`${numeral(allHomePageInfo.month.carbon).format('0,0')} Kg`} /></Col>
                 </Row>
               </ChartCard>
             </Col>
@@ -665,7 +665,7 @@ export default class Analysis extends Component {
                     <TabPane tab="碳补偿" key="views">
                       <Row>
                         <div className={styles.salesBar}>
-                          <Bar height={255} data={salesData} />
+                          <Bar height={255} data={dayCarbonPower(this.state.isToday, "corbon")} />
                         </div>
                       </Row>
                     </TabPane>
