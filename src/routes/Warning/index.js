@@ -137,9 +137,9 @@ export default class TableList extends PureComponent {
             </FormItem>
           </Col>
           <Col md={9} sm={24}>
-            <FormItem label="时间范围">
+            <FormItem label="选择日期">
               {getFieldDecorator('timeRange')(
-                <RangePicker />
+                <DatePicker />
               )}
             </FormItem>
           </Col>
