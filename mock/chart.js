@@ -25,7 +25,7 @@ const salesData = [];
 for (let i = 0; i < 18; i += 1) {
   salesData.push({
     x: `${i + 1}地市`,
-    y: Math.floor(Math.random() * 1000) + 200,
+    y: Math.floor(Math.random() * 1000),
   });
 }
 const searchData = [];

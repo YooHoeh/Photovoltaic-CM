@@ -28,7 +28,7 @@ import {
   TimelineChart,
 } from 'components/Charts';
 import Trend from '../../components/Trend';
-import { getTimeDistance } from '../../utils/utils';
+import { getTimeDistance, codeToCityName } from '../../utils/utils';
 import styles from './Analysis.less';
 import MapCard from '../../components/Amap';
 import IconFont from "../../components/IconFont";
@@ -69,7 +69,7 @@ export default class Analysis extends Component {
 
   state = {
     salesType: 'all',
-    rangePickerValue: getTimeDistance('year'),
+    isToday: 'today'
 
   }
 
@@ -111,41 +111,14 @@ export default class Analysis extends Component {
     });
   };
 
-  handleRangePickerChange = rangePickerValue => {
-    this.setState({
-      rangePickerValue,
-    });
-
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'chart/fetchSalesData',
-    });
-  };
 
   selectDate = type => {
     this.setState({
-      rangePickerValue: getTimeDistance(type),
-    });
-
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'chart/fetchSalesData',
+      isToday: type
     });
   };
 
-  isActive(type) {
-    const { rangePickerValue } = this.state;
-    const value = getTimeDistance(type);
-    if (!rangePickerValue[0] || !rangePickerValue[1]) {
-      return;
-    }
-    if (
-      rangePickerValue[0].isSame(value[0], 'day') &&
-      rangePickerValue[1].isSame(value[1], 'day')
-    ) {
-      return styles.currentDate;
-    }
-  }
+
 
   ttt = () => {
     const { dispatch } = this.props;
@@ -163,7 +136,7 @@ export default class Analysis extends Component {
 
   render() {
 
-    const { rangePickerValue, salesType } = this.state;
+    const { salesType } = this.state;
     const { chart, loading, weather, city, global } = this.props;
     const {
       visitData,
@@ -283,21 +256,41 @@ export default class Analysis extends Component {
     const salesExtra = (
       <div className={styles.salesExtraWrap}>
         <div className={styles.salesExtra}>
-          <a className={this.isActive('today')} onClick={() => this.selectDate('today')}>
+          <a onClick={() => this.selectDate('today')}>
             今日
           </a>
-          <a className={this.isActive('week')} onClick={() => this.selectDate('week')}>
+          <a onClick={() => this.selectDate('yesterday')}>
             昨日
           </a>
         </div>
-        <RangePicker
-          value={rangePickerValue}
-          onChange={this.handleRangePickerChange}
-          style={{ width: 256 }}
-        />
+
       </div>
     );
+    const allCityColums = [
+      {
+        title: '区域',
+        dataIndex: 'city',
+        key: 'city',
+        render: text => codeToCityName(text),
+      },
 
+      {
+        title: '发电量',
+        dataIndex: 'power',
+        key: 'power',
+        align: 'right',
+        sorter: (a, b) => a.power - b.power,
+        className: styles.alignRight,
+      },
+      {
+        title: '建站数',
+        align: 'right',
+        dataIndex: 'install',
+        key: 'install',
+        sorter: (a, b) => a.install - b.install,
+        className: styles.alignRight,
+      },
+    ]
     const columns = [
       {
         title: '区域',
@@ -373,7 +366,47 @@ export default class Analysis extends Component {
       xl: 6,
       style: { marginBottom: 12 },
     };
+    const dayCarbonPower = (time, type) => {
+      const day = [];
+      if (time == 'today') {
+        if (type == 'carbon') {
+          allHomePageInfo.city_today.map(item => {
+            day.push({
+              x: codeToCityName(item.city),
+              y: parseInt(item.carbon)
+            })
+          })
+        } else {
+          allHomePageInfo.city_today.map(item => {
+            day.push({
+              x: codeToCityName(item.city),
+              y: item.power
+            })
 
+          })
+        }
+
+      } else {
+        if (type == 'carbon') {
+          allHomePageInfo.city_yestoday.map(item => {
+            day.push({
+              x: codeToCityName(item.city),
+              y: parseInt(item.carbon)
+            })
+          })
+        } else {
+          allHomePageInfo.city_yestoday.map(item => {
+            day.push({
+              x: codeToCityName(item.city),
+              y: item.power
+            })
+          })
+        }
+      }
+      console.log(day)
+      return day
+
+    }
     return (
       allHomePageInfo.status === undefined
         ?
@@ -429,14 +462,10 @@ export default class Analysis extends Component {
                 footer={<Field label="日发电量" value={`${numeral(allHomePageInfo.day_power).format('0,0')}瓦`} />}
                 contentHeight={46}
               >
-                <Trend flag="up" style={{ marginRight: 16 }}>
-                  周同比
-                <span className={styles.trendText}>12%</span>
-                </Trend>
-                <Trend flag="down">
-                  日环比
-                <span className={styles.trendText}>11%</span>
-                </Trend>
+                <Row>
+                  <Col span={12}>今年发电量：</Col>
+                  <Col span={12}>本月发电量：</Col>
+                </Row>
               </ChartCard>
             </Col>
             <Col {...topColResponsiveProps}>
@@ -453,7 +482,10 @@ export default class Analysis extends Component {
                 footer={<Field label="日碳补偿量" value={numeral(allHomePageInfo.day_carbon).format('0,0') + "Kg"} />}
                 contentHeight={46}
               >
-                <MiniArea color="#975FE4" data={visitData} />
+                <Row>
+                  <Col span={12}>今年碳补偿量：</Col>
+                  <Col span={12}>本月碳补偿量：</Col>
+                </Row>
               </ChartCard>
             </Col>
 
@@ -503,8 +535,8 @@ export default class Analysis extends Component {
                   <Table
                     rowKey={record => record.index}
                     size="small"
-                    columns={columns}
-                    dataSource={searchData}
+                    columns={allCityColums}
+                    dataSource={allHomePageInfo.city_power}
                     pagination={{
                       style: { marginBottom: 0 },
                       pageSize: 10,
@@ -627,30 +659,14 @@ export default class Analysis extends Component {
                   <Tabs tabBarExtraContent={salesExtra} size="large" tabBarStyle={{ marginBottom: 24 }}>
                     <TabPane tab="发电量" key="sales">
                       <div className={styles.salesBar}>
-                        <Bar height={295} title={"发电量 " + nowTime} data={salesData} />
+                        <Bar height={255} data={dayCarbonPower(this.state.isToday, "power")} />
                       </div>
                     </TabPane>
                     <TabPane tab="碳补偿" key="views">
                       <Row>
-                        <Col xl={16} lg={12} md={12} sm={24} xs={24}>
-                          <div className={styles.salesBar}>
-                            <Bar height={292} title={"碳补偿量" + nowTime} data={salesData} />
-                          </div>
-                        </Col>
-                        <Col xl={8} lg={12} md={12} sm={24} xs={24}>
-                          <div className={styles.salesRank}>
-                            <h4 className={styles.rankingTitle}>站点碳补偿排名</h4>
-                            <ul className={styles.rankingList}>
-                              {rankingListData.map((item, i) => (
-                                <li key={item.title}>
-                                  <span className={i < 3 ? styles.active : ''}>{i + 1}</span>
-                                  <span>{item.title}</span>
-                                  <span>{numeral(item.total).format('0,0')}</span>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        </Col>
+                        <div className={styles.salesBar}>
+                          <Bar height={255} data={salesData} />
+                        </div>
                       </Row>
                     </TabPane>
                   </Tabs>
@@ -670,6 +686,7 @@ export default class Analysis extends Component {
                 <Table
                   rowKey={record => record.index}
                   size="small"
+                  height={255}
                   columns={warnColumns}
                   dataSource={allHomePageInfo.warning_info}
                   pagination={{

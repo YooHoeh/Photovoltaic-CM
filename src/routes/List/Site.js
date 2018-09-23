@@ -33,7 +33,7 @@ const getValue = obj =>
     .map(key => obj[key])
     .join(',');
 const statusMap = ['default', 'processing', 'success', 'error'];
-const status = ['运行中', '建设中', '建设目标'];
+const status = ['运行中', '建设中', '建设目标', '告警'];
 const cityList = [
   {
     title: '郑州市',
@@ -645,10 +645,7 @@ export default class TableList extends PureComponent {
       {
         title: '操作',
         render: () => (
-          <Fragment>
-            <a href="">编辑站点信息</a>
-            <Divider type="vertical" />
-          </Fragment>
+          <a href="">编辑站点信息</a>
         ),
       },
     ];

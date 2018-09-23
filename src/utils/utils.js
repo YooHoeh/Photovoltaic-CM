@@ -20,13 +20,27 @@ const cityList = [
   { name: "信阳市", code: 4115 },
   { name: "济源市", code: 4118 },
 ]
-export const cityNameToCode = (name) => {
+export function cityNameToCode(name) {
+  let code = '';
   cityList.map((i) => {
     if (name == i.name) {
       console.log(i.code)
-      return i.code;
+      code = i.code;
+
+    }
+    return code
+
+  })
+}
+export function codeToCityName(code) {
+  let name = '';
+  cityList.map((i) => {
+    if (code == i.code) {
+      console.log(i.name)
+      name = i.name;
     }
   })
+  return name
 }
 export function fixedZero(val) {
   return val * 1 < 10 ? `0${val}` : val;

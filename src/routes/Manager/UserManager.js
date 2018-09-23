@@ -178,12 +178,11 @@ const PermissonEdit = Form.create()(
     state = {
       expandedKeys: [],
       autoExpandParent: true,
-      checkedKeys: [],
-      selectedKeys: [],
+      checkedKeys: ["0-0-0", "0-0-1"],
+      userSelect: 'admin'
     }
 
     onExpand = (expandedKeys) => {
-      console.log('onExpand', expandedKeys);
       // if not set autoExpandParent to false, if children expanded, parent can not collapse.
       // or, you can remove all expanded children keys.
       this.setState({
@@ -192,21 +191,23 @@ const PermissonEdit = Form.create()(
       });
     }
 
-    onCheck = (checkedKeys) => {
+    onCheck = (checkedKeys, checkTitle) => {
+      const arr = {}
+      for (let i = 0; i < checkTitle.checkedNodes.length; i++) {
+        console.log(checkTitle.checkedNodes[i].props.title)
+      }
       console.log('onCheck', checkedKeys);
+      console.log('onCheck', checkTitle);
+      console.log('onCheck', arr);
+      console.log('onCheck', checkTitle.node.props.title);
       this.setState({ checkedKeys });
     }
-
-    // onSelect = (selectedKeys, info) => {
-    //   console.log('onSelect', info);
-    //   this.setState({ selectedKeys });
-    // }
 
     renderTreeNodes = (data) => {
       return data.map((item) => {
         if (item.children) {
           return (
-            <TreeNode title={item.name} key={item.key} dataRef={item} selectable={false}>
+            <TreeNode title={item.name} key={item.key} dataRef={item} naselectable={false}>
               {this.renderTreeNodes(item.children)}
             </TreeNode>
           );
@@ -214,7 +215,26 @@ const PermissonEdit = Form.create()(
         return <TreeNode title={item.name} key={item.key} dataRef={item} selectable={false} />;
       });
     }
+    userSelectChange = (value) => {
+      console.log(`selected ${value}`);
+      this.setState({ userSelect: value })
+      switch (value) {
+        case "admin":
+          console.log('将权限列表勾选切换为管理员');
+          break;
+        case "VT":
+          console.log('将权限列表勾选切换为维运人员');
+          break;
+        case "VP":
+          console.log('将权限列表勾选切换为维保人员');
+          break;
+        case "demo":
+          console.log('将权限列表勾选切换为演示');
+          break;
+        default: break;
 
+      }
+    }
     render() {
       const { visible, onCancel, onCreate } = this.props;
       return (
@@ -224,6 +244,12 @@ const PermissonEdit = Form.create()(
           onOk={onCreate}
           onCancel={onCancel}
         >
+          <Select defaultValue="admin" style={{ width: 120 }} onChange={this.userSelectChange}>
+            <Option value="admin">管理员</Option>
+            <Option value="VT">维运人员</Option>
+            <Option value="VP" >维保人员</Option>
+            <Option value="demo">演示</Option>
+          </Select>
           <Tree
             checkable
             onExpand={this.onExpand}
@@ -232,10 +258,11 @@ const PermissonEdit = Form.create()(
             onCheck={this.onCheck}
             checkedKeys={this.state.checkedKeys}
             defaultExpandAll="true"
+            draggable={true}
           >
             {this.renderTreeNodes(menuData)}
           </Tree>
-        </Modal>
+        </Modal >
       )
     }
   }
