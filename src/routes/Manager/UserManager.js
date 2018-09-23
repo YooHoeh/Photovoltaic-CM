@@ -197,21 +197,21 @@ const PermissonEdit = Form.create()(
       this.setState({ checkedKeys });
     }
 
-    onSelect = (selectedKeys, info) => {
-      console.log('onSelect', info);
-      this.setState({ selectedKeys });
-    }
+    // onSelect = (selectedKeys, info) => {
+    //   console.log('onSelect', info);
+    //   this.setState({ selectedKeys });
+    // }
 
     renderTreeNodes = (data) => {
       return data.map((item) => {
         if (item.children) {
           return (
-            <TreeNode title={item.name} key={item.key} dataRef={item} selectable="false">
+            <TreeNode title={item.name} key={item.key} dataRef={item} selectable={false}>
               {this.renderTreeNodes(item.children)}
             </TreeNode>
           );
         }
-        return <TreeNode title={item.name} key={item.key} dataRef={item} />;
+        return <TreeNode title={item.name} key={item.key} dataRef={item} selectable={false} />;
       });
     }
 
@@ -231,7 +231,7 @@ const PermissonEdit = Form.create()(
             autoExpandParent={this.state.autoExpandParent}
             onCheck={this.onCheck}
             checkedKeys={this.state.checkedKeys}
-            defaultExpandAll={true}
+            defaultExpandAll="true"
           >
             {this.renderTreeNodes(menuData)}
           </Tree>
@@ -312,7 +312,7 @@ class UserManager extends React.Component {
 
         <Card >
           <Button type="primary" style={{ margin: "8px 8px" }} onClick={() => this.setnewUserVisibale(true)}>添加用户</Button>
-          <Button type="primary" style={{ margin: "8px 8px" }} onClick={() => this.setpermissionVisbale(true)}>修改权限</Button>
+          <Button style={{ margin: "8px 8px" }} onClick={() => this.setpermissionVisbale(true)}>修改权限</Button>
           <Table columns={columns} dataSource={data} />
         </Card>
       </PageHeaderLayout>
