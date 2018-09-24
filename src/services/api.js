@@ -84,9 +84,15 @@ export async function ttt() {
   return request('http://172.20.151.36/photovoltaic/public/index/index/general.html', {
   });
 }
+export async function historySiteSearch(filter) {
+  console.log("发起请求")
+  return request('/api/siteSearch', {
+    method:'POST',
+    body:filter
+  });
+}
 export async function homePage() {
   console.log('homepage api');
-  // return request('http://172.20.151.36/!file/test.php');
   return request('http://172.20.151.36/photovoltaic/public/index/index/general');
 }
 export async function lll(params) {

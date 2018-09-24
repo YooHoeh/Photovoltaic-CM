@@ -87,14 +87,7 @@ export default class Analysis extends Component {
       salesType: e.target.value,
     });
   };
-  initHomePage = (allHomePageInfo) => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'global/getHomePageInfo',
-      payload: allHomePageInfo
-    });
 
-  }
   handleTabChange = key => {
     this.setState({
       currentTabKey: key,

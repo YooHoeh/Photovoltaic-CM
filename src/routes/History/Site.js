@@ -19,6 +19,7 @@ import {
   Badge,
   Divider,
   TreeSelect,
+  Spin,
   Table,
   Tooltip,
 } from 'antd';
@@ -128,6 +129,8 @@ const site = {
   roof: "租赁",
   area: "200㎡"
 }
+
+
 const siteInfo = (
   < div >
     <Row type="flex" justify="space-around" align="middle">
@@ -161,7 +164,7 @@ const siteInfo = (
       <Col span={7}>总光伏发电量:</Col><Col span={14} style={{ margin: "3px" }}>{site.totalPower}</Col>
     </Row>
   </div >
-  )
+)
 
 const getYear = () => {
   const thisYear = new Date().getFullYear();
@@ -172,19 +175,31 @@ const getYear = () => {
   }
   return year.map(item => item)
 }
-@connect(({ rule, loading }) => ({
+@connect(({ rule, loading, chart = {} }) => ({
   rule,
+  data: chart.historySiteSearchData
 }))
 
 export default class SiteHis extends PureComponent {
   state = {
-
+    data: this.props.data,
+    filter: {
+      siteID: "123",
+      type: 'day',
+      time: '1919-19-13'
+    }
   };
 
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
       type: 'rule/fetch',
+    });
+    dispatch({
+      type: 'chart/fetchHistorySiteSearchData',
+      payload: {
+        fileter: this.state.filter
+      }
     });
   }
   render() {
@@ -215,8 +230,21 @@ export default class SiteHis extends PureComponent {
               </Select>
             </span>}
 
-          >
-            <Stacked />
+          >{
+
+              this.state.data
+                ?
+                <Stacked
+                  data={this.state.data}
+
+                />
+                :
+                <Spin
+                  tip="等待数据"
+                  size="middle"
+                  style={{ display: "flex", alignItems: "center", justifyContent: "center", lineHeight: "calc(40vh)" }}
+                />
+            }
           </Card>
         </Row>
         <Row>

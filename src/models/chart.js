@@ -1,4 +1,4 @@
-import { fakeChartData, ttt } from '../services/api';
+import { fakeChartData, ttt, historySiteSearch } from '../services/api';
 
 export default {
   namespace: 'chart',
@@ -16,6 +16,7 @@ export default {
     radarData: [],
     loading: false,
     tt: [],
+    historySiteSearchData: []
   },
 
   effects: {
@@ -32,6 +33,15 @@ export default {
         type: 'save',
         payload: {
           salesData: response.salesData,
+        },
+      });
+    },
+    *fetchHistorySiteSearchData(filter, { call, put }) {
+      const response = yield call(historySiteSearch,filter);
+      yield put({
+        type: 'save',
+        payload: {
+          historySiteSearchData: response,
         },
       });
     },
@@ -70,6 +80,7 @@ export default {
         salesTypeDataOffline: [],
         radarData: [],
         tt: []
+
       };
     },
   },

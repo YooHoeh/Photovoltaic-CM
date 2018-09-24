@@ -250,7 +250,7 @@ const PermissonEdit = Form.create()(
             {getFieldDecorator('userType', {
               initialValue: "admin"
             })(
-              <Select defaultValue="admin" style={{ width: 120 }} onChange={this.userSelectChange}>
+              <Select style={{ width: 120 }} onChange={this.userSelectChange}>
                 <Option value="admin">管理员</Option>
                 <Option value="wy">维运人员</Option>
                 <Option value="wb" >维保人员</Option>
