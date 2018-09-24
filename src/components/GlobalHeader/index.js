@@ -102,14 +102,16 @@ export default class GlobalHeader extends PureComponent {
         />
         <div className={styles.right}>
           <Tooltip title="使用文档">
-            <a
+            {/* <a
               target="_blank"
               href="http://172.20.151.88/api.html"
               rel="noopener noreferrer"
               className={styles.action}
-            >
+            > */}
+            <Link to='/help'>
               <Icon type="question-circle-o" style={{ color: '#fff' }} />
-            </a>
+            </Link>
+            {/* </a> */}
           </Tooltip>
           <NoticeIcon
             className={styles.action}
