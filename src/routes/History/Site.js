@@ -25,7 +25,7 @@ import {
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import Stacked from "../../components/StackMap";
 import styles from './Site.less';
-const { RangePicker } = DatePicker;
+const { RangePicker, MonthPicker } = DatePicker;
 const columns = [{
   title: 'Name',
   dataIndex: 'name',
@@ -128,8 +128,8 @@ const site = {
   roof: "租赁",
   area: "200㎡"
 }
-const siteInfo =
-  <div>
+const siteInfo = (
+  < div >
     <Row type="flex" justify="space-around" align="middle">
       <Col span={7}>名称:</Col><Col span={14} style={{ margin: "3px" }}>{site.name}</Col>
     </Row>
@@ -160,8 +160,18 @@ const siteInfo =
     <Row type="flex" justify="space-around" align="middle">
       <Col span={7}>总光伏发电量:</Col><Col span={14} style={{ margin: "3px" }}>{site.totalPower}</Col>
     </Row>
-  </div>
+  </div >
+  )
 
+const getYear = () => {
+  const thisYear = new Date().getFullYear();
+  const year = []
+  for (let i = 2017; i <= thisYear; i++) {
+    year.push(< Option value={i} >{i}</Option >)
+    console.log(i)
+  }
+  return year.map(item => item)
+}
 @connect(({ rule, loading }) => ({
   rule,
 }))
@@ -179,9 +189,17 @@ export default class SiteHis extends PureComponent {
   }
   render() {
     function onChange(pagination, filters, sorter) {
-      console.log('params', pagination, filters, sorter);
+      console.log('table', pagination, filters, sorter);
     }
-
+    function onDateChange(obj, date) {
+      console.log('date', date);
+    }
+    function onMonthChange(obj, month) {
+      console.log('month', month);
+    }
+    function onYearChange(year) {
+      console.log('Year', year);
+    }
     return (
       <PageHeaderLayout title="站点查询">
         <Row >
@@ -189,7 +207,13 @@ export default class SiteHis extends PureComponent {
             bordered={false}
             title={<Tooltip placement="bottomLeft" title={siteInfo}>{site.name + "站点信息"}</Tooltip>}
             style={{ marginBottom: "12px", overflow: "hidden" }}
-            extra={<RangePicker onChange={onChange} />}
+            extra={<span>
+              <DatePicker onChange={onDateChange} placeholder="单日查询" style={{ marginRight: "8px" }} />
+              <MonthPicker onChange={onMonthChange} placeholder="整月查询" style={{ marginRight: "8px" }} />
+              <Select onSelect={onYearChange} style={{ width: "150px" }} placeholder="全年查询">
+                {getYear()}
+              </Select>
+            </span>}
 
           >
             <Stacked />
