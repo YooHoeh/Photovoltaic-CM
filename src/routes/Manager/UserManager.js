@@ -1,11 +1,12 @@
 import React, { PureComponent, Fragment } from 'react';
-import { Card, Button, Form, Input, Select, Tree, Transfer, Modal, Table, Divider, Tag, Radio } from 'antd'
+import { Card, Button, Form, TreeSelect, Input, Select, Tree, Transfer, Modal, Table, Divider, Tag, Radio } from 'antd'
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import TextArea from 'antd/lib/input/TextArea';
 import { menuData } from "../../common/menu";
 const Option = Select.Option;
 const TreeNode = Tree.TreeNode;
 const FormItem = Form.Item;
+const SHOW_PARENT = TreeSelect.SHOW_PARENT;
 const columns = [{
   title: '用户编号',
   dataIndex: 'userID',
@@ -127,7 +128,7 @@ const NewUser = Form.create()(
           onOk={onCreate}
           onCancel={onCancel}
         >
-          <Form>
+          <Form layout="horizontal">
             <FormItem label="用户名">
               {getFieldDecorator('userName', {
                 rules: [{ required: true, message: '请输入用户名' }],
@@ -143,8 +144,8 @@ const NewUser = Form.create()(
               })(
                 <Radio.Group>
                   <Radio value="admin">管理员</Radio>
-                  <Radio value="VT">维运人员</Radio>
-                  <Radio value="VP">维保人员</Radio>
+                  <Radio value="wy">维运人员</Radio>
+                  <Radio value="wb">维保人员</Radio>
                   <Radio value="demo">演示</Radio>
                 </Radio.Group>
               )}
@@ -207,12 +208,12 @@ const PermissonEdit = Form.create()(
       return data.map((item) => {
         if (item.children) {
           return (
-            <TreeNode title={item.name} key={item.key} dataRef={item} naselectable={false}>
+            <TreeNode title={item.name} key={item.key} value={item.id}>
               {this.renderTreeNodes(item.children)}
             </TreeNode>
           );
         }
-        return <TreeNode title={item.name} key={item.key} dataRef={item} selectable={false} />;
+        return <TreeNode title={item.name} key={item.key} value={item.id} />;
       });
     }
     userSelectChange = (value) => {
@@ -222,13 +223,13 @@ const PermissonEdit = Form.create()(
         case "admin":
           console.log('将权限列表勾选切换为管理员');
           break;
-        case "VT":
+        case "wy":
           console.log('将权限列表勾选切换为维运人员');
           break;
-        case "VP":
+        case "wb":
           console.log('将权限列表勾选切换为维保人员');
           break;
-        case "demo":
+        case "3":
           console.log('将权限列表勾选切换为演示');
           break;
         default: break;
@@ -236,7 +237,8 @@ const PermissonEdit = Form.create()(
       }
     }
     render() {
-      const { visible, onCancel, onCreate } = this.props;
+      const { visible, onCancel, onCreate, form } = this.props;
+      const { getFieldDecorator } = form;
       return (
         <Modal
           title="修改权限"
@@ -244,24 +246,36 @@ const PermissonEdit = Form.create()(
           onOk={onCreate}
           onCancel={onCancel}
         >
-          <Select defaultValue="admin" style={{ width: 120 }} onChange={this.userSelectChange}>
-            <Option value="admin">管理员</Option>
-            <Option value="VT">维运人员</Option>
-            <Option value="VP" >维保人员</Option>
-            <Option value="demo">演示</Option>
-          </Select>
-          <Tree
-            checkable
-            onExpand={this.onExpand}
-            expandedKeys={this.state.expandedKeys}
-            autoExpandParent={this.state.autoExpandParent}
-            onCheck={this.onCheck}
-            checkedKeys={this.state.checkedKeys}
-            defaultExpandAll="true"
-            draggable={true}
-          >
-            {this.renderTreeNodes(menuData)}
-          </Tree>
+          <FormItem label="角色类型">
+            {getFieldDecorator('userType', {
+              initialValue: "admin"
+            })(
+              <Select defaultValue="admin" style={{ width: 120 }} onChange={this.userSelectChange}>
+                <Option value="admin">管理员</Option>
+                <Option value="wy">维运人员</Option>
+                <Option value="wb" >维保人员</Option>
+                <Option value="demo">演示</Option>
+              </Select>
+            )}
+          </FormItem>
+          <FormItem label="平台权限">
+            {getFieldDecorator('permissionList', {
+            })(
+              <TreeSelect
+                value={this.state.value}
+                treeCheckable={true}
+                showCheckedStrategy={SHOW_PARENT}
+                treeDefaultExpandAll={true}
+                searchPlaceholder='选择权限'
+                style={{
+                  width: "300px"
+                }}
+              >
+                {this.renderTreeNodes(menuData)}
+              </TreeSelect>
+            )}
+          </FormItem>
+
         </Modal >
       )
     }
@@ -283,11 +297,14 @@ class UserManager extends React.Component {
   setpermissionVisbale(permissionVisbale) {
     this.setState({ permissionVisbale });
   }
-  saveFormRef = (formRef) => {
-    this.formRef = formRef;
+  saveFormRef1 = (formRef) => {
+    this.formRef1 = formRef;
+  }
+  saveFormRef2 = (formRef) => {
+    this.formRef2 = formRef;
   }
   handleNewUserCreate = () => {
-    const form = this.formRef.props.form;
+    const form = this.formRef1.props.form;
     form.validateFields((err, values) => {
       if (err) {
         return;
@@ -299,7 +316,7 @@ class UserManager extends React.Component {
     });
   }
   handlePermissionCreate = () => {
-    const form = this.formRef.props.form;
+    const form = this.formRef2.props.form;
     form.validateFields((err, values) => {
       if (err) {
         return;
@@ -318,14 +335,14 @@ class UserManager extends React.Component {
       <PageHeaderLayout title="用户管理">
 
         <NewUser
-          wrappedComponentRef={this.saveFormRef}
+          wrappedComponentRef={this.saveFormRef1}
           visible={this.state.newUserVisibale}
           onCancel={() => { this.setnewUserVisibale(false) }}
           onCreate={this.handleNewUserCreate}
         />
 
         <PermissonEdit
-          wrappedComponentRef={this.saveFormRef}
+          wrappedComponentRef={this.saveFormRef2}
           visible={this.state.permissionVisbale}
           onCancel={() => { this.setpermissionVisbale(false) }}
           onCreate={this.handlePermissionCreate}

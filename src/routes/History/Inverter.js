@@ -133,44 +133,44 @@ const inverterInfo = (
 
   <div>
     <Row type="flex" justify="space-around" align="middle">
-      <Col span={7}>编号:</Col>
-      <Col span={14} style={{ margin: "3px" }}>{inverter.id}</Col>
+      <Col span={10}>编号:</Col>
+      <Col span={13} style={{ margin: "3px" }}>{inverter.id}</Col>
     </Row>
     <Row type="flex" justify="space-around" align="middle">
-      <Col span={7}>所属站点:</Col>
-      <Col span={14} style={{ margin: "3px" }}>{inverter.site}</Col>
+      <Col span={10}>所属站点:</Col>
+      <Col span={13} style={{ margin: "3px" }}>{inverter.site}</Col>
     </Row>
     <Row type="flex" justify="space-around" align="middle">
-      <Col span={7}>机器型号:</Col>
-      <Col span={14} style={{ margin: "3px" }}>{inverter.model}</Col>
+      <Col span={10}>机器型号:</Col>
+      <Col span={13} style={{ margin: "3px" }}>{inverter.model}</Col>
     </Row>
     <Row type="flex" justify="space-around" align="middle">
-      <Col span={7}>机器串号:</Col>
-      <Col span={14} style={{ margin: "3px" }}>{inverter.serial}</Col>
+      <Col span={10}>机器串号:</Col>
+      <Col span={13} style={{ margin: "3px" }}>{inverter.serial}</Col>
     </Row>
     <Row type="flex" justify="space-around" align="middle">
-      <Col span={7}>协议类型:</Col>
-      <Col span={14} style={{ margin: "3px" }}>{inverter.agreement}</Col>
+      <Col span={10}>协议类型:</Col>
+      <Col span={13} style={{ margin: "3px" }}>{inverter.agreement}</Col>
     </Row>
     <Row type="flex" justify="space-around" align="middle">
-      <Col span={7}>光伏组串总数:</Col>
-      <Col span={14} style={{ margin: "3px" }}>{inverter.mpptNum}</Col>
+      <Col span={10}>光伏组串总数:</Col>
+      <Col span={13} style={{ margin: "3px" }}>{inverter.mpptNum}</Col>
     </Row>
     <Row type="flex" justify="space-around" align="middle">
-      <Col span={7}>光伏支路总数:</Col>
-      <Col span={14} style={{ margin: "3px" }}>{inverter.pvNum}</Col>
+      <Col span={10}>光伏支路总数:</Col>
+      <Col span={13} style={{ margin: "3px" }}>{inverter.pvNum}</Col>
     </Row>
     <Row type="flex" justify="space-around" align="middle">
-      <Col span={7}>总光伏发电量:</Col>
-      <Col span={14} style={{ margin: "3px" }}>{inverter.totalPower}</Col>
+      <Col span={10}>总光伏发电量:</Col>
+      <Col span={13} style={{ margin: "3px" }}>{inverter.totalPower}</Col>
     </Row>
     <Row type="flex" justify="space-around" align="middle">
-      <Col span={7}>运行状态状态:</Col>
-      <Col span={14} style={{ margin: "3px" }}>{inverter.runState}</Col>
+      <Col span={10}>运行状态状态:</Col>
+      <Col span={13} style={{ margin: "3px" }}>{inverter.runState}</Col>
     </Row>
     <Row type="flex" justify="space-around" align="middle">
-      <Col span={7}>更新时间:</Col>
-      <Col span={14} style={{ margin: "3px" }}>{inverter.date}</Col>
+      <Col span={10}>更新时间:</Col>
+      <Col span={13} style={{ margin: "3px" }}>{inverter.date}</Col>
     </Row>
   </div>
 )

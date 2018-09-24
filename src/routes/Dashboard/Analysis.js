@@ -18,13 +18,8 @@ import {
 import numeral from 'numeral';
 import {
   ChartCard,
-  yuan,
-  MiniArea,
-  MiniBar,
-  MiniProgress,
   Field,
   Bar,
-  Pie,
   TimelineChart,
 } from 'components/Charts';
 import Trend from '../../components/Trend';
@@ -49,11 +44,7 @@ for (let i = 0; i < 20; i += 1) {
     y2: Math.floor(Math.random() * 100) + 10,
   });
 }
-const Yuan = ({ children }) => (
-  <span
-    dangerouslySetInnerHTML={{ __html: yuan(children) }} /* eslint-disable-line react/no-danger */
-  />
-);
+
 
 @connect(({ chart, loading, global = {} }) => ({
   // chart,
@@ -82,7 +73,6 @@ export default class Analysis extends Component {
     dispatch({
       type: 'global/getHomePageInfo',
     });
-    // setInterval(this.initHomePage, 900000)
   }
 
   componentWillUnmount() {
@@ -136,27 +126,24 @@ export default class Analysis extends Component {
 
   render() {
 
-    const { salesType } = this.state;
     const { chart, loading, weather, city, global } = this.props;
     const {
-      visitData,
-      visitData2,
-      salesData,
       searchData,
-      offlineData,
-      offlineChartData,
-      salesTypeData,
-      salesTypeDataOnline,
-      salesTypeDataOffline,
     } = chart;
     const { allHomePageInfo } = global
-    const salesPieData =
-      salesType === 'all'
-        ? salesTypeData
-        : salesType === 'online'
-          ? salesTypeDataOnline
-          : salesTypeDataOffline;
-    const nowTime = new Date().toLocaleDateString()
+    const timeLineChartData = () => {
+      const timeChartData = [];
+      const origin = allHomePageInfo.province;
+      origin.map(item => {
+        timeChartData.push({
+          x: item.index,
+          y1: parseInt(item.power),
+          y2: parseInt(item.carbon),
+        })
+      })
+      return timeChartData
+    }
+
     const WeatherFooter = () => {
       if (weather == undefined) {
         return (
@@ -604,7 +591,7 @@ export default class Analysis extends Component {
                   <div style={{ padding: '0 24px' }}>
                     <TimelineChart
                       height={400}
-                      data={offlineChartData1}
+                      data={timeLineChartData()}
                       titleMap={{ y1: '发电量', y2: '碳补偿量' }}
                     />
                   </div>
