@@ -16,7 +16,7 @@ export default {
     radarData: [],
     loading: false,
     tt: [],
-    historySiteSearchData: []
+    historySiteSearchData: {}
   },
 
   effects: {

@@ -69,12 +69,16 @@ const proxy = {
   }),
   'GET /api/fake_list': getFakeList,
   'GET /api/fake_chart_data': getFakeChartData,
-  'POST /api/siteSearch': [
-    {
-      time: "一月",
-      "逆变器1": 25635,
-      "逆变器2": 1890,
-      "逆变器3": 9314
+  'POST /api/siteSearch':
+  (req, res) => {
+    res.send(
+  {
+    data:[
+      {
+        time: "一月",
+        "逆变器1": 25635,
+        "逆变器2": 1890,
+        "逆变器3": 9314
     },
     {
       time: "二月",
@@ -141,8 +145,20 @@ const proxy = {
       "逆变器1": 38253,
       "逆变器2": 42538,
       "逆变器3": 15757
-    },
-  ],
+    }],
+    info:{
+      name: "光伏电站001",
+      position: "河南省郑州市中华园区北城街",
+      coordinate: "113.123124,224.123454",
+      disignCount: "50000kW",
+      buildCount: "48000kW",
+      totalPower: "60000kW",
+      runState: "建设中",
+      netState: "已并网",
+      roof: "租赁",
+      area: "200㎡"
+    }
+  })},
   'GET /api/profile/basic': getProfileBasicData,
   'GET /api/profile/advanced': getProfileAdvancedData,
   'POST /api/login/account': (req, res) => {
