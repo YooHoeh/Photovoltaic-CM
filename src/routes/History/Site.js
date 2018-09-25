@@ -27,6 +27,7 @@ import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import Stacked from "../../components/StackMap";
 import styles from './Site.less';
 const { RangePicker, MonthPicker } = DatePicker;
+const Option = Select.Option;
 const columns = [{
   title: 'Name',
   dataIndex: 'name',
@@ -181,15 +182,26 @@ const getYear = () => {
 }))
 
 export default class SiteHis extends PureComponent {
-  state = {
-    data: this.props.data,
-    filter: {
-      siteID: "123",
-      type: 'day',
-      time: '1919-19-13'
-    }
-  };
-
+  constructor(props) {
+    super(props)
+    this.state = {
+      data: this.props.data,
+      filter: {
+        siteID: "123",
+        type: 'day',
+        time: '1919-19-13'
+      }
+    };
+    this.onDateChange = this.onDateChange.bind(this)
+  }
+  handleSearch() {
+    console.log(this.state.filter)
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'chart/fetchHistorySiteSearchData',
+      fileter: this.state.filter
+    });
+  }
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
@@ -197,24 +209,57 @@ export default class SiteHis extends PureComponent {
     });
     dispatch({
       type: 'chart/fetchHistorySiteSearchData',
-      payload: {
-        fileter: this.state.filter
-      }
+      fileter: this.state.filter
     });
   }
+  timeSelector = () => {
+    const type = this.state.filter.type;
+    return (
+      type == 'day' ?
+        <DatePicker onChange={this.onDateChange} placeholder="单日查询" style={{ marginRight: "8px" }} />
+        : type == 'month' ?
+          <MonthPicker onChange={this.onMonthChange.bind(this)} placeholder="整月查询" style={{ marginRight: "8px" }} />
+          : <Select onSelect={this.onYearChange.bind(this)} style={{ width: "180px" }} placeholder="全年查询">{getYear()}</Select>
+    )
+  }
+  onChange(pagination, filters, sorter) {
+    console.log('table', pagination, filters, sorter);
+  }
+  onDateChange(obj, date) {
+    console.log('date', date);
+    this.setState({
+      filter: {
+        type: 'day',
+        time: date
+      }
+    }, this.handleSearch())
+  }
+  onMonthChange(obj, month) {
+    console.log('month', month);
+    this.setState({
+      filter: {
+        type: 'month',
+        time: month
+      }
+    }, this.handleSearch())
+  }
+  onYearChange(year) {
+    console.log('Year', year);
+    this.setState({
+      filter: {
+        type: 'year',
+        time: year
+      }
+    }, this.handleSearch())
+  }
+  timeSelectorChange(value) {
+    this.setState({
+      filter: {
+        type: value
+      }
+    })
+  }
   render() {
-    function onChange(pagination, filters, sorter) {
-      console.log('table', pagination, filters, sorter);
-    }
-    function onDateChange(obj, date) {
-      console.log('date', date);
-    }
-    function onMonthChange(obj, month) {
-      console.log('month', month);
-    }
-    function onYearChange(year) {
-      console.log('Year', year);
-    }
     return (
       <PageHeaderLayout title="站点查询">
         <Row >
@@ -223,23 +268,21 @@ export default class SiteHis extends PureComponent {
             title={<Tooltip placement="bottomLeft" title={siteInfo}>{site.name + "站点信息"}</Tooltip>}
             style={{ marginBottom: "12px", overflow: "hidden" }}
             extra={<span>
-              <DatePicker onChange={onDateChange} placeholder="单日查询" style={{ marginRight: "8px" }} />
-              <MonthPicker onChange={onMonthChange} placeholder="整月查询" style={{ marginRight: "8px" }} />
-              <Select onSelect={onYearChange} style={{ width: "150px" }} placeholder="全年查询">
-                {getYear()}
+              <Select defaultValue='day' onChange={this.timeSelectorChange.bind(this)} style={{ marginRight: "15px" }}>
+                <Option value='day'>单日查询</Option>
+                <Option value='month'>整月查询</Option>
+                <Option value='year'>全年查询</Option>
               </Select>
+              {this.timeSelector()}
             </span>}
 
           >{
-
-              this.state.data
-                ?
+              this.state.data ?
                 <Stacked
                   data={this.state.data}
 
                 />
-                :
-                <Spin
+                : <Spin
                   tip="等待数据"
                   size="middle"
                   style={{ display: "flex", alignItems: "center", justifyContent: "center", lineHeight: "calc(40vh)" }}
@@ -254,7 +297,7 @@ export default class SiteHis extends PureComponent {
               title="站点逆变器组成详情"
               bodyStyle={{ height: 800 }}
             >
-              <Table columns={columns} dataSource={data} onChange={onChange} height={800} />
+              <Table columns={columns} dataSource={data} onChange={this.onChange} height={800} />
             </Card>
           </Col>
         </Row>

@@ -119,6 +119,56 @@ _________
 ——————————
   站点查询
   ——————————
+    所有站点
+    [
+      {
+        value: 'citycode',
+        label: '市级名1',
+        children: [
+          {
+            value: 'citycode',
+            label: '下一级名1',
+            children: [
+              {
+                value: 'siteID',
+                label: '站点名1',
+              },
+              {
+                value: 'siteID',
+                label: '站点名2',
+              },
+            ],
+          },
+          {
+            value: 'citycode',
+            label: '下一级名2',
+            children: [
+              {
+                value: 'siteID',
+                label: '站点名1',
+              },
+              {
+                value: 'siteID',
+                label: '站点名2',
+              },
+            ],
+          },
+        ],
+      }, 
+      {
+        value: 'citycode',
+        label: '市级名2',
+        children: [{
+          value: 'citycode',
+          label: '下一级名',
+          children: [{
+            value: 'siteID',
+            label: '站点名',
+          }],
+        }],
+    },
+    等13个市级。。。
+  ]
     站点查询（发送siteID type:查询类型（day:单日，month:整月，year:年），time:时间，具体格式打开控制台改变时间之后可以看到）
     {
       data:{
@@ -150,7 +200,127 @@ _________
     }
   逆变器查询
   ——————————
-    逆变器查询（发送inverterID type:查询类型（day:单日，month:整月，year:年），time:时间，具体格式打开控制台改变时间之后可以看到）
+  所有逆变器
+    [
+      {
+        value: 'citycode',
+        label: '市级名1',
+        children: [
+          {
+            value: 'citycode',
+            label: '下一级名1',
+            children: [
+              {
+                value: 'siteID',
+                label: '站点名1',
+                childern:[
+                  {
+                    value:'interverID',
+                    label:‘interverID‘
+                  },
+                  {
+                    value:'interverID',
+                    label:‘interverID‘
+                  },
+                  {
+                    value:'interverID',
+                    label:‘interverID‘
+                  },
+                ]
+              },
+              {
+                value: 'siteID',
+                label: '站点名2',
+                childern:[
+                  {
+                    value:'interverID',
+                    label:‘interverID‘
+                  },
+                  {
+                    value:'interverID',
+                    label:‘interverID‘
+                  },
+                  {
+                    value:'interverID',
+                    label:‘interverID‘
+                  },
+                ]
+              },
+            ],
+          },
+          {
+            value: 'citycode',
+            label: '下一级名2',
+            children: [
+              {
+                value: 'siteID',
+                label: '站点名1',
+                childern:[
+                  {
+                    value:'interverID',
+                    label:‘interverID‘
+                  },
+                  {
+                    value:'interverID',
+                    label:‘interverID‘
+                  },
+                  {
+                    value:'interverID',
+                    label:‘interverID‘
+                  },
+                ]
+              },
+              {
+                value: 'siteID',
+                label: '站点名2',
+                childern:[
+                  {
+                    value:'interverID',
+                    label:‘interverID‘
+                  },
+                  {
+                    value:'interverID',
+                    label:‘interverID‘
+                  },
+                  {
+                    value:'interverID',
+                    label:‘interverID‘
+                  },
+                ]
+              },
+            ],
+          },
+        ],
+      }, 
+      {
+        value: 'citycode',
+        label: '市级名2',
+        children: [{
+          value: 'citycode',
+          label: '下一级名',
+          children: [{
+            value: 'siteID',
+            label: '站点名',
+            childern:[
+              {
+                value:'interverID',
+                label:‘interverID‘
+              },
+              {
+                value:'interverID',
+                label:‘interverID‘
+              },
+              {
+                value:'interverID',
+                label:‘interverID‘
+              },
+            ]
+          }],
+        }],
+    },
+    等13个市级。。。
+  ]
+  逆变器查询（发送inverterID type:查询类型（day:单日，month:整月，year:年），time:时间，具体格式打开控制台改变时间之后可以看到）
     {
       data:{
         {
