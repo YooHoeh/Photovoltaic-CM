@@ -80,15 +80,19 @@ export async function queryNotices() {
 }
 
 export async function ttt() {
-  console.log('api');
   return request('http://172.20.151.36/photovoltaic/public/index/index/general.html', {
   });
 }
 export async function historySiteSearch(filter) {
-  console.log("发起请求")
   return request('/api/siteSearch', {
-    method:'POST',
-    body:filter
+    method: 'POST',
+    body: filter
+  });
+}
+export async function fetchCityInfo(cityCode) {
+  return request('http://172.20.151.36/photovoltaic/public/index/index/area_ajax', {
+    method: 'POST',
+    body: cityCode
   });
 }
 export async function homePage() {

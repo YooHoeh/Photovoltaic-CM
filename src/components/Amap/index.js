@@ -1,6 +1,6 @@
 import { Map, Polygon, Markers } from 'react-amap';
 import { Icon, Row, Col, message, Button } from "antd";
-import { stringToPosition } from "../../utils/utils";
+import { stringToPosition, cityNameToCode } from "../../utils/utils";
 import styles from "./index.less"
 import React from "react";
 import IconFont from "../IconFont";
@@ -26,11 +26,7 @@ const Legend = () => {
 const Refresh = (props) => {
   const map = props.__map__;
   const refreshClick = () => {
-    console.log("dianle ")
-    // clickListener = AMap.event.addListener(map, "click", () => {
     map.setZoomAndCenter(7, [113.782939, 33.969338]);
-
-    // })
   }
   return (
     <Button
@@ -62,7 +58,6 @@ class MapCard extends React.Component {
       markers: marks(),
     }
 
-    console.log("啥玩意儿啊" + JSON.stringify(marks()))
   }
 
   //添加站点Marks,根据状态返回不同标记
@@ -94,7 +89,10 @@ class MapCard extends React.Component {
         type: 'global/saveCity',
         payload: city
       });
-
+      dispatch({
+        type: 'global/fetchCityInfo',
+        payload: cityNameToCode(city)
+      });
     };
     //保存站点action
     const { dispatch } = this.props;

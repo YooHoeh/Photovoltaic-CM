@@ -1,4 +1,4 @@
-import { queryNotices, homePage, } from '../services/api';
+import { queryNotices, homePage, fetchCityInfo } from '../services/api';
 export default {
   namespace: 'global',
 
@@ -9,15 +9,7 @@ export default {
     weather: {},
     mapView: "", //判断显示地区地图还是站点地图
     allHomePageInfo: {},
-    installNum: '',
-    totalPower: '',
-    dayPower: '',
-    carbon: '',
-    dayCarbon: '',
-    siteName: '',
-    siteID: '',
-    warningList: [],
-    allStation: [],
+    cityInfo: {}
   },
 
   effects: {
@@ -32,17 +24,16 @@ export default {
         payload: data.length,
       });
     },
-    // *fetchCityInfo(_, { call, put }) {
-    //   const data = yield call(queryNotices);
-    //   yield put({
-    //     type: 'saveNotices',
-    //     payload: data,
-    //   });
-    //   yield put({
-    //     type: 'user/changeNotifyCount',
-    //     payload: data.length,
-    //   });
-    // },
+    *fetchCityInfo(payload, { call, put }) {
+      const data = yield call(fetchCityInfo, payload);
+      yield put({
+        type: 'save',
+        payload: {
+          cityInfo: data,
+        }
+      });
+
+    },
     *clearNotices({ payload }, { put, select }) {
       yield put({
         type: 'saveClearedNotices',
@@ -63,13 +54,6 @@ export default {
           allHomePageInfo: response,
         },
       });
-      yield put({
-        type: 'save',
-        payload: {
-          installNum: response.station_all,
-        },
-      });
-
     },
   },
   reducers: {

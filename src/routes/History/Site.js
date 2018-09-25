@@ -194,8 +194,9 @@ export default class SiteHis extends PureComponent {
     };
     this.onDateChange = this.onDateChange.bind(this)
   }
-  handleSearch() {
+  handleSearch(state) {
     console.log(this.state.filter)
+    console.log(state)
     const { dispatch } = this.props;
     dispatch({
       type: 'chart/fetchHistorySiteSearchData',
@@ -232,7 +233,7 @@ export default class SiteHis extends PureComponent {
         type: 'day',
         time: date
       }
-    }, this.handleSearch())
+    }, ()=>this.handleSearch())
   }
   onMonthChange(obj, month) {
     console.log('month', month);
@@ -241,7 +242,7 @@ export default class SiteHis extends PureComponent {
         type: 'month',
         time: month
       }
-    }, this.handleSearch())
+    }, ()=>this.handleSearch())
   }
   onYearChange(year) {
     console.log('Year', year);
@@ -250,7 +251,7 @@ export default class SiteHis extends PureComponent {
         type: 'year',
         time: year
       }
-    }, this.handleSearch())
+    }, ()=>this.handleSearch())
   }
   timeSelectorChange(value) {
     this.setState({
