@@ -189,31 +189,80 @@ const getYear = () => {
   rule,
 }))
 export default class SiteHis extends PureComponent {
-  state = {
-
-
-  };
-
+  constructor(props) {
+    super(props)
+    this.state = {
+      data: this.props.data,
+      filter: {
+        interverID: "123",
+        type: 'day',
+        time: '1919-19-13'
+      }
+    };
+    this.onDateChange = this.onDateChange.bind(this)
+  }
+  handleSearch() {
+    console.log(this.state.filter)
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'chart/fetchHistorySiteSearchData',
+      fileter: this.state.filter
+    });
+  }
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
       type: 'rule/fetch',
     });
   }
+  timeSelector = () => {
+    const type = this.state.filter.type;
+    return (
+      type == 'day' ?
+        <DatePicker onChange={this.onDateChange} placeholder="单日查询" style={{ marginRight: "8px" }} />
+        : type == 'month' ?
+          <MonthPicker onChange={this.onMonthChange.bind(this)} placeholder="整月查询" style={{ marginRight: "8px" }} />
+          : <Select onSelect={this.onYearChange.bind(this)} style={{ width: "180px" }} placeholder="全年查询">{getYear()}</Select>
+    )
+  }
+  onChange(pagination, filters, sorter) {
+    console.log('table', pagination, filters, sorter);
+  }
+  onDateChange(obj, date) {
+    console.log('date', date);
+    this.setState({
+      filter: {
+        type: 'day',
+        time: date
+      }
+    }, this.handleSearch())
+  }
+  onMonthChange(obj, month) {
+    console.log('month', month);
+    this.setState({
+      filter: {
+        type: 'month',
+        time: month
+      }
+    }, this.handleSearch())
+  }
+  onYearChange(year) {
+    console.log('Year', year);
+    this.setState({
+      filter: {
+        type: 'year',
+        time: year
+      }
+    }, this.handleSearch())
+  }
+  timeSelectorChange(value) {
+    this.setState({
+      filter: {
+        type: value
+      }
+    })
+  }
   render() {
-    function onChange(pagination, filters, sorter) {
-      console.log('table', pagination, filters, sorter);
-    }
-    function onDateChange(obj, date) {
-      console.log('date', date);
-    }
-    function onMonthChange(obj, month) {
-      console.log('month', month);
-    }
-    function onYearChange(year) {
-      console.log('Year', year);
-    }
-
     return (
       <PageHeaderLayout title="逆变器查询">
         <Row >
@@ -222,15 +271,19 @@ export default class SiteHis extends PureComponent {
             title={<Tooltip placement="bottomLeft" title={inverterInfo}>{inverter.id + "逆变器发电量"}</Tooltip>}
             style={{ marginBottom: "12px" }}
             extra={<span>
-              <DatePicker onChange={onDateChange} placeholder="单日查询" style={{ marginRight: "8px" }} />
-              <MonthPicker onChange={onMonthChange} placeholder="整月查询" style={{ marginRight: "8px" }} />
-              <Select onSelect={onYearChange} style={{ width: "150px" }} placeholder="全年查询">
-                {getYear()}
+              <Select defaultValue='day' onChange={this.timeSelectorChange.bind(this)} style={{ marginRight: "15px" }}> 
+                <Option value='day'>单日查询</Option>
+                <Option value='month'>整月查询</Option>
+                <Option value='year'>全年查询</Option>
               </Select>
+              {this.timeSelector()}
             </span>
             }
           >
+          {
+
             <Basiccolumn />
+          }
           </Card>
         </Row>
         <Row>
@@ -242,7 +295,7 @@ export default class SiteHis extends PureComponent {
               style={{ paddingLeft: "4px" }}
 
             >
-              <Table columns={columns} dataSource={data} onChange={onChange} height={800} />
+              <Table columns={columns} dataSource={data} onChange={this.onChange} height={800} />
             </Card>
           </Col>
         </Row>
