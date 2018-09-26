@@ -10,7 +10,7 @@ class Maintetance extends React.Component {
       type: [],
       people: '',
       date: '',
-      logID: 'WB20180822-001',
+      id: 'WB20180822-001',
       content: '',
       localtion: ''
 
@@ -72,7 +72,7 @@ class Maintetance extends React.Component {
       <PageHeaderLayout title="新建维保日志">
         <Card style={{ width: "800px", margin: "0 auto" }}>
           <h1 style={{ textAlign: "center" }}>维保日志</h1>
-          <span style={{ float: "right" }}>编号：{this.state.logID}</span>
+          <span style={{ float: "right" }}>编号：{this.state.id}</span>
           <Divider />
           <Row>
             <Col span={3}>

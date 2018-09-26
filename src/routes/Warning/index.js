@@ -16,7 +16,6 @@ import StandardTable from 'components/StandardTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 
 import styles from './index.less';
-const { RangePicker } = DatePicker;
 const Option = Select.Option;
 const FormItem = Form.Item;
 const getValue = obj =>
@@ -160,15 +159,17 @@ export default class TableList extends PureComponent {
   }
 
   render() {
-    function onChange(checked, e) {
+    function onChange(checked) {
       console.log(`switch to ${checked}`);
-      console.log(`switch to ${e}`);
+    }
+    const changeCheckStatuHandle = (e) => {
+      console.log(e.target.name)
     }
     const {
       rule: { data },
       loading,
     } = this.props;
-    const { selectedRows, modalVisible } = this.state;
+    const { selectedRows } = this.state;
 
     const columns = [
 
@@ -188,22 +189,21 @@ export default class TableList extends PureComponent {
       {
         title: '告警类型',
         dataIndex: 'type',
-        // align: 'right',
       },
       {
         title: '告警时间',
         dataIndex: 'time',
         sorter: true,
         align: 'right',
-        // render: val => `${val} 千`,
-        // mark to display a total number
       },
       {
         title: '处理状态',
-        render: (check) => (
+        align: 'right',
+        dataIndex: 'check',
+        render: (check, recode) => (
           check
-            ? <Switch checkedChildren="已处理" unCheckedChildren="未处理" defaultChecked onChange={onChange} />
-            : <Switch checkedChildren="已处理" unCheckedChildren="未处理" onChange={onChange} />
+            ? <a href="javascript:;" name={recode.id} onClick={changeCheckStatuHandle}><Switch checkedChildren="已处理" unCheckedChildren="未处理" defaultChecked onChange={onChange} /></a>
+            : <a href="javascript:;" name={recode.id} onClick={changeCheckStatuHandle}><Switch checkedChildren="已处理" unCheckedChildren="未处理" onChange={onChange} /></a>
         ),
 
       },
