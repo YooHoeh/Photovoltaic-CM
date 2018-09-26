@@ -9,8 +9,9 @@ export default {
     weather: {},
     mapView: "", //判断显示地区地图还是站点地图
     allHomePageInfo: {},
-    cityInfo: {},
-    siteInfo: {}
+    inverterList: [],
+    siteList: [],
+    timeChart: [],
   },
 
   effects: {
@@ -30,17 +31,30 @@ export default {
       yield put({
         type: 'save',
         payload: {
-          cityInfo: data,
+          siteList: data.siteList,
+        }
+      });
+      yield put({
+        type: 'save',
+        payload: {
+          timeChart: data.timeChart,
         }
       });
     },
+
     *fetchSiteInfo(payload, { call, put }) {
       console.log(data + 'datadata')
       const data = yield call(fetchSiteInfo, payload);
       yield put({
         type: 'save',
         payload: {
-          siteInfo: data,
+          inverterList: data.inverterList,
+        }
+      });
+      yield put({
+        type: 'save',
+        payload: {
+          timeChart: data.timeChart,
         }
       });
     },

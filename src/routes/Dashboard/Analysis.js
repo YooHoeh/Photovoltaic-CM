@@ -105,8 +105,6 @@ export default class Analysis extends Component {
 
     const { chart } = this.props;
     const { tt } = chart;
-
-
     message.success(JSON.stringify(tt))
 
   }
@@ -553,7 +551,9 @@ export default class Analysis extends Component {
                   style={{ marginBottom: 12 }}
                 >
                   <div style={{ padding: '0 24px' }}>
-                    <Curved />
+                    <Curved
+                      data={allHomePageInfo.province}
+                    />
                   </div>
                 </Card>
               ) : global.mapView === "city" ? (

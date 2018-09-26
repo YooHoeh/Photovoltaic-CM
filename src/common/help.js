@@ -17,7 +17,7 @@ export default class Help extends React.Component {
       日发电量,
       碳补偿量,
       日补偿量,
-      全省站点信息,
+      全省站点信息
       [
         {
           areaCode: 地区id(四位),
@@ -29,14 +29,14 @@ export default class Help extends React.Component {
   区域站点列表(发送cityCode && length=4)
     {
 
-      siteList:[
+      siteList:[      //该地区所有站点
         {
           name: 站点名,
           install: 容量,
           power: 发电量
         },
       ],
-      timeChart:[
+      timeChart:[     //该地区发电量曲线图
       {
         time:时间，
         power:发电量，
@@ -48,12 +48,27 @@ export default class Help extends React.Component {
       ]
     }
       站点逆变器列表(发送siteID && length=10)
-  [
-    {
-      model: 机器型号,
-      dayPower: 天发电量
-    },
-  ]
+      {
+
+      inveterList: [    //该站点所有逆变器
+          {
+            model: 机器型号,
+            dayPower: 天发电量
+          },
+        ],
+        timeList:[      // 该站点发电量曲线图
+          timeChart:[
+            {
+              time:时间，
+              power:发电量，
+              }, 
+            {
+              time:时间，
+              power:发电量，
+              }, 
+            ]
+        ]
+      }
 
 站点管理
 ————————————
