@@ -118,35 +118,21 @@ const NewUser = Form.create()(
     }
   })
 
-const PermissonEdit = Form.create()(
+const PermissonEdit = Form.create(
+)(
   class extends React.Component {
     state = {
       expandedKeys: [],
       autoExpandParent: true,
-      checkedKeys: ["0-0-0", "0-0-1"],
+      defaultValue: [],
       userSelect: 'admin'
     }
-
-    onExpand = (expandedKeys) => {
-      // if not set autoExpandParent to false, if children expanded, parent can not collapse.
-      // or, you can remove all expanded children keys.
-      this.setState({
-        expandedKeys,
-        autoExpandParent: false,
-      });
+    //将permissionID转为位置标记
+    permissionIDToindex = (id) => {
+      const permissionList = ["0-0", "0-1", "0-2", "0-3", "0-3-0", "0-3-1", "0-3-1", "0-3-2", "0-4", "0-4-0", "0-4-1", "0-5", "0-5-0", "0-5-1", "0-6", "0-6-0", "0-6-1", "0-7"];
+      return permissionList[id];
     }
 
-    onCheck = (checkedKeys, checkTitle) => {
-      const arr = {}
-      for (let i = 0; i < checkTitle.checkedNodes.length; i++) {
-        console.log(checkTitle.checkedNodes[i].props.title)
-      }
-      console.log('onCheck', checkedKeys);
-      console.log('onCheck', checkTitle);
-      console.log('onCheck', arr);
-      console.log('onCheck', checkTitle.node.props.title);
-      this.setState({ checkedKeys });
-    }
 
     renderTreeNodes = (data) => {
       return data.map((item) => {
@@ -180,6 +166,7 @@ const PermissonEdit = Form.create()(
 
       }
     }
+
     render() {
       const { visible, onCancel, onCreate, form } = this.props;
       const { getFieldDecorator } = form;
@@ -206,7 +193,7 @@ const PermissonEdit = Form.create()(
             {getFieldDecorator('permissionList', {
             })(
               <TreeSelect
-                value={this.state.value}
+                defaultValue={this.state.defaultValue}
                 treeCheckable={true}
                 showCheckedStrategy={SHOW_PARENT}
                 treeDefaultExpandAll={true}

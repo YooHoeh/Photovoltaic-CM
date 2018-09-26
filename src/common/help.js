@@ -56,8 +56,7 @@ export default class Help extends React.Component {
             dayPower: 天发电量
           },
         ],
-        timeList:[      // 该站点发电量曲线图
-          timeChart:[
+      timeChart:[   // 该站点发电量曲线图
             {
               time:时间，
               power:发电量，

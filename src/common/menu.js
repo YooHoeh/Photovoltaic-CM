@@ -102,6 +102,7 @@ export const menuData = [
     name: '账户管理',
     icon: 'user',
     path: 'profile',
+    id: '16'
   }
 ];
 
