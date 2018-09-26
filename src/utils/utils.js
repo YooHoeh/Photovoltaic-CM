@@ -24,13 +24,13 @@ export function cityNameToCode(name) {
   let code = '';
   cityList.map((i) => {
     if (name == i.name) {
-      console.log(i.code)
+      console.log('调用了cityNameToCode方法结果为' + i.code)
       code = i.code;
 
     }
-    return code
 
   })
+  return code
 }
 export function codeToCityName(code) {
   let name = '';

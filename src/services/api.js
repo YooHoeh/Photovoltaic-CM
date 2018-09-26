@@ -83,16 +83,26 @@ export async function ttt() {
   return request('http://172.20.151.36/photovoltaic/public/index/index/general.html', {
   });
 }
+export async function getWarningList() {
+  return request('http://172.20.151.36/photovoltaic/public/index/warnings/list', {
+  });
+}
 export async function historySiteSearch(filter) {
   return request('/api/siteSearch', {
     method: 'POST',
-    body: filter
+    body: filter.payload
   });
 }
 export async function fetchCityInfo(cityCode) {
   return request('http://172.20.151.36/photovoltaic/public/index/index/area_ajax', {
     method: 'POST',
-    body: cityCode
+    body: cityCode.payload
+  });
+}
+export async function fetchSiteInfo(siteID) {
+  return request('http://172.20.151.36/photovoltaic/public/index/index/station_ajax', {
+    method: 'POST',
+    body: siteID.payload
   });
 }
 export async function homePage() {
@@ -106,9 +116,4 @@ export async function lll(params) {
   });
 }
 
-export async function getAreaSite(siteCode) {
-  return request(`http://172.20.151.36/photovoltaic/public/index/index/area_ajax?sitecode=${stringify(siteCode)}`, {
-    method: 'POST',
-    body: siteCode,
-  });
-}
+

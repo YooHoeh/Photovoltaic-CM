@@ -22,8 +22,8 @@ import {
     Bar,
     TimelineChart,
 } from 'components/Charts';
-import Trend from '../../components/Trend';
-import { getTimeDistance, codeToCityName } from '../../utils/utils';
+import Curved from "../../components/Curved";
+import { codeToCityName } from '../../utils/utils';
 import styles from './Analysis.less';
 import MapCard from '../../components/Amap';
 import IconFont from "../../components/IconFont";
@@ -388,15 +388,13 @@ export default class Analysis extends Component {
 
         }
         return (
-            allHomePageInfo.status === undefined
-                ?
+            (allHomePageInfo && allHomePageInfo.year && allHomePageInfo.month && allHomePageInfo.status) === undefined ?
                 <Spin
                     tip=" 若长时间未加载，请刷新重试"
                     size="large"
                     style={{ display: "flex", alignItems: "center", justifyContent: "center", lineHeight: "calc(40vh)" }}
                 />
-                :
-                < Fragment >
+                : < Fragment >
                     <Row gutter={12}>
                         <Col {...topColResponsiveProps}>
                             <ChartCard
@@ -412,19 +410,17 @@ export default class Analysis extends Component {
                                 footer={<Field label="今年已建设" value={allHomePageInfo.station_year} />}
                                 contentHeight={46}
                             >
-                                {allHomePageInfo.status
-                                    ? <Fragment>
-                                        <Row>
-                                            <Col span={12}> <Field label="运行中" value={allHomePageInfo.status.status0} /></Col>
-                                            <Col span={12}> <Field label="建设中" value={allHomePageInfo.status.status1} /></Col>
-                                        </Row>
-                                        <Row>
-                                            <Col span={12}> <Field label="建设目标" value={allHomePageInfo.status.status2} /></Col>
-                                            <Col span={12}> <Field label="告警" value={allHomePageInfo.status.status3} /></Col>
-                                        </Row>
-                                    </Fragment>
-                                    : "数据获取异常"
-                                }
+                                <Fragment>
+                                    <Row>
+                                        <Col span={12}> <Field label="运行中" value={allHomePageInfo.status.status0} /></Col>
+                                        <Col span={12}> <Field label="建设中" value={allHomePageInfo.status.status1} /></Col>
+                                    </Row>
+                                    <Row>
+                                        <Col span={12}> <Field label="建设目标" value={allHomePageInfo.status.status2} /></Col>
+                                        <Col span={12}> <Field label="告警" value={allHomePageInfo.status.status3} /></Col>
+                                    </Row>
+                                </Fragment>
+
                             </ChartCard>
                         </Col>
                         <Col {...topColResponsiveProps}>
@@ -580,49 +576,38 @@ export default class Analysis extends Component {
                                     style={{ marginBottom: 12 }}
                                 >
                                     <div style={{ padding: '0 24px' }}>
-                                        <TimelineChart
-                                            height={400}
-                                            data={timeLineChartData()}
-                                            titleMap={{ y1: '发电量', y2: '碳补偿量' }}
-                                        />
+                                        <Curved />
                                     </div>
                                 </Card>
-                            ) :
-                                global.mapView === "city" ? (
-                                    <Card
-                                        loading={loading}
-                                        className={styles.offlineCard}
-                                        bordered={false}
-                                        title={city + "区域总量曲线图"}
-                                        bodyStyle={{ padding: '0 0 12px 0' }}
-                                        style={{ marginBottom: 12 }}
-                                        extra={<span onClick={backToAll} style={{ color: "#7086bb" }}>显示全省信息</span>}
+                            ) : global.mapView === "city" ? (
+                                <Card
+                                    loading={loading}
+                                    className={styles.offlineCard}
+                                    bordered={false}
+                                    title={city + "区域总量曲线图"}
+                                    bodyStyle={{ padding: '0 0 12px 0' }}
+                                    style={{ marginBottom: 12 }}
+                                    extra={<span onClick={backToAll} style={{ color: "#7086bb" }}>显示全省信息</span>}
 
-                                    >
-                                        <div style={{ padding: '0 24px' }}>
-                                            <TimelineChart
-                                                height={400}
-                                                data={offlineChartData1}
-                                                titleMap={{ y1: '发电量', y2: '碳补偿量' }}
-                                            />
-                                        </div>
-                                    </Card>) : (<Card
-                                        loading={loading}
-                                        title={global.siteName + "曲线图"}
-                                        className={styles.offlineCard}
-                                        bordered={false}
-                                        bodyStyle={{ padding: '0 0 12px 0' }}
-                                        style={{ marginBottom: 12 }}
-                                        extra={<span onClick={backToAll} style={{ color: "#7086bb" }}>显示全省信息</span>}
-                                    >
-                                        <div style={{ padding: '0 24px' }}>
-                                            <TimelineChart
-                                                height={400}
-                                                data={offlineChartData1}
-                                                titleMap={{ y1: '发电量', y2: '碳补偿量' }}
-                                            />
-                                        </div>
-                                    </Card>)
+                                >
+                                    <div style={{ padding: '0 24px' }}>
+                                        <Curved
+                                        />
+                                    </div>
+                                </Card>) : (<Card
+                                    loading={loading}
+                                    title={global.siteName + "曲线图"}
+                                    className={styles.offlineCard}
+                                    bordered={false}
+                                    bodyStyle={{ padding: '0 0 12px 0' }}
+                                    style={{ marginBottom: 12 }}
+                                    extra={<span onClick={backToAll} style={{ color: "#7086bb" }}>显示全省信息</span>}
+                                >
+                                    <div style={{ padding: '0 24px' }}>
+                                        <Curved
+                                        />
+                                    </div>
+                                </Card>)
                         }
                     </Row>
                     <Row gutter={12}>

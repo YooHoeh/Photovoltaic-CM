@@ -74,9 +74,9 @@ class MapCard extends React.Component {
     }
   }
   render() {
+    const { dispatch } = this.props;
     //保存天气action
     const handleWeather = (weatherInfo) => {
-      const { dispatch } = this.props;
       dispatch({
         type: 'global/saveWeather',
         payload: weatherInfo
@@ -84,23 +84,30 @@ class MapCard extends React.Component {
     };
     //保存位置action
     const handleCity = (city) => {
-      const { dispatch } = this.props;
+      const cityCode = cityNameToCode(city)
+      console.log(city + cityCode + 'zhelizheli')
       dispatch({
         type: 'global/saveCity',
         payload: city
       });
       dispatch({
         type: 'global/fetchCityInfo',
-        payload: cityNameToCode(city)
+        payload: {
+          cityCode,
+        }
       });
     };
     //保存站点action
-    const { dispatch } = this.props;
     const handleSite = (siteName, siteID) => {
-      const { dispatch } = this.props;
       dispatch({
         type: 'global/changeMapView',
         payload: "site"
+      });
+      dispatch({
+        type: 'global/fetchSiteInfo',
+        payload: {
+          siteID
+        }
       });
       dispatch({
         type: 'global/saveSite',

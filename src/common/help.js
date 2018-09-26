@@ -27,14 +27,27 @@ export default class Help extends React.Component {
       ]
     }
   区域站点列表(发送cityCode && length=4)
-    [
+    {
+
+      siteList:[
+        {
+          name: 站点名,
+          install: 容量,
+          power: 发电量
+        },
+      ],
+      timeChart:[
       {
-        name: 站点名,
-        install: 容量,
-        power: 发电量
-      },
-    ]
-  站点逆变器列表(发送siteID && length=10)
+        time:时间，
+        power:发电量，
+        }, 
+      {
+        time:时间，
+        power:发电量，
+        }, 
+      ]
+    }
+      站点逆变器列表(发送siteID && length=10)
   [
     {
       model: 机器型号,
@@ -106,15 +119,22 @@ export default class Help extends React.Component {
 告警管理
 _________
   告警列表
-    [
+  {
+    warningDictionary:[
+      type:告警类型
+    ]，
+    list: [
       {
-        id: 告警逆变器id,
-        siteID: 所属站点,
+        id:告警编号
+        inverterID: 告警逆变器id,
+        siteName: 所属站点名,
         type: 告警类型(文字),
         time: 告警时间,
-        statu: 状态(0: 未处理, 1: 已处理),
+        check: 状态(false: 未处理, true: 已处理),
       },
     ]
+  }
+  改变告警处理状态 (发送id:告警编号,check)
 历史查询
 ——————————
   站点查询

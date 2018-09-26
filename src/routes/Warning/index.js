@@ -62,6 +62,7 @@ export default class TableList extends PureComponent {
       ...formValues,
       ...filters,
     };
+    console.log("pagination, filtersArg, sorter" + pagination, filtersArg, sorter)
     if (sorter.field) {
       params.sorter = `${sorter.field}_${sorter.order}`;
     }
@@ -159,8 +160,9 @@ export default class TableList extends PureComponent {
   }
 
   render() {
-    function onChange(checked) {
+    function onChange(checked, e) {
       console.log(`switch to ${checked}`);
+      console.log(`switch to ${e}`);
     }
     const {
       rule: { data },
@@ -169,23 +171,28 @@ export default class TableList extends PureComponent {
     const { selectedRows, modalVisible } = this.state;
 
     const columns = [
+
+      {
+        title: '告警编号',
+        dataIndex: 'id',
+      },
       {
         title: '告警逆变器编号',
-        dataIndex: 'no',
+        dataIndex: 'inverterID',
       },
       {
         title: '所属站点编号',
-        dataIndex: 'siteNum',
+        dataIndex: 'siteName',
         sorter: true,
       },
       {
         title: '告警类型',
-        dataIndex: 'description',
+        dataIndex: 'type',
         // align: 'right',
       },
       {
         title: '告警时间',
-        dataIndex: 'callNo',
+        dataIndex: 'time',
         sorter: true,
         align: 'right',
         // render: val => `${val} 千`,

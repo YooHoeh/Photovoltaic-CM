@@ -1,4 +1,4 @@
-import { queryNotices, homePage, fetchCityInfo } from '../services/api';
+import { queryNotices, homePage, fetchCityInfo, fetchSiteInfo } from '../services/api';
 export default {
   namespace: 'global',
 
@@ -9,7 +9,8 @@ export default {
     weather: {},
     mapView: "", //判断显示地区地图还是站点地图
     allHomePageInfo: {},
-    cityInfo: {}
+    cityInfo: {},
+    siteInfo: {}
   },
 
   effects: {
@@ -32,8 +33,18 @@ export default {
           cityInfo: data,
         }
       });
-
     },
+    *fetchSiteInfo(payload, { call, put }) {
+      console.log(data + 'datadata')
+      const data = yield call(fetchSiteInfo, payload);
+      yield put({
+        type: 'save',
+        payload: {
+          siteInfo: data,
+        }
+      });
+    },
+
     *clearNotices({ payload }, { put, select }) {
       yield put({
         type: 'saveClearedNotices',
