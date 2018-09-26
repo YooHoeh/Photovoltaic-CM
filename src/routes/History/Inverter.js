@@ -235,7 +235,7 @@ export default class SiteHis extends PureComponent {
         type: 'day',
         time: date
       }
-    },()=> this.handleSearch())
+    }, () => this.handleSearch())
   }
   onMonthChange(obj, month) {
     console.log('month', month);
@@ -244,7 +244,7 @@ export default class SiteHis extends PureComponent {
         type: 'month',
         time: month
       }
-    }, ()=>this.handleSearch())
+    }, () => this.handleSearch())
   }
   onYearChange(year) {
     console.log('Year', year);
@@ -253,7 +253,7 @@ export default class SiteHis extends PureComponent {
         type: 'year',
         time: year
       }
-    }, ()=>this.handleSearch())
+    }, () => this.handleSearch())
   }
   timeSelectorChange(value) {
     this.setState({
@@ -271,7 +271,7 @@ export default class SiteHis extends PureComponent {
             title={<Tooltip placement="bottomLeft" title={inverterInfo}>{inverter.id + "逆变器发电量"}</Tooltip>}
             style={{ marginBottom: "12px" }}
             extra={<span>
-              <Select defaultValue='day' onChange={this.timeSelectorChange.bind(this)} style={{ marginRight: "15px" }}> 
+              <Select defaultValue='day' onChange={this.timeSelectorChange.bind(this)} style={{ marginRight: "15px" }}>
                 <Option value='day'>单日查询</Option>
                 <Option value='month'>整月查询</Option>
                 <Option value='year'>全年查询</Option>
@@ -280,10 +280,10 @@ export default class SiteHis extends PureComponent {
             </span>
             }
           >
-          {
+            {
 
-            <Basiccolumn />
-          }
+              <Basiccolumn />
+            }
           </Card>
         </Row>
         <Row>
