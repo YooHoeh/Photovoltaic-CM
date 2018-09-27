@@ -4,6 +4,7 @@ import { Link } from 'dva/router';
 import { Checkbox, Alert, Icon } from 'antd';
 import Login from 'components/Login';
 import styles from './Login.less';
+var md5 = require('md5');
 
 const { Tab, UserName, Password, Mobile, Captcha, Submit } = Login;
 
@@ -29,8 +30,8 @@ export default class LoginPage extends Component {
         type: 'login/login',
         payload: {
           ...values,
-          type,
-          agent: navigator.userAgent
+          agent: navigator.userAgent,
+          password: md5(md5(values.password))
         },
       });
     }

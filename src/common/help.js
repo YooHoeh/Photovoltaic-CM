@@ -3,6 +3,23 @@ export default class Help extends React.Component {
   render() {
     const content = `
   <pre style="font-size:14px">
+登录页
+————————
+  登录 （发送agent， password	， userName	）
+  ｛
+    currentAuthority：	admin，
+    status：	ok，
+    list：	{
+      id：	1，
+      username：	xxxx
+      role：	admin，
+      phone	：123，
+      email	：123，
+      remark：	213，
+      permissionList:['0','1'......],
+    }
+  ｝
+    
 首页
 ——————————
   首页通用数据
@@ -20,8 +37,15 @@ export default class Help extends React.Component {
       全省站点信息
       [
         {
-          areaCode: 地区id(四位),
+          city: 地区id(四位),
           install: 容量,
+          power: 发电量
+        },
+      ],
+      全省曲线图
+      [
+        {
+          time: 时间，
           power: 发电量
         },
       ]

@@ -4,12 +4,12 @@ import { fakeAccountLogin, lll } from '../services/api';
 import { setAuthority } from '../utils/authority';
 import { reloadAuthorized } from '../utils/Authorized';
 import { getPageQuery } from '../utils/utils';
-
 export default {
   namespace: 'login',
 
   state: {
     status: undefined,
+    info: '',
   },
 
   effects: {
@@ -41,7 +41,7 @@ export default {
         yield put(routerRedux.replace(redirect || '/'));
       }
     },
-    *logout(_, { put }) {
+    * logout(_, { put }) {
       yield put({
         type: 'changeLoginStatus',
         payload: {
@@ -62,6 +62,12 @@ export default {
   },
 
   reducers: {
+    save(state, { payload }) {
+      return {
+        ...state,
+        ...payload,
+      };
+    },
     changeLoginStatus(state, { payload }) {
       setAuthority(payload.currentAuthority);
       return {
