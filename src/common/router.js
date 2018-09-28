@@ -100,7 +100,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, ['chart', 'global'], () => import('../routes/Dashboard/Analysis')),
     },
     '/list/site': {
-      component: dynamicWrapper(app, ['rule'], () => import('../routes/List/Site')),
+      component: dynamicWrapper(app, ['rule', 'global'], () => import('../routes/List/Site')),
     },
     '/list/inverter': {
       component: dynamicWrapper(app, ['rule'], () => import('../routes/List/Inverter')),

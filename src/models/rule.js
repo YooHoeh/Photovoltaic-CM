@@ -56,7 +56,6 @@ export default {
 
   reducers: {
     saveCommon(state, { payload }) {
-      console.log("save" + payload)
       return {
         ...state,
         ...payload,

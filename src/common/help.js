@@ -100,12 +100,14 @@ export default class Help extends React.Component {
   行政规划表
     [
       {
-        title: '城市名',
+        label:'城市名',
         value: '六位编号',
+        key: '六位编号',
         children: [
           {
-            title: '子代城市名',
+            label: '子代城市名',
             value: '六位编号',
+            key: '六位编号',
           },
         ]
       },
@@ -115,8 +117,8 @@ export default class Help extends React.Component {
       {
         name: '站点名称'
         city: '所属区域',
-        location: '站点位置',
-        buildContain: '建设容量',
+        position: '站点位置',
+        install: '建设容量',
         status: '运行状态',
       },
     ],
@@ -182,31 +184,38 @@ _________
       {
         value: 'citycode',
         label: '市级名1',
+        key:'citycode'
         children: [
           {
             value: 'citycode',
+            key: 'citycode',
             label: '下一级名1',
             children: [
               {
                 value: 'siteID',
+                key: 'siteID',
                 label: '站点名1',
               },
               {
                 value: 'siteID',
+                key: 'siteID',
                 label: '站点名2',
               },
             ],
           },
           {
             value: 'citycode',
+            key: 'citycode',
             label: '下一级名2',
             children: [
               {
                 value: 'siteID',
+                key: 'siteID',
                 label: '站点名1',
               },
               {
                 value: 'siteID',
+                key: 'siteID',
                 label: '站点名2',
               },
             ],
@@ -215,12 +224,15 @@ _________
       }, 
       {
         value: 'citycode',
+        key: 'citycode',
         label: '市级名2',
         children: [{
           value: 'citycode',
+          key: 'citycode',
           label: '下一级名',
           children: [{
             value: 'siteID',
+            key: 'siteID',
             label: '站点名',
           }],
         }],

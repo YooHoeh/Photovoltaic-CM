@@ -23,149 +23,44 @@ import {
   Table,
   TreeSelect,
 } from 'antd';
-import StandardTable from 'components/StandardTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 
 import styles from './Site.less';
 
 const FormItem = Form.Item;
 const { Option } = Select;
-const getValue = obj =>
-  Object.keys(obj)
-    .map(key => obj[key])
-    .join(',');
+
 const statusMap = ['default', 'processing', 'success', 'error'];
 const status = ['运行中', '建设中', '建设目标', '告警'];
 const cityList = [
   {
-    title: '郑州市',
+    label: '郑州市',
     value: '410100',
-    key: '410100',
     children: [
       {
-        title: '市辖区',
+        label: '市辖区',
         value: '410101',
         key: '410101',
       },
       {
-        title: '中原区',
+        label: '中原区',
         value: '410102',
         key: '410102',
-      },
-      {
-        title: '二七区',
-        value: '410103',
-        key: '410103',
-      },
-      {
-        title: '管城回族区',
-        value: '410104',
-        key: '410104',
-      },
-      {
-        title: '金水区',
-        value: '410105',
-        key: '410105',
-      },
-      {
-        title: '上街区',
-        value: '410106',
-        key: '410106',
-      },
-      {
-        title: '惠济区',
-        value: '410108',
-        key: '410108',
-      },
-      {
-        title: '中牟县',
-        value: '410122',
-        key: '410122',
-      },
-      {
-        title: '巩义市',
-        value: '410181',
-        key: '410181',
-      },
-      {
-        title: '荥阳市',
-        value: '410183',
-        key: '410183',
-      },
-      {
-        title: '新密市',
-        value: '410183',
-        key: '410183',
-      },
-      {
-        title: '新郑市',
-        value: '410184',
-        key: '410184',
-      },
-      {
-        title: '登封市',
-        value: '410185',
-        key: '410185',
       },
     ],
   },
   {
-    title: '开封市',
+    label: '开封市',
     value: '410200',
     key: '410200',
     children: [
       {
-        title: '新郑市',
+        label: '新郑市',
         value: '410184',
         key: '410184',
       },
       {
-        title: '新郑市',
-        value: '410184',
-        key: '410184',
-      },
-      {
-        title: '新郑市',
-        value: '410184',
-        key: '410184',
-      },
-      {
-        title: '新郑市',
-        value: '410184',
-        key: '410184',
-      },
-      {
-        title: '新郑市',
-        value: '410184',
-        key: '410184',
-      },
-      {
-        title: '新郑市',
-        value: '410184',
-        key: '410184',
-      },
-      {
-        title: '新郑市',
-        value: '410184',
-        key: '410184',
-      },
-      {
-        title: '新郑市',
-        value: '410184',
-        key: '410184',
-      },
-      {
-        title: '新郑市',
-        value: '410184',
-        key: '410184',
-      },
-      {
-        title: '新郑市',
-        value: '410184',
-        key: '410184',
-      },
-      {
-        title: '新郑市',
+        label: '新郑市',
         value: '410184',
         key: '410184',
       },
@@ -270,13 +165,7 @@ const CreateForm = Form.create({
             {form.getFieldDecorator('locaNum', {
               rules: [{ required: true, message: 'Please input some description...' }],
             })(
-              <TreeSelect
-                style={{ width: '100%' }}
-                dropdownStyle={{ maxHeight: 300, overflowX: 'hideen' }}
-                treeData={cityList}
-                placeholder="选择站点所在区域"
-              // treeDefaultExpandAll
-              />
+              <Cascader options={cityList} placeholder="选择区域" style={{ width: '100%' }} />
             )}
           </FormItem>
         </Col>
@@ -387,6 +276,7 @@ const CreateForm = Form.create({
 }))
 @Form.create()
 export default class TableList extends PureComponent {
+
   state = {
     modalVisible: false,
     expandForm: false,
@@ -428,6 +318,7 @@ export default class TableList extends PureComponent {
       }
     }
   }
+
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
@@ -445,36 +336,12 @@ export default class TableList extends PureComponent {
       formValues: {},
     });
     dispatch({
-      type: 'rule/fetch',
+      type: 'rule/fetchSiteList',
       payload: {},
     });
   };
 
-  toggleForm = () => {
-    const { expandForm } = this.state;
-    this.setState({
-      expandForm: !expandForm,
-    });
-  };
 
-  handleMenuClick = () => {
-    const { dispatch } = this.props;
-    const { selectedRows } = this.state;
-
-    if (!selectedRows) return;
-    dispatch({
-      type: 'rule/remove',
-      payload: {
-        no: selectedRows.map(row => row.no).join(','),
-      },
-      callback: () => {
-        this.setState({
-          selectedRows: [],
-        });
-      },
-    });
-
-  };
 
   handleSearch = e => {
     e.preventDefault();
@@ -521,7 +388,7 @@ export default class TableList extends PureComponent {
     });
   };
 
-  renderSimpleForm() {
+  renderSimpleForm(cityList) {
     const { form } = this.props;
     const { getFieldDecorator } = form;
     return (
@@ -529,7 +396,7 @@ export default class TableList extends PureComponent {
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={6} sm={24}>
             <FormItem label="所在区域">
-              {getFieldDecorator('no')(<Cascader options={cityList} placeholder="选择区域" />)}
+              {getFieldDecorator('position')(<Cascader options={cityList} placeholder="选择区域" />)}
             </FormItem>
           </Col>
           <Col md={6} sm={24}>
@@ -538,6 +405,8 @@ export default class TableList extends PureComponent {
                 <Select placeholder="请选择" style={{ width: '100%' }}>
                   <Option value="0">关闭</Option>
                   <Option value="1">运行中</Option>
+                  <Option value="2">建设目标</Option>
+                  <Option value="3">告警</Option>
                 </Select>
               )}
             </FormItem>
@@ -571,8 +440,9 @@ export default class TableList extends PureComponent {
   }
   render() {
     const {
-      rule: { siteList }
+      rule: { siteList, cityList }
     } = this.props;
+
     const { modalVisible } = this.state;
     const columns = [
       {
@@ -593,7 +463,6 @@ export default class TableList extends PureComponent {
         sorter: true,
         align: 'right',
         render: val => `${val} 千`,
-        // mark to display a total number
         needTotal: true,
       },
       {
@@ -627,7 +496,6 @@ export default class TableList extends PureComponent {
         align: 'right',
         render: () => (
           <span>
-
             <a href="">编辑站点信息</a>
             <Divider type="vertical" />
             <a href="">删除</a>
@@ -641,14 +509,16 @@ export default class TableList extends PureComponent {
     const parentMethods = {
       handleAdd: this.handleAdd,
       handleModalVisible: this.handleModalVisible,
-      fields: this.state.fields
+      fields: this.state.fields,
+      cityList,
     };
 
     return (
+
       <PageHeaderLayout title="站点列表">
         <Card bordered={false}>
           <div className={styles.tableList}>
-            <div className={styles.tableListForm}>{this.renderSimpleForm()} </div>
+            <div className={styles.tableListForm}>{this.renderSimpleForm(cityList)} </div>
             <Table columns={columns} dataSource={siteList} onChange={this.onTableChange} />
           </div>
         </Card>
