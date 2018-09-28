@@ -15,6 +15,7 @@ import {
   InputNumber,
   DatePicker,
   Modal,
+  Cascader,
   Radio,
   message,
   Badge,
@@ -528,7 +529,7 @@ export default class TableList extends PureComponent {
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={6} sm={24}>
             <FormItem label="所在区域">
-              {getFieldDecorator('no')(<Input placeholder="请输入" />)}
+              {getFieldDecorator('no')(<Cascader options={cityList} placeholder="选择区域" />)}
             </FormItem>
           </Col>
           <Col md={6} sm={24}>

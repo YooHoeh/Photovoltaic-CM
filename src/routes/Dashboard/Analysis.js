@@ -528,7 +528,7 @@ export default class Analysis extends Component {
                         rowKey={record => record.index}
                         size="small"
                         columns={siteColumns}
-                        dataSource={global.inverter}
+                        dataSource={global.inverterList}
                         pagination={{
                           style: { marginBottom: 0 },
                           pageSize: 10,

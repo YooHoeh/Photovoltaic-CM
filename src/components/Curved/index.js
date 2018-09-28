@@ -17,14 +17,18 @@ import {
 
 class Basic extends React.Component {
   render() {
-    const data = this.props.data;
-
+    const origin = this.props.data;
+    const data = [];
+    origin.map(item => {
+      data.push({
+        time: item.time,
+        发电量: parseFloat(item.发电量)
+      })
+    })
     const cols = {
       '发电量': {
       },
       time: {
-        type: 'cat',
-        range: [0, 1],
 
       }
     };

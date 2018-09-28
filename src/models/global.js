@@ -31,30 +31,29 @@ export default {
       yield put({
         type: 'save',
         payload: {
-          siteList: data.station,
+          siteList: data.siteList,
         }
       });
       yield put({
         type: 'save',
         payload: {
-          timeChart: data.area,
+          timeChart: data.timeChart,
         }
       });
     },
 
     *fetchSiteInfo(payload, { call, put }) {
-      console.log(data + 'datadata')
       const data = yield call(fetchSiteInfo, payload);
       yield put({
         type: 'save',
         payload: {
-          inverterList: data.inveter,
+          inverterList: data.inverterList,
         }
       });
       yield put({
         type: 'save',
         payload: {
-          timeChart: data.area,
+          timeChart: data.timeChart,
         }
       });
     },
