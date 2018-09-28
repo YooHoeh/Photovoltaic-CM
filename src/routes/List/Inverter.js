@@ -12,19 +12,17 @@ import {
   message,
   Badge,
   Divider,
+  Cascader,
+  Table,
   Radio,
 } from 'antd';
-import StandardTable from 'components/StandardTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 
 import styles from './Inverter.less';
 
 const FormItem = Form.Item;
 const { Option } = Select;
-const getValue = obj =>
-  Object.keys(obj)
-    .map(key => obj[key])
-    .join(',');
+
 const statusMap = ['default', 'processing', 'success', 'error'];
 const status = ["待机", "并网", "故障", "关机", "离网"];
 
@@ -142,6 +140,7 @@ const CreateForm = Form.create({
     </Modal>
   );
 });
+
 @connect(({ rule, loading }) => ({
   rule,
   loading: loading.models.rule,
@@ -150,9 +149,6 @@ const CreateForm = Form.create({
 export default class TableList extends PureComponent {
   state = {
     modalVisible: false,
-    expandForm: false,
-    selectedRows: [],
-    formValues: {},
     fields: {
       id: {
         value: '11234567',
@@ -183,73 +179,20 @@ export default class TableList extends PureComponent {
     dispatch({
       type: 'rule/fetch',
     });
+    dispatch({
+      type: 'rule/fetchInverterList',
+    });
+
   }
 
-  handleStandardTableChange = (pagination, filtersArg, sorter) => {
-    const { dispatch } = this.props;
-    const { formValues } = this.state;
-
-    const filters = Object.keys(filtersArg).reduce((obj, key) => {
-      const newObj = { ...obj };
-      newObj[key] = getValue(filtersArg[key]);
-      return newObj;
-    }, {});
-
-    const params = {
-      currentPage: pagination.current,
-      pageSize: pagination.pageSize,
-      ...formValues,
-      ...filters,
-    };
-    if (sorter.field) {
-      params.sorter = `${sorter.field}_${sorter.order}`;
-    }
-
-    dispatch({
-      type: 'rule/fetch',
-      payload: params,
-    });
-  };
 
   handleFormReset = () => {
     const { form, dispatch } = this.props;
     form.resetFields();
-    this.setState({
-      formValues: {},
-    });
+
     dispatch({
-      type: 'rule/fetch',
+      type: 'rule/fetchInverterList',
       payload: {},
-    });
-  };
-
-  toggleForm = () => {
-    const { expandForm } = this.state;
-    this.setState({
-      expandForm: !expandForm,
-    });
-  };
-
-  handleMenuClick = () => {
-    const { dispatch } = this.props;
-    const { selectedRows } = this.state;
-    if (!selectedRows) return;
-    dispatch({
-      type: 'rule/remove',
-      payload: {
-        no: selectedRows.map(row => row.no).join(','),
-      },
-      callback: () => {
-        this.setState({
-          selectedRows: [],
-        });
-      },
-    });
-  };
-
-  handleSelectRows = rows => {
-    this.setState({
-      selectedRows: rows,
     });
   };
 
@@ -283,43 +226,26 @@ export default class TableList extends PureComponent {
     });
   };
 
-  handleAdd = fields => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'rule/add',
-      payload: {
-        description: fields.desc,
-      },
-    });
 
-    message.success('添加成功');
-    this.setState({
-      modalVisible: false,
-    });
-  };
-
-  renderSimpleForm() {
+  renderSimpleForm(cityList) {
     const { form } = this.props;
     const { getFieldDecorator } = form;
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-          <Col md={6} sm={24}>
+          <Col md={4} sm={24}>
             <FormItem label="站点编号">
-              {getFieldDecorator('no')(<Input placeholder="请输入" />)}
+              {getFieldDecorator('siteID')(<Input placeholder="请输入" />)}
             </FormItem>
           </Col>
-          <Col md={6} sm={24}>
+          <Col md={4} sm={24}>
             <FormItem label="所在区域">
-              {getFieldDecorator('status')(
-                <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value="0">关闭</Option>
-                  <Option value="1">运行中</Option>
-                </Select>
+              {getFieldDecorator('position')(
+                <Cascader options={cityList} placeholder="选择区域" />
               )}
             </FormItem>
           </Col>
-          <Col md={6} sm={24}>
+          <Col md={4} sm={24}>
             <FormItem label="运行状态">
               {getFieldDecorator('status')(
                 <Select placeholder="请选择" style={{ width: '100%' }}>
@@ -329,7 +255,7 @@ export default class TableList extends PureComponent {
               )}
             </FormItem>
           </Col>
-          <Col md={6} sm={24}>
+          <Col md={4} sm={24}>
             <span className={styles.submitButtons}>
               <Button type="primary" htmlType="submit">
                 查询
@@ -338,6 +264,11 @@ export default class TableList extends PureComponent {
                 重置
               </Button>
             </span>
+          </Col>
+          <Col md={2} sm={24} offset={5}>
+            <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
+              新建逆变器
+            </Button>
           </Col>
         </Row>
       </Form>
@@ -348,32 +279,34 @@ export default class TableList extends PureComponent {
       fields: { ...fields, ...changedFields },
     }));
   }
+  onTableChange = (pagination, filters, sorter) => {
+    console.log('params', pagination, filters, sorter);
+  }
   render() {
     const {
-      rule: { data },
-      loading,
+      rule: { inverterList, cityList },
     } = this.props;
-    const { selectedRows, modalVisible } = this.state;
+    const { modalVisible } = this.state;
 
     const columns = [
       {
         title: '机器型号',
-        dataIndex: 'no',
+        dataIndex: 'model',
       },
       {
         title: '站点编号',
-        dataIndex: 'siteNum',
+        dataIndex: 'sid',
       },
       {
         title: '光伏组串总数',
-        dataIndex: 'description',
+        dataIndex: 'mppt_num',
         sorter: true,
         align: 'right',
         render: val => `${val} 千`,
       },
       {
         title: '光伏支路总数',
-        dataIndex: 'callNo',
+        dataIndex: 'pv_num',
         sorter: true,
         align: 'right',
         render: val => `${val} 千`,
@@ -412,48 +345,24 @@ export default class TableList extends PureComponent {
           <Fragment>
             <a href="">编辑逆变器信息</a>
             <Divider type="vertical" />
+            <a href="">删除</a>
           </Fragment>
         ),
       },
     ];
 
     const parentMethods = {
-      handleAdd: this.handleAdd,
       handleModalVisible: this.handleModalVisible,
-      fields: this.state.fields
+      fields: this.state.fields,
+      cityList,
     };
 
     return (
       <PageHeaderLayout title="逆变器列表">
         <Card bordered={false}>
           <div className={styles.tableList}>
-            <div className={styles.tableListForm}>{this.renderSimpleForm()}</div>
-            <div className={styles.tableListOperator}>
-              <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
-                新建逆变器
-              </Button>
-              {selectedRows.length > 0
-                ? (
-                  <span>
-                    <Button onClick={this.handleMenuClick} selectedKeys={[]}>删除</Button>
-                  </span>
-                )
-                : (
-                  <span>
-                    <Button disabled>删除</Button>
-                  </span>
-
-                )
-              }
-            </div>
-            <StandardTable
-              selectedRows={selectedRows}
-              loading={loading}
-              data={data}
-              columns={columns}
-              onSelectRow={this.handleSelectRows}
-              onChange={this.handleStandardTableChange}
-            />
+            <div className={styles.tableListForm}>{this.renderSimpleForm(cityList)}</div>
+            <Table columns={columns} dataSource={inverterList} onChange={this.onTableChange} />
           </div>
         </Card>
         <CreateForm {...parentMethods} modalVisible={modalVisible} onChange={this.handleFormChange} />

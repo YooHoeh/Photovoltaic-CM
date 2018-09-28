@@ -87,6 +87,10 @@ export async function getSiteList() {
   return request('http://172.20.151.36/photovoltaic/public/index/stations', {
   });
 }
+export async function getInterverList() {
+  return request('http://172.20.151.36/photovoltaic/public/index/inverters', {
+  });
+}
 export async function getWarningList() {
   return request('http://172.20.151.36/photovoltaic/public/index/warnings/list', {
   });

@@ -32,41 +32,7 @@ const { Option } = Select;
 
 const statusMap = ['default', 'processing', 'success', 'error'];
 const status = ['运行中', '建设中', '建设目标', '告警'];
-const cityList = [
-  {
-    label: '郑州市',
-    value: '410100',
-    children: [
-      {
-        label: '市辖区',
-        value: '410101',
-        key: '410101',
-      },
-      {
-        label: '中原区',
-        value: '410102',
-        key: '410102',
-      },
-    ],
-  },
-  {
-    label: '开封市',
-    value: '410200',
-    key: '410200',
-    children: [
-      {
-        label: '新郑市',
-        value: '410184',
-        key: '410184',
-      },
-      {
-        label: '新郑市',
-        value: '410184',
-        key: '410184',
-      },
-    ],
-  },
-];
+
 const CreateForm = Form.create({
   onFieldsChange(props, changedFields) {
     props.onChange(changedFields);
@@ -114,7 +80,7 @@ const CreateForm = Form.create({
     console.log(values);
   },
 })(props => {
-  const { modalVisible, form, handleAdd, handleModalVisible } = props;
+  const { modalVisible, form, handleAdd, handleModalVisible, cityList } = props;
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
       console.log(fieldsValue)
@@ -279,9 +245,6 @@ export default class TableList extends PureComponent {
 
   state = {
     modalVisible: false,
-    expandForm: false,
-    selectedRows: [],
-    formValues: {},
     fields: {
       id: {
         value: '11234567',
@@ -332,9 +295,7 @@ export default class TableList extends PureComponent {
   handleFormReset = () => {
     const { form, dispatch } = this.props;
     form.resetFields();
-    this.setState({
-      formValues: {},
-    });
+
     dispatch({
       type: 'rule/fetchSiteList',
       payload: {},
@@ -373,20 +334,6 @@ export default class TableList extends PureComponent {
     });
   };
 
-  handleAdd = fields => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'rule/add',
-      payload: {
-        description: fields.desc,
-      },
-    });
-
-    message.success('添加成功');
-    this.setState({
-      modalVisible: false,
-    });
-  };
 
   renderSimpleForm(cityList) {
     const { form } = this.props;
@@ -421,7 +368,7 @@ export default class TableList extends PureComponent {
               </Button>
             </span>
           </Col>
-          <Col md={2} sm={24} offset={4}>
+          <Col md={2} sm={24} offset={3}>
             <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
               新建站点
           </Button>
@@ -442,7 +389,6 @@ export default class TableList extends PureComponent {
     const {
       rule: { siteList, cityList }
     } = this.props;
-
     const { modalVisible } = this.state;
     const columns = [
       {
@@ -455,11 +401,11 @@ export default class TableList extends PureComponent {
       },
       {
         title: '站点位置  ',
-        dataIndex: 'position',
+        dataIndex: 'location',
       },
       {
         title: '建设容量',
-        dataIndex: 'install',
+        dataIndex: 'buildContain',
         sorter: true,
         align: 'right',
         render: val => `${val} 千`,
@@ -503,18 +449,13 @@ export default class TableList extends PureComponent {
         ),
       },
     ];
-
-
-
     const parentMethods = {
-      handleAdd: this.handleAdd,
       handleModalVisible: this.handleModalVisible,
       fields: this.state.fields,
       cityList,
     };
 
     return (
-
       <PageHeaderLayout title="站点列表">
         <Card bordered={false}>
           <div className={styles.tableList}>

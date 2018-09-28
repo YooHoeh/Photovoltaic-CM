@@ -1,4 +1,4 @@
-import { queryRule, removeRule, addRule, getSiteList } from '../services/api';
+import { queryRule, removeRule, addRule, getSiteList, getInterverList } from '../services/api';
 
 export default {
   namespace: 'rule',
@@ -10,6 +10,7 @@ export default {
     },
     siteList: [],
     cityList: [],
+    inverterList: [],
   },
 
   effects: {
@@ -20,6 +21,21 @@ export default {
         type: 'saveCommon',
         payload: {
           siteList: response.list,
+        }
+      });
+      yield put({
+        type: 'saveCommon',
+        payload: {
+          cityList: response.areas,
+        }
+      });
+    },
+    *fetchInverterList(_, { call, put }) {
+      const response = yield call(getInterverList);
+      yield put({
+        type: 'saveCommon',
+        payload: {
+          inverterList: response.list,
         }
       });
       yield put({
