@@ -19,6 +19,7 @@ import {
   message,
   Badge,
   Divider,
+  Table,
   TreeSelect,
 } from 'antd';
 import StandardTable from 'components/StandardTable';
@@ -431,34 +432,11 @@ export default class TableList extends PureComponent {
     dispatch({
       type: 'rule/fetch',
     });
-  }
-
-  handleStandardTableChange = (pagination, filtersArg, sorter) => {
-    const { dispatch } = this.props;
-    const { formValues } = this.state;
-
-    const filters = Object.keys(filtersArg).reduce((obj, key) => {
-      const newObj = { ...obj };
-      newObj[key] = getValue(filtersArg[key]);
-      return newObj;
-    }, {});
-
-    const params = {
-      currentPage: pagination.current,
-      pageSize: pagination.pageSize,
-      ...formValues,
-      ...filters,
-    };
-    if (sorter.field) {
-      params.sorter = `${sorter.field}_${sorter.order}`;
-    }
-
     dispatch({
-      type: 'rule/fetch',
-      payload: params,
+      type: 'rule/fetchSiteList',
     });
-  };
 
+  }
   handleFormReset = () => {
     const { form, dispatch } = this.props;
     form.resetFields();
@@ -495,12 +473,6 @@ export default class TableList extends PureComponent {
       },
     });
 
-  };
-
-  handleSelectRows = rows => {
-    this.setState({
-      selectedRows: rows,
-    });
   };
 
   handleSearch = e => {
@@ -554,12 +526,12 @@ export default class TableList extends PureComponent {
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-          <Col md={8} sm={24}>
+          <Col md={6} sm={24}>
             <FormItem label="所在区域">
               {getFieldDecorator('no')(<Input placeholder="请输入" />)}
             </FormItem>
           </Col>
-          <Col md={8} sm={24}>
+          <Col md={6} sm={24}>
             <FormItem label="运行使用状态">
               {getFieldDecorator('status')(
                 <Select placeholder="请选择" style={{ width: '100%' }}>
@@ -569,7 +541,7 @@ export default class TableList extends PureComponent {
               )}
             </FormItem>
           </Col>
-          <Col md={8} sm={24}>
+          <Col md={6} sm={24}>
             <span className={styles.submitButtons}>
               <Button type="primary" htmlType="submit">
                 查询
@@ -578,6 +550,11 @@ export default class TableList extends PureComponent {
                 重置
               </Button>
             </span>
+          </Col>
+          <Col md={2} sm={24} offset={4}>
+            <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
+              新建站点
+          </Button>
           </Col>
         </Row>
       </Form>
@@ -588,12 +565,14 @@ export default class TableList extends PureComponent {
       fields: { ...fields, ...changedFields },
     }));
   }
+  onTableChange = (pagination, filters, sorter) => {
+    console.log('params', pagination, filters, sorter);
+  }
   render() {
     const {
-      rule: { data },
-      loading,
+      rule: { siteList }
     } = this.props;
-    const { selectedRows, modalVisible } = this.state;
+    const { modalVisible } = this.state;
     const columns = [
       {
         title: '站点名称',
@@ -605,11 +584,11 @@ export default class TableList extends PureComponent {
       },
       {
         title: '站点位置  ',
-        dataIndex: 'location',
+        dataIndex: 'position',
       },
       {
         title: '建设容量',
-        dataIndex: 'buildContain',
+        dataIndex: 'install',
         sorter: true,
         align: 'right',
         render: val => `${val} 千`,
@@ -644,8 +623,14 @@ export default class TableList extends PureComponent {
       },
       {
         title: '操作',
+        align: 'right',
         render: () => (
-          <a href="">编辑站点信息</a>
+          <span>
+
+            <a href="">编辑站点信息</a>
+            <Divider type="vertical" />
+            <a href="">删除</a>
+          </span>
         ),
       },
     ];
@@ -662,33 +647,8 @@ export default class TableList extends PureComponent {
       <PageHeaderLayout title="站点列表">
         <Card bordered={false}>
           <div className={styles.tableList}>
-            <div className={styles.tableListForm}>{this.renderSimpleForm()}</div>
-            <div className={styles.tableListOperator}>
-              <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
-                新建站点
-              </Button>
-              {selectedRows.length > 0
-                ? (
-                  <span>
-                    <Button onClick={this.handleMenuClick} selectedKeys={[]}>删除</Button>
-                  </span>
-                )
-                : (
-                  <span>
-                    <Button disabled>删除</Button>
-                  </span>
-
-                )
-              }
-            </div>
-            <StandardTable
-              selectedRows={selectedRows}
-              loading={loading}
-              data={data}
-              columns={columns}
-              onSelectRow={this.handleSelectRows}
-              onChange={this.handleStandardTableChange}
-            />
+            <div className={styles.tableListForm}>{this.renderSimpleForm()} </div>
+            <Table columns={columns} dataSource={siteList} onChange={this.onTableChange} />
           </div>
         </Card>
         <CreateForm {...parentMethods} modalVisible={modalVisible} onChange={this.handleFormChange} />

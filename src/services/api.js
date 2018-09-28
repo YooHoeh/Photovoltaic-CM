@@ -83,6 +83,10 @@ export async function ttt() {
   return request('http://172.20.151.36/photovoltaic/public/index/index/general.html', {
   });
 }
+export async function getSiteList() {
+  return request('http://172.20.151.36/photovoltaic/public/index/stations', {
+  });
+}
 export async function getWarningList() {
   return request('http://172.20.151.36/photovoltaic/public/index/warnings/list', {
   });

@@ -1,4 +1,4 @@
-import { queryRule, removeRule, addRule } from '../services/api';
+import { queryRule, removeRule, addRule, getSiteList } from '../services/api';
 
 export default {
   namespace: 'rule',
@@ -8,9 +8,27 @@ export default {
       list: [],
       pagination: {},
     },
+    siteList: [],
+    cityList: [],
   },
 
   effects: {
+
+    *fetchSiteList(_, { call, put }) {
+      const response = yield call(getSiteList);
+      yield put({
+        type: 'saveCommon',
+        payload: {
+          siteList: response.list,
+        }
+      });
+      yield put({
+        type: 'saveCommon',
+        payload: {
+          cityList: response.areas,
+        }
+      });
+    },
     *fetch({ payload }, { call, put }) {
       const response = yield call(queryRule, payload);
       yield put({
@@ -37,6 +55,13 @@ export default {
   },
 
   reducers: {
+    saveCommon(state, { payload }) {
+      console.log("save" + payload)
+      return {
+        ...state,
+        ...payload,
+      };
+    },
     save(state, action) {
       return {
         ...state,

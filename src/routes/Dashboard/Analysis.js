@@ -248,39 +248,39 @@ export default class Analysis extends Component {
     ]
     const columns = [
       {
-        title: '区域',
-        dataIndex: 'keyword',
-        key: 'keyword',
+        title: '站点名',
+        dataIndex: 'name',
+        key: 'name',
         render: text => <a href="/">{text}</a>,
       },
 
       {
-        title: '容量',
-        dataIndex: 'count',
-        key: 'count',
-        sorter: (a, b) => a.count - b.count,
+        title: '装机容量',
+        dataIndex: 'install',
+        key: 'install',
+        sorter: (a, b) => a.install - b.install,
         className: styles.alignRight,
       },
       {
         title: '发电量',
-        dataIndex: 'count',
-        key: 'range',
-        sorter: (a, b) => a.range - b.range,
+        dataIndex: 'power',
+        key: 'power',
+        sorter: (a, b) => a.power - b.power,
         className: styles.alignRight,
       },
     ];
     const siteColumns = [
       {
         title: '机器型号',
-        dataIndex: 'keyword',
-        key: 'keyword',
+        dataIndex: 'model',
+        key: 'model',
         render: text => <a href="/">{text}</a>,
       },
 
       {
         title: '天发电量',
-        dataIndex: 'count',
-        key: 'count',
+        dataIndex: 'dayPower',
+        key: 'dayPower',
         sorter: (a, b) => a.count - b.count,
         className: styles.alignRight,
       },
@@ -507,7 +507,7 @@ export default class Analysis extends Component {
                       rowKey={record => record.index}
                       size="small"
                       columns={columns}
-                      dataSource={searchData}
+                      dataSource={global.siteList}
                       pagination={{
                         style: { marginBottom: 0 },
                         pageSize: 10,
@@ -528,7 +528,7 @@ export default class Analysis extends Component {
                         rowKey={record => record.index}
                         size="small"
                         columns={siteColumns}
-                        dataSource={searchData}
+                        dataSource={global.inverter}
                         pagination={{
                           style: { marginBottom: 0 },
                           pageSize: 10,

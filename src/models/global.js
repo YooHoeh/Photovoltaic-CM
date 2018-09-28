@@ -31,13 +31,13 @@ export default {
       yield put({
         type: 'save',
         payload: {
-          siteList: data.siteList,
+          siteList: data.station,
         }
       });
       yield put({
         type: 'save',
         payload: {
-          timeChart: data.timeChart,
+          timeChart: data.area,
         }
       });
     },
@@ -48,13 +48,13 @@ export default {
       yield put({
         type: 'save',
         payload: {
-          inverterList: data.inverterList,
+          inverterList: data.inveter,
         }
       });
       yield put({
         type: 'save',
         payload: {
-          timeChart: data.timeChart,
+          timeChart: data.area,
         }
       });
     },
@@ -72,7 +72,6 @@ export default {
     },
     *getHomePageInfo(_, { call, put }) {
       const response = yield call(homePage);
-      console.log("get home page" + response.username)
       yield put({
         type: 'save',
         payload: {
@@ -83,7 +82,6 @@ export default {
   },
   reducers: {
     save(state, { payload }) {
-      console.log("save" + payload)
       return {
         ...state,
         ...payload,
@@ -96,7 +94,6 @@ export default {
       }
     },
     saveHomePageInfo(state, { payload }) {
-      console.log("save HomePageInfo")
       return {
         ...state,
         allHomePageInfo: payload

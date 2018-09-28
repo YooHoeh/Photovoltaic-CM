@@ -1,7 +1,6 @@
 import { Map, Polygon, Markers } from 'react-amap';
 import { Icon, Row, Col, message, Button } from "antd";
 import { stringToPosition, cityNameToCode } from "../../utils/utils";
-import styles from "./index.less"
 import React from "react";
 import IconFont from "../IconFont";
 

@@ -74,7 +74,7 @@ export default class Help extends React.Component {
       站点逆变器列表(发送siteID && length=10)
       {
 
-      inveterList: [    //该站点所有逆变器
+      inverterList: [    //该站点所有逆变器
           {
             model: 机器型号,
             dayPower: 天发电量
