@@ -105,6 +105,9 @@ export const getRouterData = app => {
     '/list/inverter': {
       component: dynamicWrapper(app, ['rule'], () => import('../routes/List/Inverter')),
     },
+    '/list/monitor': {
+      component: dynamicWrapper(app, ['rule'], () => import('../routes/List/Monitor')),
+    },
     '/history/inverter': {
       component: dynamicWrapper(app, ['global'], () => import('../routes/History/Inverter')),
     },
@@ -113,6 +116,9 @@ export const getRouterData = app => {
     },
     '/warning': {
       component: dynamicWrapper(app, ['global'], () => import('../routes/Warning')),
+    },
+    '/financial': {
+      component: dynamicWrapper(app, ['global'], () => import('../routes/Finance')),
     },
     '/maintenance/add': {
       component: dynamicWrapper(app, ['global'], () => import('../routes/Maintenance/AddNewLog')),

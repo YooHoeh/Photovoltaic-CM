@@ -49,8 +49,6 @@ const proxy = {
       address: 'Sidney No. 1 Lake Park',
     },
   ],
-  'GET /api/project/notice': getNotice,
-  'GET /api/activities': getActivities,
   'GET /api/rule': getRule,
   'POST /api/rule': {
     $params: {
@@ -61,14 +59,8 @@ const proxy = {
     },
     $body: postRule,
   },
-  'POST /api/forms': (req, res) => {
-    res.send({ message: 'Ok' });
-  },
-  'GET /api/tags': mockjs.mock({
-    'list|100': [{ name: '@city', 'value|1-100': 150, 'type|0-2': 1 }],
-  }),
-  'GET /api/fake_list': getFakeList,
-  'GET /api/fake_chart_data': getFakeChartData,
+
+
   'POST /api/siteSearch':
     (req, res) => {
       res.send(
@@ -164,7 +156,7 @@ const proxy = {
     (req, res) => {
       res.send(
         {
-          data:[
+          data: [
             {
               time: "1951",
               value: 38
@@ -212,8 +204,6 @@ const proxy = {
           }
         })
     },
-  'GET /api/profile/basic': getProfileBasicData,
-  'GET /api/profile/advanced': getProfileAdvancedData,
   'POST /api/login/account': (req, res) => {
     const { password, userName, type } = req.body;
     if (password === '14e1b600b1fd579f47433b88e8d85291' && userName === 'admin') {
@@ -237,10 +227,7 @@ const proxy = {
       currentAuthority: 'guest',
     });
   },
-  'POST /api/register': (req, res) => {
-    res.send({ status: 'ok', currentAuthority: 'user' });
-  },
-  'GET /api/notices': getNotices,
+
   'GET /api/500': (req, res) => {
     res.status(500).send({
       timestamp: 1513932555104,

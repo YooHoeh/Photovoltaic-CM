@@ -1,4 +1,4 @@
-import { queryNotices, homePage, fetchCityInfo, fetchSiteInfo } from '../services/api';
+import { homePage, fetchCityInfo, fetchSiteInfo } from '../services/api';
 export default {
   namespace: 'global',
 

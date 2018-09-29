@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card } from "antd";
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
-class SystemLog extends React.Component {
+class Finance extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -12,7 +12,7 @@ class SystemLog extends React.Component {
   render() {
 
     return (
-      <PageHeaderLayout title="系统日志">
+      <PageHeaderLayout title="财务管理">
         <Card >
           待完善页面
         </Card>
@@ -20,4 +20,4 @@ class SystemLog extends React.Component {
     )
   }
 }
-export default SystemLog;
+export default Finance;

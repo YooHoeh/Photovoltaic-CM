@@ -1,42 +1,14 @@
-import { fakeChartData, ttt, historySiteSearch, historyInverterSearch } from '../services/api';
+import { historySiteSearch, historyInverterSearch } from '../services/api';
 
 export default {
   namespace: 'chart',
 
   state: {
-    visitData: [],
-    visitData2: [],
-    salesData: [],
-    searchData: [],
-    offlineData: [],
-    offlineChartData: [],
-    salesTypeData: [],
-    salesTypeDataOnline: [],
-    salesTypeDataOffline: [],
-    radarData: [],
-    loading: false,
-    tt: [],
     historySiteSearchData: {},
     historyInverterSearchData: {}
   },
 
   effects: {
-    *fetch(_, { call, put }) {
-      const response = yield call(fakeChartData);
-      yield put({
-        type: 'save',
-        payload: response,
-      });
-    },
-    *fetchSalesData(_, { call, put }) {
-      const response = yield call(fakeChartData);
-      yield put({
-        type: 'save',
-        payload: {
-          salesData: response.salesData,
-        },
-      });
-    },
     *fetchHistorySiteSearchData(filter, { call, put }) {
       const response = yield call(historySiteSearch, filter);
       yield put({
@@ -55,19 +27,6 @@ export default {
         },
       });
     },
-    *ttt(_, { call, put }) {
-      const response = yield call(ttt);
-      console.log(response);
-      yield put({
-        type: 'save',
-        payload: {
-          tt: response,
-        },
-      }
-      );
-      console.log(response);
-      console.log('activi');
-    },
   },
 
   reducers: {
@@ -75,22 +34,6 @@ export default {
       return {
         ...state,
         ...payload,
-      };
-    },
-    clear() {
-      return {
-        visitData: [],
-        visitData2: [],
-        salesData: [],
-        searchData: [],
-        offlineData: [],
-        offlineChartData: [],
-        salesTypeData: [],
-        salesTypeDataOnline: [],
-        salesTypeDataOffline: [],
-        radarData: [],
-        tt: []
-
       };
     },
   },

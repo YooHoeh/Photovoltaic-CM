@@ -41,9 +41,8 @@ for (let i = 0; i < 20; i += 1) {
 }
 
 
-@connect(({ chart, loading, global = {} }) => ({
+@connect(({ chart, global = {} }) => ({
   // chart,
-  loading: loading.effects['chart/fetch'],
   weather: global.weather,
   city: global.city,
   global,
@@ -62,17 +61,7 @@ export default class Analysis extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'chart/fetch',
-    });
-    dispatch({
       type: 'global/getHomePageInfo',
-    });
-  }
-
-  componentWillUnmount() {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'chart/clear',
     });
   }
 
@@ -95,23 +84,9 @@ export default class Analysis extends Component {
     });
   };
 
-
-
-  ttt = () => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'chart/ttt',
-    });
-
-    const { chart } = this.props;
-    const { tt } = chart;
-    message.success(JSON.stringify(tt))
-
-  }
-
   render() {
 
-    const { loading, weather, city, global } = this.props;
+    const { weather, city, global } = this.props;
 
     const { allHomePageInfo, timeChart } = global
 
@@ -373,9 +348,8 @@ export default class Analysis extends Component {
               <ChartCard
                 bordered={false}
                 title="装机容量"
-                loading={loading}
                 action={
-                  <Tooltip title="指标说明">
+                  <Tooltip title="全省总装机容量">
                     <Icon type="info-circle-o" />
                   </Tooltip>
                 }
@@ -400,10 +374,8 @@ export default class Analysis extends Component {
               <ChartCard
                 bordered={false}
                 title="总发电量"
-                loading={loading}
-                onClick={this.ttt}
                 action={
-                  <Tooltip title="指标说明">
+                  <Tooltip title="全省总发电量">
                     <Icon type="info-circle-o" />
                   </Tooltip>
                 }
@@ -421,9 +393,8 @@ export default class Analysis extends Component {
               <ChartCard
                 bordered={false}
                 title="碳补偿量"
-                loading={loading}
                 action={
-                  <Tooltip title="指标说明">
+                  <Tooltip title="全省总碳补偿量">
                     <Icon type="info-circle-o" />
                   </Tooltip>
                 }
@@ -442,9 +413,8 @@ export default class Analysis extends Component {
               <ChartCard
                 bordered={false}
                 title="天气信息"
-                loading={loading}
                 action={
-                  <Tooltip title="指标说明">
+                  <Tooltip title="默认显示当前位置天气，点击区域获取改区域天气">
                     <Icon type="info-circle-o" />
                   </Tooltip>
                 }
@@ -459,7 +429,6 @@ export default class Analysis extends Component {
           <Row gutter={12}>
             <Col xl={18} lg={24} md={24} sm={24} xs={24}>
               <Card
-                loading={loading}
                 className={styles.salesCard}
                 bordered={false}
                 bodyStyle={{ padding: 12 }}
@@ -472,7 +441,6 @@ export default class Analysis extends Component {
             <Col xl={6} lg={24} md={24} sm={24} xs={24}>
               {global.mapView === '' ? (
                 <Card
-                  loading={loading}
                   bordered={false}
                   className={styles.salesCard}
                   title="全省站点信息"
@@ -493,7 +461,6 @@ export default class Analysis extends Component {
               )
                 : (global.mapView === "city" ? (
                   <Card
-                    loading={loading}
                     bordered={false}
                     className={styles.salesCard}
                     title={city + "区域站点信息"}
@@ -513,7 +480,6 @@ export default class Analysis extends Component {
                     />
                   </Card>) : (
                     <Card
-                      loading={loading}
                       bordered={false}
                       className={styles.salesCard}
                       title={global.siteName}
@@ -541,7 +507,6 @@ export default class Analysis extends Component {
             {
               global.mapView === "" ? (
                 <Card
-                  loading={loading}
                   className={styles.offlineCard}
                   bordered={false}
                   title="全省总量曲线图"
@@ -556,7 +521,6 @@ export default class Analysis extends Component {
                 </Card>
               ) : global.mapView === "city" ? (
                 <Card
-                  loading={loading}
                   className={styles.offlineCard}
                   bordered={false}
                   title={city + "区域总量曲线图"}
@@ -571,7 +535,6 @@ export default class Analysis extends Component {
                     />
                   </div>
                 </Card>) : (<Card
-                  loading={loading}
                   title={global.siteName + "曲线图"}
                   className={styles.offlineCard}
                   bordered={false}
@@ -590,7 +553,6 @@ export default class Analysis extends Component {
           <Row gutter={12}>
             <Col xl={18} lg={24} md={24} sm={24} xs={24}>
               <Card
-                loading={loading}
                 bordered={false}
                 bodyStyle={{ padding: 0 }}
                 style={{ marginBottom: 12 }}
@@ -615,13 +577,11 @@ export default class Analysis extends Component {
             </Col>
             <Col xl={6} lg={24} md={24} sm={24} xs={24}>
               <Card
-                loading={loading}
                 bordered={false}
                 className={styles.salesCard}
                 title="告警列表"
                 bodyStyle={{ paddingBottom: 13 }}
                 style={{ marginBottom: 12 }}
-              // contentHeight:
               >
                 <Table
                   rowKey={record => record.index}

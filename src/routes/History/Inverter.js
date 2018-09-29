@@ -61,7 +61,7 @@ export default class SiteHis extends PureComponent {
     console.log(this.state.filter)
     const { dispatch } = this.props;
     dispatch({
-      type: 'chart/fetchHistorySiteSearchData',
+      type: 'chart/fetchHistoryInverterSearchData',
       fileter: this.state.filter
     });
   }

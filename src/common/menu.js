@@ -42,7 +42,7 @@ export const menuData = [
       {
         name: '站点监控',
         icon: 'cluster',
-        path: '',
+        path: 'monitor',
         id: "6",
       },
     ],

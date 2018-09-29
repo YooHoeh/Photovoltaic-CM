@@ -90,7 +90,6 @@ enquireScreen(b => {
 @connect(({ user, global = {}, loading }) => ({
   currentUser: user.currentUser,
   collapsed: global.collapsed,
-  fetchingNotices: loading.effects['global/fetchNotices'],
   notices: global.notices,
   weather: global.weather,
   city: global.city,
@@ -201,26 +200,18 @@ export default class BasicLayout extends React.PureComponent {
     }
   };
 
-  handleNoticeVisibleChange = visible => {
-    const { dispatch } = this.props;
-    if (visible) {
-      dispatch({
-        type: 'global/fetchNotices',
-      });
-    }
-  };
+
 
   render() {
     const {
       currentUser,
       collapsed,
-      fetchingNotices,
       notices,
       routerData,
       match,
       location,
     } = this.props;
-    const { isMobile: mb, isVisible, modalType } = this.state;
+    const { isMobile: mb, } = this.state;
     const baseRedirect = this.getBaseRedirect();
 
     const layout = (
@@ -242,14 +233,12 @@ export default class BasicLayout extends React.PureComponent {
             <GlobalHeader
               logo={logo}
               currentUser={currentUser}
-              fetchingNotices={fetchingNotices}
               notices={notices}
               collapsed={collapsed}
               isMobile={mb}
               onNoticeClear={this.handleNoticeClear}
               onCollapse={this.handleMenuCollapse}
               onMenuClick={this.handleMenuClick}
-              onNoticeVisibleChange={this.handleNoticeVisibleChange}
             />
           </Header>
           <Content style={{ margin: '24px 24px 0', height: '100%' }}>
