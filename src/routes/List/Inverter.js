@@ -177,9 +177,6 @@ export default class TableList extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'rule/fetch',
-    });
-    dispatch({
       type: 'rule/fetchInverterList',
     });
 
@@ -214,7 +211,7 @@ export default class TableList extends PureComponent {
       });
 
       dispatch({
-        type: 'rule/fetch',
+        type: 'rule/fetchInverterList',
         payload: values,
       });
     });

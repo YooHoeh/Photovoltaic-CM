@@ -35,9 +35,6 @@ export default class TableList extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'rule/fetch',
-    });
-    dispatch({
       type: 'rule/fetchWarningList',
     });
 
@@ -51,7 +48,7 @@ export default class TableList extends PureComponent {
       formValues: {},
     });
     dispatch({
-      type: 'rule/fetch',
+      type: 'rule/fetchWarningList',
       payload: {},
     });
   };
@@ -74,7 +71,7 @@ export default class TableList extends PureComponent {
       });
 
       dispatch({
-        type: 'rule/fetch',
+        type: 'rule/fetchWarningList',
         payload: values,
       });
     });

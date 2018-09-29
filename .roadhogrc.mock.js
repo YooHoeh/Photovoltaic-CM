@@ -28,17 +28,6 @@ const proxy = {
       notifyCount: 12,
     },
   },
-  // GET POST 可省略
-  'GET /api/rule': getRule,
-  'POST /api/rule': {
-    $params: {
-      pageSize: {
-        desc: '分页',
-        exp: 2,
-      },
-    },
-    $body: postRule,
-  },
 
 
   'POST /api/siteSearch':

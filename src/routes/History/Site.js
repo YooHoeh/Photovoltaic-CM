@@ -26,7 +26,7 @@ import {
 } from 'antd';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import Stacked from "../../components/StackMap";
-const {  MonthPicker } = DatePicker;
+const { MonthPicker } = DatePicker;
 const Option = Select.Option;
 
 const getYear = () => {
@@ -65,9 +65,6 @@ export default class SiteHis extends PureComponent {
   }
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch({
-      type: 'rule/fetch',
-    });
     dispatch({
       type: 'chart/fetchHistorySiteSearchData',
       fileter: this.state.filter

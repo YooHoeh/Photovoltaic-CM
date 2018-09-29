@@ -1,5 +1,5 @@
 import { routerRedux } from 'dva/router';
-import { query } from '../services/error';
+import { queryError } from '../services/api';
 
 export default {
   namespace: 'error',
@@ -11,7 +11,7 @@ export default {
 
   effects: {
     *query({ payload }, { call, put }) {
-      yield call(query, payload.code);
+      yield call(queryError, payload.code);
       // redirect on client when network broken
       yield put(routerRedux.push(`/exception/${payload.code}`));
       yield put({

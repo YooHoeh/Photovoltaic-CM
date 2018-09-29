@@ -1,29 +1,4 @@
-import { stringify } from 'qs';
 import request from '../utils/request';
-
-export async function queryRule(params) {
-  return request(`/api/rule?${stringify(params)}`);
-}
-
-export async function removeRule(params) {
-  return request('/api/rule', {
-    method: 'POST',
-    body: {
-      ...params,
-      method: 'delete',
-    },
-  });
-}
-
-export async function addRule(params) {
-  return request('/api/rule', {
-    method: 'POST',
-    body: {
-      ...params,
-      method: 'post',
-    },
-  });
-}
 
 export async function fakeAccountLogin(params) {
   return request('/api/login/account', {
@@ -31,6 +6,15 @@ export async function fakeAccountLogin(params) {
     body: params,
   });
 }
+export async function queryError(code) {
+  return request(`/api/${code}`);
+}
+
+export async function queryCurrent() {
+  // return request('http://172.20.151.36/photovoltaic/public/index/users/info');
+  return request('/api/currentUser');
+}
+
 
 export async function getSiteList() {
   return request('http://172.20.151.36/photovoltaic/public/index/stations', {
