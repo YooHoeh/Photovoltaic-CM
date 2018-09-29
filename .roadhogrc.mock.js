@@ -160,6 +160,58 @@ const proxy = {
           }
         })
     },
+  'POST /api/inverterSearch':
+    (req, res) => {
+      res.send(
+        {
+          data:[
+            {
+              time: "1951",
+              value: 38
+            },
+            {
+              time: "1952",
+              value: 52
+            },
+            {
+              time: "1956",
+              value: 61
+            },
+            {
+              time: "1957",
+              value: 145
+            },
+            {
+              time: "1958",
+              value: 48
+            },
+            {
+              time: "1959",
+              value: 38
+            },
+            {
+              time: "1960",
+              value: 38
+            },
+            {
+              time: "1962",
+              value: 38
+            }
+          ],
+          info: {
+            site: "光伏电站001",
+            id: "410001A001011001",
+            model: "某型号",
+            serial: "某串号",
+            agreement: "三相协议",
+            mpptNum: "12",
+            pvNum: "4",
+            runState: "待机",
+            date: " Sep 13 2018 09:11:36",
+            totalPower: "2000kW"
+          }
+        })
+    },
   'GET /api/profile/basic': getProfileBasicData,
   'GET /api/profile/advanced': getProfileAdvancedData,
   'POST /api/login/account': (req, res) => {

@@ -18,6 +18,7 @@ import {
   message,
   Badge,
   Divider,
+  Cascader,
   TreeSelect,
   Spin,
   Table,
@@ -25,7 +26,7 @@ import {
 } from 'antd';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import Stacked from "../../components/StackMap";
-const { RangePicker, MonthPicker } = DatePicker;
+const {  MonthPicker } = DatePicker;
 const Option = Select.Option;
 
 const getYear = () => {
@@ -33,13 +34,11 @@ const getYear = () => {
   const year = []
   for (let i = 2017; i <= thisYear; i++) {
     year.push(< Option value={i} >{i}</Option >)
-    console.log(i)
   }
   return year.map(item => item)
 }
 @connect(({ rule, loading, chart = {} }) => ({
   rule,
-  file: chart.historySiteSearchData,
   chart,
 }))
 
@@ -47,7 +46,6 @@ export default class SiteHis extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      file: this.props.file,
       filter: {
         siteID: "123",
         type: 'day',
@@ -122,7 +120,16 @@ export default class SiteHis extends PureComponent {
       }
     })
   }
+  siteChange(value) {
+    this.setState({
+      filter: {
+        siteID: value
+      }
+    })
+
+  }
   render() {
+    const siteList = [];
     const { chart } = this.props;
     const { historySiteSearchData } = chart;
     const info = historySiteSearchData.info;
@@ -183,11 +190,17 @@ export default class SiteHis extends PureComponent {
     //   return columns
     // }
     // const setColum = inverterColumns()
+    // const columns = [{
+    //   title: '时间',
+    //   dataIndex: 'time',
+    //   sorter: (a, b) => a.time - b.time,
+    //   defaultSortOrder: 'descend',
+    // }, {
+    //   setColum
+    // }];
     const columns = [{
       title: '时间',
       dataIndex: 'time',
-      // specify the condition of filtering result
-      // here is that finding the name started with `value`
       sorter: (a, b) => a.time > b.time,
       defaultSortOrder: 'descend',
     },
@@ -208,18 +221,8 @@ export default class SiteHis extends PureComponent {
       dataIndex: '逆变器3',
       defaultSortOrder: 'descend',
       sorter: (a, b) => a.逆变器3 - b.逆变器3,
-    },
+    },];
 
-    ]
-      ;
-    // const columns = [{
-    //   title: '时间',
-    //   dataIndex: 'time',
-    //   sorter: (a, b) => a.time - b.time,
-    //   defaultSortOrder: 'descend',
-    // }, {
-    //   setColum
-    // }];
     return (
       <PageHeaderLayout title="站点查询">
         {info ?
@@ -227,8 +230,9 @@ export default class SiteHis extends PureComponent {
             <Card
               bordered={false}
               title={<Tooltip placement="bottomLeft" title={siteInfo}>{info.name + "站点信息"}</Tooltip>}
-              style={{ marginBottom: "12px", overflow: "hidden" }}
+              style={{ marginBottom: "12px", overflow: "hidden", width: '100%' }}
               extra={<span>
+                <Cascader options={siteList} placeholder='请选择站点' style={{ marginRight: '8px' }} onChage={this.siteChange.bind(this)} />
                 <Select defaultValue='day' onChange={this.timeSelectorChange.bind(this)} style={{ marginRight: "15px" }}>
                   <Option value='day'>单日查询</Option>
                   <Option value='month'>整月查询</Option>
@@ -236,7 +240,6 @@ export default class SiteHis extends PureComponent {
                 </Select>
                 {this.timeSelector()}
               </span>}
-
             >{
                 data ?
                   <Stacked
@@ -267,8 +270,6 @@ export default class SiteHis extends PureComponent {
             </Card>
           </Col>
         </Row>
-
-
       </PageHeaderLayout>
     )
   }

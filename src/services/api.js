@@ -101,6 +101,12 @@ export async function historySiteSearch(filter) {
     body: filter.payload
   });
 }
+export async function historyInverterSearch(filter) {
+  return request('/api/inverterSearch', {
+    method: 'POST',
+    body: filter.payload
+  });
+}
 export async function fetchCityInfo(cityCode) {
   return request('http://172.20.151.36/photovoltaic/public/index/index/area_ajax', {
     method: 'POST',
