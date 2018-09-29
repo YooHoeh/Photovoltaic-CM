@@ -25,57 +25,8 @@ import {
 } from 'antd';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import Stacked from "../../components/StackMap";
-import styles from './Site.less';
 const { RangePicker, MonthPicker } = DatePicker;
 const Option = Select.Option;
-
-
-const data = [{
-  key: '1',
-  name: 'John Brown',
-  age: 32,
-  address: 'New York No. 1 Lake Park',
-}, {
-  key: '2',
-  name: 'Jim Green',
-  age: 42,
-  address: 'London No. 1 Lake Park',
-}, {
-  key: '2',
-  name: 'Jim Green',
-  age: 42,
-  address: 'London No. 1 Lake Park',
-}, {
-  key: '2',
-  name: 'Jim Green',
-  age: 42,
-  address: 'London No. 1 Lake Park',
-}, {
-  key: '2',
-  name: 'Jim Green',
-  age: 42,
-  address: 'London No. 1 Lake Park',
-}, {
-  key: '2',
-  name: 'Jim Green',
-  age: 42,
-  address: 'London No. 1 Lake Park',
-}, {
-  key: '2',
-  name: 'Jim Green',
-  age: 42,
-  address: 'London No. 1 Lake Park',
-}, {
-  key: '3',
-  name: 'Joe Black',
-  age: 32,
-  address: 'Sidney No. 1 Lake Park',
-}, {
-  key: '4',
-  name: 'Jim Red',
-  age: 32,
-  address: 'London No. 2 Lake Park',
-}];
 
 const getYear = () => {
   const thisYear = new Date().getFullYear();
@@ -233,48 +184,34 @@ export default class SiteHis extends PureComponent {
     // }
     // const setColum = inverterColumns()
     const columns = [{
-  title: 'Name',
-  dataIndex: 'name',
-  filters: [{
-    text: 'Joe',
-    value: 'Joe',
-  }, {
-    text: 'Jim',
-    value: 'Jim',
-  }, {
-    text: 'Submenu',
-    value: 'Submenu',
-    children: [{
-      text: 'Green',
-      value: 'Green',
-    }, {
-      text: 'Black',
-      value: 'Black',
-    }],
-  }],
-  // specify the condition of filtering result
-  // here is that finding the name started with `value`
-  onFilter: (value, record) => record.name.indexOf(value) === 0,
-  sorter: (a, b) => a.name.length - b.name.length,
-}, {
-  title: '逆变器编号',
-  dataIndex: 'age',
-  defaultSortOrder: 'descend',
-  sorter: (a, b) => a.age - b.age,
-}, {
-  title: 'Address',
-  dataIndex: 'address',
-  filters: [{
-    text: 'London',
-    value: 'London',
-  }, {
-    text: 'New York',
-    value: 'New York',
-  }],
-  filterMultiple: false,
-  onFilter: (value, record) => record.address.indexOf(value) === 0,
-  sorter: (a, b) => a.address.length - b.address.length,
-}];
+      title: '时间',
+      dataIndex: 'time',
+      // specify the condition of filtering result
+      // here is that finding the name started with `value`
+      sorter: (a, b) => a.time > b.time,
+      defaultSortOrder: 'descend',
+    },
+    {
+      title: '逆变器1',
+      dataIndex: '逆变器1',
+      defaultSortOrder: 'descend',
+      sorter: (a, b) => a.逆变器1 - b.逆变器1,
+    },
+    {
+      title: '逆变器2',
+      dataIndex: '逆变器2',
+      defaultSortOrder: 'descend',
+      sorter: (a, b) => a.逆变器2 - b.逆变器2,
+    },
+    {
+      title: '逆变器3',
+      dataIndex: '逆变器3',
+      defaultSortOrder: 'descend',
+      sorter: (a, b) => a.逆变器3 - b.逆变器3,
+    },
+
+    ]
+      ;
     // const columns = [{
     //   title: '时间',
     //   dataIndex: 'time',
@@ -323,7 +260,7 @@ export default class SiteHis extends PureComponent {
           <Col>
             <Card
               bordered={false}
-              title="站点逆变器组成详情"
+              title="逆变器发电量时间表"
               bodyStyle={{ height: 800 }}
             >
               <Table columns={columns} dataSource={data} onChange={this.onChange} height={800} />

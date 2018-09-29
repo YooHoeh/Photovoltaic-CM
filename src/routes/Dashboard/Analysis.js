@@ -111,11 +111,9 @@ export default class Analysis extends Component {
 
   render() {
 
-    const { chart, loading, weather, city, global } = this.props;
-    const {
-      searchData,
-    } = chart;
-    const { allHomePageInfo } = global
+    const { loading, weather, city, global } = this.props;
+
+    const { allHomePageInfo, timeChart } = global
 
     const WeatherFooter = () => {
       if (weather == undefined) {
@@ -568,6 +566,8 @@ export default class Analysis extends Component {
                 >
                   <div style={{ padding: '0 24px' }}>
                     <Curved
+                      data={timeChart}
+
                     />
                   </div>
                 </Card>) : (<Card
@@ -581,6 +581,7 @@ export default class Analysis extends Component {
                 >
                   <div style={{ padding: '0 24px' }}>
                     <Curved
+                      data={timeChart}
                     />
                   </div>
                 </Card>)

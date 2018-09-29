@@ -1,4 +1,4 @@
-import { queryRule, removeRule, addRule, getSiteList, getInterverList } from '../services/api';
+import { queryRule, removeRule, addRule, getSiteList, getInterverList, getWarningList } from '../services/api';
 
 export default {
   namespace: 'rule',
@@ -11,10 +11,27 @@ export default {
     siteList: [],
     cityList: [],
     inverterList: [],
+    warningList: [],
+    warningTagList: [],
   },
 
   effects: {
 
+    *fetchWarningList(_, { call, put }) {
+      const response = yield call(getWarningList);
+      yield put({
+        type: 'saveCommon',
+        payload: {
+          warningList: response.list,
+        }
+      });
+      yield put({
+        type: 'saveCommon',
+        payload: {
+          warningTagList: response.dlist,
+        }
+      });
+    },
     *fetchSiteList(_, { call, put }) {
       const response = yield call(getSiteList);
       yield put({

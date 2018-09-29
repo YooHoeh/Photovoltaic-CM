@@ -133,7 +133,7 @@ export default class Help extends React.Component {
     {
       status: success或者failed
     }
-    删除站点(发送id(站点id))
+  删除站点(发送id(站点id))
     {
       status: success或者failed
     }

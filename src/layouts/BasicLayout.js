@@ -274,7 +274,6 @@ export default class BasicLayout extends React.PureComponent {
           </Content>
           <Footer style={{ padding: 0 }}>
             <GlobalFooter
-
               copyright={
                 <Fragment>
                   Copyright <Icon type="copyright" /> 推荐使用火狐浏览器获取最佳浏览体验

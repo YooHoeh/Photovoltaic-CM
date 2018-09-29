@@ -24,33 +24,16 @@ import {
 } from 'antd';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import Basiccolumn from "../../components/Basiccolumn";
-import styles from './Inverter.less';
 const { RangePicker, MonthPicker } = DatePicker;
 const Option = Select.Option;
 const columns = [{
-  title: 'Name',
-  dataIndex: 'name',
-  filters: [{
-    text: 'Joe',
-    value: 'Joe',
-  }, {
-    text: 'Jim',
-    value: 'Jim',
-  }, {
-    text: 'Submenu',
-    value: 'Submenu',
-    children: [{
-      text: 'Green',
-      value: 'Green',
-    }, {
-      text: 'Black',
-      value: 'Black',
-    }],
-  }],
+  title: '时间',
+  dataIndex: 'time',
+
   // specify the condition of filtering result
   // here is that finding the name started with `value`
-  onFilter: (value, record) => record.name.indexOf(value) === 0,
-  sorter: (a, b) => a.name.length - b.name.length,
+
+  sorter: (a, b) => a.time - b.time,
 }, {
   title: '逆变器编号',
   dataIndex: 'age',

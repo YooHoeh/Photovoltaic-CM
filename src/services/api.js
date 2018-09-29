@@ -87,12 +87,12 @@ export async function getSiteList() {
   return request('http://172.20.151.36/photovoltaic/public/index/stations', {
   });
 }
-export async function getInterverList() {
-  return request('http://172.20.151.36/photovoltaic/public/index/inverters', {
-  });
-}
 export async function getWarningList() {
   return request('http://172.20.151.36/photovoltaic/public/index/warnings/list', {
+  });
+}
+export async function getInterverList() {
+  return request('http://172.20.151.36/photovoltaic/public/index/inverters', {
   });
 }
 export async function historySiteSearch(filter) {
@@ -114,10 +114,15 @@ export async function fetchSiteInfo(siteID) {
   });
 }
 export async function homePage() {
-  console.log('homepage api');
   return request('http://172.20.151.36/photovoltaic/public/index/index/general');
 }
-export async function lll(params) {
+export async function getUserInfo() {
+  return request('http://172.20.151.36/photovoltaic/public/index/users/info');
+}
+export async function logOut() {
+  return request('http://172.20.151.36/photovoltaic/public/index/login/logout');
+}
+export async function logIn(params) {
   return request('http://172.20.151.36/photovoltaic/public/index/login/index', {
     method: 'POST',
     body: params,
