@@ -3,7 +3,7 @@ import { isUrl } from '../utils/utils';
 export const menuData = [
   {
     name: '首页',
-    icon: 'dashboard',
+    icon: 'bar-chart',
     path: 'dashboard',
     id: '0'
   },
@@ -15,31 +15,33 @@ export const menuData = [
   },
   {
     name: '财务管理',
-    icon: 'calculator',
+    icon: 'dollar',
     path: 'financial',
     id: "2"
   },
 
   {
     name: '站点管理',
-    icon: 'form',
+    icon: 'bars',
     path: 'list',
     id: "3",
     children: [
       {
         name: '站点列表',
+        icon: 'thunderbolt',
         path: 'site',
         id: "4",
       },
       {
         name: '逆变器列表',
+        icon: 'box-plot',
         path: 'inverter',
         id: "5",
       },
 
       {
         name: '站点监控',
-        authority: 'admin',
+        icon: 'cluster',
         path: '',
         id: "6",
       },
@@ -47,36 +49,40 @@ export const menuData = [
   },
   {
     name: '历史查询',
-    icon: 'table',
+    icon: 'search',
     path: 'history',
     id: "7",
     children: [
       {
+        name: '站点查询',
+        path: 'site',
+        icon: 'thunderbolt',
+        id: "9",
+      },
+      {
         name: '逆变器查询',
+        icon: 'box-plot',
         path: 'inverter',
         id: "8",
       },
-      {
-        name: '站点查询',
-        path: 'site',
-        id: "9",
-      }
 
     ],
   },
   {
     name: '维保管理',
-    icon: 'profile',
+    icon: 'tool',
     path: 'maintenance',
     id: "10",
     children: [
       {
         name: '维保日志列表',
         path: 'list',
+        icon: 'insurance',
         id: "11",
       },
       {
         name: '新建维保日志',
+        icon: 'reconciliation',
         path: 'add',
         id: "12",
       }
@@ -90,10 +96,12 @@ export const menuData = [
       {
         name: '用户管理',
         path: 'user',
+        icon: 'solution',
         id: "14",
       },
       {
         name: '系统日志',
+        icon: 'database',
         path: 'log',
         id: "15",
       },

@@ -1,6 +1,5 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import moment from 'moment';
 import {
   Row,
   Col,
@@ -10,18 +9,12 @@ import {
   Select,
   Icon,
   Button,
-  Dropdown,
-  Menu,
-  InputNumber,
-  DatePicker,
   Modal,
   Cascader,
   Radio,
-  message,
   Badge,
   Divider,
   Table,
-  TreeSelect,
 } from 'antd';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 
@@ -409,7 +402,6 @@ export default class TableList extends PureComponent {
         sorter: true,
         align: 'right',
         render: val => `${val} 千`,
-        needTotal: true,
       },
       {
         title: '运行状态',

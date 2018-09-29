@@ -5,22 +5,17 @@ import {
   Col,
   Card,
   Form,
-  Input,
   Button,
+  Table,
   Switch,
   Select,
   DatePicker
 } from 'antd';
-import StandardTable from 'components/StandardTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 
 import styles from './index.less';
 const Option = Select.Option;
 const FormItem = Form.Item;
-const getValue = obj =>
-  Object.keys(obj)
-    .map(key => obj[key])
-    .join(',');
 
 @connect(({ rule, loading }) => ({
   rule,
@@ -42,34 +37,12 @@ export default class TableList extends PureComponent {
     dispatch({
       type: 'rule/fetch',
     });
+    dispatch({
+      type: 'rule/fetchWarningList',
+    });
+
   }
 
-  handleStandardTableChange = (pagination, filtersArg, sorter) => {
-    const { dispatch } = this.props;
-    const { formValues } = this.state;
-
-    const filters = Object.keys(filtersArg).reduce((obj, key) => {
-      const newObj = { ...obj };
-      newObj[key] = getValue(filtersArg[key]);
-      return newObj;
-    }, {});
-
-    const params = {
-      currentPage: pagination.current,
-      pageSize: pagination.pageSize,
-      ...formValues,
-      ...filters,
-    };
-    console.log("pagination, filtersArg, sorter" + pagination, filtersArg, sorter)
-    if (sorter.field) {
-      params.sorter = `${sorter.field}_${sorter.order}`;
-    }
-
-    dispatch({
-      type: 'rule/fetch',
-      payload: params,
-    });
-  };
 
   handleFormReset = () => {
     const { form, dispatch } = this.props;
@@ -83,11 +56,6 @@ export default class TableList extends PureComponent {
     });
   };
 
-  handleSelectRows = rows => {
-    this.setState({
-      selectedRows: rows,
-    });
-  };
 
   handleSearch = e => {
     e.preventDefault();
@@ -114,28 +82,29 @@ export default class TableList extends PureComponent {
 
 
 
-  renderSimpleForm() {
+  renderSimpleForm(warningTagList) {
     const children = [];
-    for (let i = 10; i < 36; i++) {
-      children.push(<Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>);
-    }
+    warningTagList.map((item, index) => {
+      console.log(JSON.stringify(index))
+      children.push(<Option key={index}>{item.type}</Option>);
+    })
     const { form } = this.props;
     const { getFieldDecorator } = form;
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-          <Col md={9} sm={24}>
+          <Col md={6} sm={24}>
             <FormItem label="告警类型">
               {getFieldDecorator('warnType')(<Select
                 mode="multiple"
                 style={{ width: '100%' }}
-                placeholder="请选择需要显示的告警类型"
+                placeholder="请选择需要显示的告警类型,可多选"
               >
                 {children}
               </Select>)}
             </FormItem>
           </Col>
-          <Col md={9} sm={24}>
+          <Col md={6} sm={24}>
             <FormItem label="选择日期">
               {getFieldDecorator('timeRange')(
                 <DatePicker />
@@ -165,10 +134,8 @@ export default class TableList extends PureComponent {
       console.log(e.target.name)
     }
     const {
-      rule: { data },
-      loading,
+      rule: { warningList, warningTagList },
     } = this.props;
-    const { selectedRows } = this.state;
 
     const columns = [
 
@@ -183,7 +150,7 @@ export default class TableList extends PureComponent {
       {
         title: '所属站点编号',
         dataIndex: 'siteName',
-        sorter: true,
+        sorter: (a, b) => a.siteName > b.siteName,
       },
       {
         title: '告警类型',
@@ -192,7 +159,8 @@ export default class TableList extends PureComponent {
       {
         title: '告警时间',
         dataIndex: 'time',
-        sorter: true,
+        defaultSortOrder: 'descend',
+        sorter: (a, b) => a.time > b.time,
         align: 'right',
       },
       {
@@ -201,8 +169,8 @@ export default class TableList extends PureComponent {
         dataIndex: 'check',
         render: (check, recode) => (
           check
-            ? <a href="javascript:;" name={recode.id} onClick={changeCheckStatuHandle}><Switch checkedChildren="已处理" unCheckedChildren="未处理" defaultChecked onChange={onChange} /></a>
-            : <a href="javascript:;" name={recode.id} onClick={changeCheckStatuHandle}><Switch checkedChildren="已处理" unCheckedChildren="未处理" onChange={onChange} /></a>
+            ? <a href="javascript:;" name={recode.id} onClick={changeCheckStatuHandle}><Switch checkedChildren="已处理" unCheckedChildren="未处理" onChange={onChange} /></a>
+            : <a href="javascript:;" name={recode.id} onClick={changeCheckStatuHandle}><Switch checkedChildren="已处理" unCheckedChildren="未处理" defaultChecked onChange={onChange} /></a>
         ),
 
       },
@@ -214,15 +182,8 @@ export default class TableList extends PureComponent {
       <PageHeaderLayout title="告警列表" >
         <Card bordered={false}>
           <div className={styles.tableList}>
-            <div className={styles.tableListForm}>{this.renderSimpleForm()}</div>
-            <StandardTable
-              selectedRows={selectedRows}
-              loading={loading}
-              data={data}
-              columns={columns}
-              onSelectRow={this.handleSelectRows}
-              onChange={this.handleStandardTableChange}
-            />
+            <div className={styles.tableListForm}>{this.renderSimpleForm(warningTagList)}</div>
+            <Table columns={columns} dataSource={warningList} onChange={this.onTableChange} />
           </div>
         </Card>
       </PageHeaderLayout>
