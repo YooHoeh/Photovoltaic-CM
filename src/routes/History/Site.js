@@ -4,22 +4,10 @@ import {
   Row,
   Col,
   Card,
-  Form,
-  Input,
   Select,
-  Icon,
-  Button,
-  Dropdown,
-  Menu,
-  InputNumber,
   DatePicker,
-  Modal,
-  Radio,
-  message,
-  Badge,
-  Divider,
+  Alert,
   Cascader,
-  TreeSelect,
   Spin,
   Table,
   Tooltip,
@@ -37,7 +25,7 @@ const getYear = () => {
   }
   return year.map(item => item)
 }
-@connect(({ rule, loading, chart = {} }) => ({
+@connect(({ rule, chart = {} }) => ({
   rule,
   chart,
 }))
@@ -45,18 +33,21 @@ const getYear = () => {
 export default class SiteHis extends PureComponent {
   constructor(props) {
     super(props)
+    const { chart } = this.props;
+    const { historySiteSearchData } = chart;
     this.state = {
       filter: {
-        siteID: "123",
-        type: 'day',
-        time: '1919-19-13'
-      }
+        siteID: "",
+        type: '',
+        time: ''
+      },
+      data: historySiteSearchData.data,
+      info: historySiteSearchData.info,
     };
     this.onDateChange = this.onDateChange.bind(this)
   }
-  handleSearch(state) {
-    console.log(this.state.filter)
-    console.log(state)
+  handleSearch() {
+    console.log(this.state)
     const { dispatch } = this.props;
     dispatch({
       type: 'chart/fetchHistorySiteSearchData',
@@ -66,6 +57,9 @@ export default class SiteHis extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
+      type: 'chart/fetchSiteListWithPosition',
+    });
+    dispatch({
       type: 'chart/fetchHistorySiteSearchData',
       fileter: this.state.filter
     });
@@ -73,7 +67,7 @@ export default class SiteHis extends PureComponent {
   timeSelector = () => {
     const type = this.state.filter.type;
     return (
-      type == 'day' ?
+      (type == 'day' || type == '') ?
         <DatePicker onChange={this.onDateChange} placeholder="单日查询" style={{ marginRight: "8px" }} />
         : type == 'month' ?
           <MonthPicker onChange={this.onMonthChange.bind(this)} placeholder="整月查询" style={{ marginRight: "8px" }} />
@@ -84,92 +78,95 @@ export default class SiteHis extends PureComponent {
     console.log('table', pagination, filters, sorter);
   }
   onDateChange(obj, date) {
-    console.log('date', date);
-    this.setState({
+    this.setState((preState, props) => ({
       filter: {
         type: 'day',
-        time: date
+        time: date,
+        siteID: preState.filter.siteID,
       }
-    }, () => this.handleSearch())
+    }), () => this.handleSearch())
   }
   onMonthChange(obj, month) {
-    console.log('month', month);
-    this.setState({
+    this.setState((preState, ) => ({
       filter: {
         type: 'month',
-        time: month
+        time: month,
+        siteID: preState.filter.siteID,
       }
-    }, () => this.handleSearch())
+    }), () => this.handleSearch())
   }
   onYearChange(year) {
-    console.log('Year', year);
-    this.setState({
+    this.setState((preState, props) => ({
       filter: {
         type: 'year',
-        time: year
+        time: year,
+        siteID: preState.filter.siteID,
       }
-    }, () => this.handleSearch())
+    }), () => this.handleSearch())
   }
   timeSelectorChange(value) {
-    this.setState({
+    this.setState((preState) => ({
       filter: {
-        type: value
+        type: value,
+        time: preState.filter.time,
+        siteID: preState.filter.siteID,
       }
-    })
+    }))
   }
   siteChange(value) {
-    this.setState({
+    console.log(value[2])
+    this.setState((preState) => ({
       filter: {
-        siteID: value
+        type: preState.filter.type,
+        time: preState.filter.time,
+        siteID: value[2],
       }
-    })
-
+    }), () => this.handleSearch())
   }
   render() {
-    const siteList = [];
-    const { chart } = this.props;
-    const { historySiteSearchData } = chart;
-    const info = historySiteSearchData.info;
-    const data = historySiteSearchData.data;
-    const siteInfo = (
-      info ?
-        < div >
-          <Row type="flex" justify="space-around" align="middle">
-            <Col span={7}>名称:</Col><Col span={14} style={{ margin: "3px" }}>{info.name}</Col>
-          </Row>
-          <Row type="flex" justify="space-around" align="middle">
-            <Col span={7}>位置:</Col><Col span={14} style={{ margin: "3px" }}>{info.position}</Col>
-          </Row>
-          <Row type="flex" justify="space-around" align="middle">
-            <Col span={7}>坐标:</Col><Col span={14} style={{ margin: "3px" }}>{info.coordinate}</Col>
-          </Row>
-          <Row type="flex" justify="space-around" align="middle">
-            <Col span={7}>设计容量:</Col><Col span={14} style={{ margin: "3px" }}>{info.disignCount}</Col>
-          </Row>
-          <Row type="flex" justify="space-around" align="middle">
-            <Col span={7}>建设容量:</Col><Col span={14} style={{ margin: "3px" }}>{info.buildCount}</Col>
-          </Row>
-          <Row type="flex" justify="space-around" align="middle">
-            <Col span={7}>占用面积:</Col><Col span={14} style={{ margin: "3px" }}>{info.area}</Col>
-          </Row>
-          <Row type="flex" justify="space-around" align="middle">
-            <Col span={7}>屋顶使用方式:</Col><Col span={14} style={{ margin: "3px" }}>{info.roof}</Col>
-          </Row>
-          <Row type="flex" justify="space-around" align="middle">
-            <Col span={7}>运行状态:</Col><Col span={14} style={{ margin: "3px" }}>{info.runState}</Col>
-          </Row>
-          <Row type="flex" justify="space-around" align="middle">
-            <Col span={7}>并网状态:</Col><Col span={14} style={{ margin: "3px" }}>{info.netState}</Col>
-          </Row>
-          <Row type="flex" justify="space-around" align="middle">
-            <Col span={7}>总光伏发电量:</Col><Col span={14} style={{ margin: "3px" }}>{info.totalPower}</Col>
-          </Row>
-        </div > : <Spin
-          tip="等待数据"
-          size="middle"
-          style={{ display: "flex", alignItems: "center", justifyContent: "center", lineHeight: "calc(40vh)" }}
-        />
-    )
+
+    const siteInfo = () => {
+      const info = this.state.info;
+      return (
+        info ?
+          < div >
+            <Row type="flex" justify="space-around" align="middle">
+              <Col span={7}>名称:</Col><Col span={14} style={{ margin: "3px" }}>{info.name}</Col>
+            </Row>
+            <Row type="flex" justify="space-around" align="middle">
+              <Col span={7}>位置:</Col><Col span={14} style={{ margin: "3px" }}>{info.position}</Col>
+            </Row>
+            <Row type="flex" justify="space-around" align="middle">
+              <Col span={7}>坐标:</Col><Col span={14} style={{ margin: "3px" }}>{info.coordinate}</Col>
+            </Row>
+            <Row type="flex" justify="space-around" align="middle">
+              <Col span={7}>设计容量:</Col><Col span={14} style={{ margin: "3px" }}>{info.disignCount}</Col>
+            </Row>
+            <Row type="flex" justify="space-around" align="middle">
+              <Col span={7}>建设容量:</Col><Col span={14} style={{ margin: "3px" }}>{info.buildCount}</Col>
+            </Row>
+            <Row type="flex" justify="space-around" align="middle">
+              <Col span={7}>占用面积:</Col><Col span={14} style={{ margin: "3px" }}>{info.area}</Col>
+            </Row>
+            <Row type="flex" justify="space-around" align="middle">
+              <Col span={7}>屋顶使用方式:</Col><Col span={14} style={{ margin: "3px" }}>{info.roof}</Col>
+            </Row>
+            <Row type="flex" justify="space-around" align="middle">
+              <Col span={7}>运行状态:</Col><Col span={14} style={{ margin: "3px" }}>{info.runState}</Col>
+            </Row>
+            <Row type="flex" justify="space-around" align="middle">
+              <Col span={7}>并网状态:</Col><Col span={14} style={{ margin: "3px" }}>{info.netState}</Col>
+            </Row>
+            <Row type="flex" justify="space-around" align="middle">
+              <Col span={7}>总光伏发电量:</Col><Col span={14} style={{ margin: "3px" }}>{info.totalPower}</Col>
+            </Row>
+          </div > : <Spin
+            tip="等待数据"
+            size="middle"
+            style={{ display: "flex", alignItems: "center", justifyContent: "center", lineHeight: "calc(40vh)" }}
+          />
+      )
+    }
     // const inverterColumns = () => {
     //   console.log(historySiteSearchData)
     //   let columns = {}
@@ -219,43 +216,45 @@ export default class SiteHis extends PureComponent {
       defaultSortOrder: 'descend',
       sorter: (a, b) => a.逆变器3 - b.逆变器3,
     },];
-
+    const { chart } = this.props;
+    const { siteListWithPosition } = chart;
     return (
-      <PageHeaderLayout title="站点查询">
-        {info ?
-          <Row >
-            <Card
-              bordered={false}
-              title={<Tooltip placement="bottomLeft" title={siteInfo}>{info.name + "站点信息"}</Tooltip>}
-              style={{ marginBottom: "12px", overflow: "hidden", width: '100%' }}
-              extra={<span>
-                <Cascader options={siteList} placeholder='请选择站点' style={{ marginRight: '8px' }} onChage={this.siteChange.bind(this)} />
-                <Select defaultValue='day' onChange={this.timeSelectorChange.bind(this)} style={{ marginRight: "15px" }}>
-                  <Option value='day'>单日查询</Option>
-                  <Option value='month'>整月查询</Option>
-                  <Option value='year'>全年查询</Option>
-                </Select>
-                {this.timeSelector()}
-              </span>}
-            >{
-                data ?
-                  <Stacked
-                    data={data}
+      <PageHeaderLayout title="站点查询" >
+        {
+          siteListWithPosition ?
+            <Row>
+              <Card
+                bordered={false}
+                title={< Tooltip placement="bottomLeft" title={this.state.info ? siteInfo : '请选择站点'} > {this.state.info ? (this.state.info.name + "站点信息") : '请选择站点'}</Tooltip>}
+                style={{ marginBottom: "12px", overflow: "hidden", width: '100%' }}
+                extra={<span>
+                  <Cascader options={siteListWithPosition} placeholder='请选择站点' style={{ marginRight: '8px', width: "250px" }} onChange={this.siteChange.bind(this)} />
+                  <Select defaultValue='day' onChange={this.timeSelectorChange.bind(this)} style={{ marginRight: "15px" }}>
+                    <Option value='day'>单日查询</Option>
+                    <Option value='month'>整月查询</Option>
+                    <Option value='year'>全年查询</Option>
+                  </Select>
+                  {this.timeSelector()}
+                </span>}
+              > {
+                  this.state.data ?
+                    <Stacked
+                      data={this.state.data}
 
-                  />
-                  : <Spin
-                    tip="等待数据"
-                    size="middle"
-                    style={{ display: "flex", alignItems: "center", justifyContent: "center", lineHeight: "calc(40vh)" }}
-                  />
-              }
-            </Card>
-          </Row>
-          : <Spin
-            tip="等待数据"
-            size="middle"
-            style={{ display: "flex", alignItems: "center", justifyContent: "center", lineHeight: "calc(40vh)" }}
-          />}
+                    />
+                    : <Alert
+                      message="请选择站点"
+                      description="选择站点后，选择要查询的时间查看发电量堆叠分析图"
+                      type="info"
+                    />
+                }
+              </Card >
+            </Row >
+            : <Spin
+              tip="等待数据"
+              size="middle"
+              style={{ display: "flex", alignItems: "center", justifyContent: "center", lineHeight: "calc(40vh)" }}
+            />}
         <Row>
           <Col>
             <Card
@@ -263,11 +262,11 @@ export default class SiteHis extends PureComponent {
               title="逆变器发电量时间表"
               bodyStyle={{ height: 800 }}
             >
-              <Table columns={columns} dataSource={data} onChange={this.onChange} height={800} />
+              <Table columns={columns} dataSource={this.state.data} onChange={this.onChange} height={800} />
             </Card>
           </Col>
         </Row>
-      </PageHeaderLayout>
+      </PageHeaderLayout >
     )
   }
 }

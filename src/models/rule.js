@@ -1,4 +1,4 @@
-import { getSiteList, getInterverList, getWarningList } from '../services/api';
+import { getSiteList, getInterverList, getWarningList, warningListSearch } from '../services/api';
 
 export default {
   namespace: 'rule',
@@ -27,6 +27,16 @@ export default {
           warningTagList: response.dlist,
         }
       });
+    },
+    *searchWarningList(payload, { call, put }) {
+      const response = yield call(warningListSearch, payload);
+      yield put({
+        type: 'saveCommon',
+        payload: {
+          warningList: response.list,
+        }
+      });
+
     },
     *fetchSiteList(_, { call, put }) {
       const response = yield call(getSiteList);

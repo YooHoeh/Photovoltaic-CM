@@ -175,6 +175,21 @@ _________
     ]
   }
   改变告警处理状态 (发送id:告警编号,check)
+  {
+    status:ok 或 error
+  }
+  告警查询 (发送id:告警编号,type:[](告警类型))
+  [
+    {
+      id:告警编号
+      inverterID: 告警逆变器id,
+      siteName: 所属站点名,
+      type: 告警类型(文字),
+      time: 告警时间,
+      check: 状态(false: 未处理, true: 已处理),
+    },
+  ]
+
 历史查询
 ——————————
   站点查询

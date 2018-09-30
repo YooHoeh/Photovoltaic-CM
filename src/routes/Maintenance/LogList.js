@@ -65,38 +65,7 @@ class Maintetance extends React.Component {
       localtion: ''
     })
   }
-  onDateChange = (date, dateString) => {
-    this.setState({ date: dateString })
-    console.log(dateString);
-  }
-  onCheckChange = (checkedValues) => {
-    this.setState({
-      type: checkedValues,
-    })
-    console.log(checkedValues)
-  }
-  onTextAreaChange = (e) => {
-    const { value } = e.target;
-    this.setState({
-      content: value,
-    })
-    console.log(value)
-  }
-  onPeopleChange = (e) => {
-    const { value } = e.target;
-    this.setState({
-      people: value,
-    })
-    console.log(value)
-    console.log("123")
-  }
-  onLocaltionChange = (e) => {
-    const { value } = e.target;
-    console.log(value)
-    this.setState({
-      localtion: value,
-    })
-  }
+
   submitHandle = () => {
     console.log(this.state)
   }

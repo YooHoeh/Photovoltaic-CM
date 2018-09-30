@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Menu, Icon, Spin, Dropdown, Divider, Tooltip } from 'antd';
+import { Menu, Icon, Spin, Dropdown, Divider, Tooltip, Badge } from 'antd';
 import Debounce from 'lodash-decorators/debounce';
 import { Link } from 'dva/router';
 import styles from './index.less';
@@ -67,17 +67,19 @@ export default class GlobalHeader extends PureComponent {
               <Icon type="question-circle-o" style={{ color: '#fff', marginRight: '15px', fontSize: '20px' }} />
             </Link>
           </Tooltip>
-          <Tooltip title="告警数量">
-            <Link to='/warning'>
-              <Icon type="bell" style={{ color: '#fff', marginRight: '10px', fontSize: '20px' }} />
-            </Link>
-          </Tooltip>
-          {currentUser.username ? (
+          {(currentUser.username && currentUser.warningNum) ? (
+            [<Badge count={currentUser.warningNum} style={{ marginRight: '10px', }}>
+              <Tooltip title="告警数量">
+                <Link to='/warning'>
+                  <Icon type="bell" style={{ color: '#fff', fontSize: '20px', marginRight: '10px' }} />
+                </Link>
+              </Tooltip>
+            </Badge>,
             <Dropdown overlay={menu}>
               <span className={`${styles.action} ${styles.account}`}>
                 <span className={styles.name}>{currentUser.username}</span>
               </span>
-            </Dropdown>
+            </Dropdown>]
           ) : (
               <Spin size="small" style={{ marginLeft: 8 }} />
             )}
