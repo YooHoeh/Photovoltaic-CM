@@ -5,6 +5,7 @@ import {
   Col,
   Card,
   Form,
+  Spin,
   Input,
   Select,
   Icon,
@@ -17,6 +18,7 @@ import {
   Table,
 } from 'antd';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
+import {codeToCityName } from '../../utils/utils'
 
 import styles from './Site.less';
 
@@ -388,6 +390,7 @@ export default class TableList extends PureComponent {
       {
         title: '所属区域',
         dataIndex: 'city',
+        render:val=> codeToCityName(val)
       },
       {
         title: '站点位置  ',
@@ -449,7 +452,12 @@ export default class TableList extends PureComponent {
         <Card bordered={false}>
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>{this.renderSimpleForm(cityList)} </div>
-            <Table columns={columns} dataSource={siteList} onChange={this.onTableChange} />
+            {
+              siteList 
+              ? <Table columns={columns} dataSource={siteList} onChange={this.onTableChange} /> 
+              :<Spin tip="等待数据" size="middle" style={{ display: "flex", alignItems: "center", justifyContent: "center", lineHeight: "calc(40vh)" }}
+               />
+            }
           </div>
         </Card>
         <CreateForm {...parentMethods} modalVisible={modalVisible} onChange={this.handleFormChange} />

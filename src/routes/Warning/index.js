@@ -123,6 +123,9 @@ export default class TableList extends PureComponent {
     );
   }
 
+  onTableChange = (pagination, filters, sorter) => {
+    console.log('params', pagination, filters, sorter);
+  }
   render() {
     function onChange(checked) {
       console.log(`switch to ${checked}`);

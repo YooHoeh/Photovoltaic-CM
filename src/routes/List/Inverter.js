@@ -359,7 +359,12 @@ export default class TableList extends PureComponent {
         <Card bordered={false}>
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>{this.renderSimpleForm(cityList)}</div>
-            <Table columns={columns} dataSource={inverterList} onChange={this.onTableChange} />
+            {
+              inverterList 
+              ? <Table columns={columns} dataSource={inverterList} onChange={this.onTableChange} />
+              : <Spin tip="等待数据" size="middle" style={{ display: "flex", alignItems: "center", justifyContent: "center", lineHeight: "calc(40vh)" }}
+               />
+            }
           </div>
         </Card>
         <CreateForm {...parentMethods} modalVisible={modalVisible} onChange={this.handleFormChange} />

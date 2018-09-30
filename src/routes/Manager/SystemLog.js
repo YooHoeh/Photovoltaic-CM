@@ -7,7 +7,6 @@ import {
   Form,
   Button,
   Table,
-  Switch,
   Tag,
   Select,
   DatePicker
@@ -117,14 +116,11 @@ export default class TableList extends PureComponent {
       </Form>
     );
   }
-
+  onTableChange = (pagination, filters, sorter) => {
+    console.log('params', pagination, filters, sorter);
+  }
   render() {
-    function onChange(checked) {
-      console.log(`switch to ${checked}`);
-    }
-    const changeCheckStatuHandle = (e) => {
-      console.log(e.target.name)
-    }
+
     const {
       rule: { warningList, warningTagList },
     } = this.props;
