@@ -176,15 +176,6 @@ export default class BasicLayout extends React.PureComponent {
     });
   };
 
-  handleNoticeClear = type => {
-    message.success(`清空了${type}`);
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'global/clearNotices',
-      payload: type,
-    });
-  };
-
   handleMenuClick = ({ key }) => {
     const { dispatch } = this.props;
     if (key === 'user') {
@@ -236,7 +227,6 @@ export default class BasicLayout extends React.PureComponent {
               notices={notices}
               collapsed={collapsed}
               isMobile={mb}
-              onNoticeClear={this.handleNoticeClear}
               onCollapse={this.handleMenuCollapse}
               onMenuClick={this.handleMenuClick}
             />

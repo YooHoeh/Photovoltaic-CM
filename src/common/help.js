@@ -494,6 +494,45 @@ _________
           type:日志类型（0：登陆日志，1：操作日志）
         }，
       ]
+维保管理
+————————
+  维保日志列表
+  ————————————
+    日志列表
+      [
+        {
+          id:日志id
+          people:负责人
+          siteName:站点名
+          type:[0，1，2，3，4] 维保类型数组
+          time:维保时间
+          content:维保内容
+        }，
+      ]
+    删除日志 （发送id）!!这个不做！！
+      {
+        status:ok 或error
+      }
+    日志查询 （发送time）
+      [
+        {
+          id:日志id
+          people:负责人
+          siteName:站点名
+          type: [0，2。。。多选]维保类型
+          time:维保时间
+          content:维保内容
+        }，
+      ]
+  新建日志
+      新建日志流水号
+        {
+          id:WB20180822-001
+        }
+      新建日志 （发送 type: [0，2。。。多选]维保类型,people: '维保人员',time: '时间',id: '日志流水号',content: '维保内容',siteName: '维保站点'）
+        {
+          status:ok 或 error
+        }
       </pre>`
     return <div dangerouslySetInnerHTML={{ __html: content }} />
 

@@ -15,17 +15,6 @@ export default {
   },
 
   effects: {
-    *fetchNotices(_, { call, put }) {
-      const data = yield call(queryNotices);
-      yield put({
-        type: 'saveNotices',
-        payload: data,
-      });
-      yield put({
-        type: 'user/changeNotifyCount',
-        payload: data.length,
-      });
-    },
     *fetchCityInfo(payload, { call, put }) {
       const data = yield call(fetchCityInfo, payload);
       yield put({

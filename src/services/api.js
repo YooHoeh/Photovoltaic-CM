@@ -22,7 +22,6 @@ export async function logIn(params) {
   });
 }
 
-
 //获取当前用户信息
 export async function queryCurrent() {
   return request('http://172.20.151.36/photovoltaic/public/index/users/info');
@@ -105,22 +104,26 @@ export async function fetchMaintenance() {
 }
 
 //维保日志查询
-export async function maintenanceSearch(cityCode) {
+export async function maintenanceSearch(id) {
   return request('http://172.20.151.36/photovoltaic/public/index/logs/queryTime', {
     method: 'POST',
-    body: cityCode.payload
+    body: id.payload
   });
 }
 //添加维保日志
 export async function addMaintenance(payload) {
   return request('http://172.20.151.36/photovoltaic/public/index/logs/addMaintenance', {
     method: 'POST',
-    body: payload
+    body: payload.payload
   });
 }
-
-
-
+//添加维保日志
+export async function delMaintenanceLog(payload) {
+  return request('http://172.20.151.36/photovoltaic/public/index/logs/addMaintenance', {
+    method: 'POST',
+    body: payload.payload
+  });
+}
 
 //获取告警列表
 export async function getWarningList() {

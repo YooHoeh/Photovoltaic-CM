@@ -1,5 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
-import { Card, Checkbox, Row, Col, Divider, Input, DatePicker, Button } from "antd";
+import { Card, Checkbox, Row, Col, Divider, Input, DatePicker, Button, Modal } from "antd";
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 const { TextArea } = Input;
 const CheckboxGroup = Checkbox.Group;
@@ -12,7 +12,7 @@ class Maintetance extends React.Component {
       date: '',
       id: 'WB20180822-001',
       content: '',
-      localtion: ''
+      siteName: ''
 
     };
   }
@@ -22,7 +22,7 @@ class Maintetance extends React.Component {
       people: '',
       date: '',
       content: '',
-      localtion: ''
+      siteName: ''
     })
   }
   onDateChange = (date, dateString) => {
@@ -50,15 +50,29 @@ class Maintetance extends React.Component {
     console.log(value)
     console.log("123")
   }
-  onLocaltionChange = (e) => {
+  onsiteNameChange = (e) => {
     const { value } = e.target;
     console.log(value)
     this.setState({
-      localtion: value,
+      siteName: value,
     })
   }
   submitHandle = () => {
     console.log(this.state)
+    const confirmChange = () => {
+      const { dispatch } = this.props;
+      dispatch({
+        type: 'rule/addMaintenanceLog',
+        payload: this.state
+      });
+    }
+    Modal.confirm({
+      title: '添加日志',
+      onOk: confirmChange,
+      cancelText: '取消',
+      okText: '确认',
+      content: `确认添加日志吗？\n日志添加后不允许修改或者删除！`
+    });
   }
   render() {
     const options = [
@@ -91,7 +105,7 @@ class Maintetance extends React.Component {
           <Divider />
           <Row>
             <Col span={3}>维保站点：</Col>
-            <Col span={19}><Input onChange={this.onLocaltionChange} value={this.state.localtion} /></Col>
+            <Col span={19}><Input onChange={this.onsiteNameChange} value={this.state.siteName} /></Col>
           </Row>
           <Divider />
           <Row>

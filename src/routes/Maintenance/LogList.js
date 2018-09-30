@@ -1,104 +1,115 @@
 import React from 'react';
-import { Card, Checkbox, Row, Col, Divider, Input, Modal, DatePicker, Button, Table, Tag } from "antd";
+import { Card, Divider, Input, Modal, DatePicker, Button, Table, Tag } from "antd";
+import { connect } from 'dva';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 const { RangePicker } = DatePicker;
 
 const data = [{
-  key: '1',
+  id: '1',
   name: '雷军',
-  localtion: "伏站点",
+  siteName: "伏站点",
   type: [0, 2, 3],
-  time: "1018-12-01"
+  time: "1018-12-01",
+  content: '维保内容维保内容维保内容维保内容维保内容维保内容维保内容'
 }, {
-  key: '2',
+  id: '2',
   name: '罗永浩',
-  localtion: "光伏站点",
+  siteName: "光伏站点",
   type: [0, 3],
-  time: "2018-09-03"
+  time: "2018-09-03",
+  content: '维保内容维保内容维保内容维保内容维保内容维保内容维保内容'
 
 }, {
-  key: '4',
+  id: '4',
   name: '柳传志',
-  localtion: "某光站点",
+  siteName: "某光站点",
   type: [0],
-  time: "2018-09-02"
+  time: "2018-09-02",
+  content: '维保内容维保内容维保内容维保内容维保内容维保内容维保内容'
 }, {
-  key: '5',
+  id: '5',
   name: '马化腾',
-  localtion: "某光伏点",
+  siteName: "某光伏点",
   type: [1, 4],
-  time: "2018-09-01"
+  time: "2018-09-01",
+  content: '维保内容维保内容维保内容维保内容维保内容维保内容维保内容'
 
 }, {
-  key: '6',
+  id: '6',
   name: '罗永浩',
-  localtion: "某点",
+  siteName: "某点",
   type: [0, 1, 2, 3, 4],
-  time: "2018-09-01"
+  time: "2018-09-01",
+  content: '维保内容维保内容维保内容维保内容维保内容维保内容维保内容'
 
 }, {
-  key: '7',
+  id: '7',
   name: '雷军',
-  localtion: "某光伏站点",
+  siteName: "某光伏站点",
   type: [2, 3],
-  time: "2017-09-01"
+  time: "2017-09-01",
+  contentt: '维保内容维保内容维保内容维保内容维保内容维保内容维保内容'
 }];
+@connect(({ rule }) => ({
+  rule,
+}))
 class Maintetance extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      type: [],
-      people: '',
-      date: '',
-      logID: 'WB20180822-001',
-      content: '',
-      localtion: ''
-
     };
   }
-  onResetHandle = () => {
-    this.setState({
-      type: [],
-      people: '',
-      date: '',
-      content: '',
-      localtion: ''
-    })
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'rule/fetchMaintenanceList',
+    });
   }
 
-  submitHandle = () => {
-    console.log(this.state)
-  }
   onDateRangeChange = (value, dateString) => {
-    console.log('Selected Time: ', value);
     console.log('Formatted Selected Time: ', dateString);
   }
   onTableChange = (pagination, filters, sorter) => {
     console.log('params', pagination, filters, sorter);
   }
+  open = (e) => {
+    const name = e.target.name;
+
+  }
+  del = (e) => {
+    const name = e.target.name
+    const confirmChange = () => {
+      console.log(name)
+      // const { dispatch } = this.props;
+      // dispatch({
+      //   type: 'rule/fetchSiteList',
+      // });
+    }
+    Modal.confirm({
+      title: '删除维保日志',
+      onOk: confirmChange,
+      cancelText: '取消',
+      okText: '确认',
+      content: `确认删除日志：${name}  吗？此操作无法撤销！`
+    });
+
+  }
   render() {
-    const options = [
-      { label: '并网问题', value: '0' },
-      { label: '逆变器', value: '1' },
-      { label: '光伏组件', value: '2' },
-      { label: '站点环境', value: '3' },
-      { label: '其他', value: '4' },
-    ];
     const columns = [
       {
         title: '维保日志编号',
         dataIndex: 'id',
-        sorter: (a, b) => a.name.length - b.name.length,
+        sorter: (a, b) => a.id - b.id,
       },
       {
         title: '维保负责人',
-        dataIndex: 'name',
-        sorter: (a, b) => a.name.length - b.name.length,
+        dataIndex: 'people',
+        sorter: (a, b) => a.people.length - b.people.length,
       },
       {
         title: '维保站点',
-        dataIndex: 'localtion',
-        sorter: (a, b) => a.localtion.length - b.localtion.length,
+        dataIndex: 'siteName',
+        sorter: (a, b) => a.siteName.length - b.siteName.length,
       }, {
         title: '维保类型',
         dataIndex: 'type',
@@ -120,9 +131,7 @@ class Maintetance extends React.Component {
         }],
         filterMultiple: true,
         onFilter: (value, record) => (
-          record.type.map(item => {
-            if (item == value) { return true }
-          }
+          record.type.some(item => item == value ? true : false
           )
         ),
         sorter: (a, b) => a.type.length - b.type.length,
@@ -156,31 +165,14 @@ class Maintetance extends React.Component {
         align: 'right',
         render: (text, record) => (
           <span>
-            <a href="javascript:;" name={record.id} type={record.userType} onClick={open}>查看</a>
-            <Divider type='vertical' />
-            <a href="javascript:;" name={record.id} onClick={del}>删除</a>
+            <a href="javascript:;" name={record.id} type={record.userType} onClick={this.open.bind(this)}>查看</a>
+            {/* <Divider type='vertical' />
+            <a href="javascript:;" name={record.id} onClick={this.del.bind(this)}>删除</a> */}
           </span>
         ),
       }
     ];
-    const open = (e) => {
-      const name = e.target.name;
 
-    }
-    const del = (e) => {
-      const name = e.target.name
-      const confirmChange = () => {
-        console.log(name)
-      }
-      Modal.confirm({
-        title: '删除维保日志',
-        onOk: confirmChange,
-        cancelText: '取消',
-        okText: '确认',
-        content: `确认删除日志：${name}  吗？此操作无法撤销！`
-      });
-
-    }
     return (
       <PageHeaderLayout title="维保日志">
         <Card
@@ -188,7 +180,11 @@ class Maintetance extends React.Component {
           extra={<RangePicker onChange={this.onDateRangeChange} />}
         >
 
-          <Table columns={columns} dataSource={data} onChange={this.onTableChange} />
+          <Table
+            columns={columns}
+            dataSource={data}
+            expandedRowRender={record => <p style={{ margin: 0 }}>{record.content}</p>}
+            onChange={this.onTableChange} />
         </Card>
       </PageHeaderLayout>
     )

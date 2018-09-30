@@ -1,4 +1,4 @@
-import { getSiteList, getInterverList, getWarningList, warningListSearch } from '../services/api';
+import { getSiteList, getInterverList, getWarningList, warningListSearch, fetchMaintenance, addMaintenance, delMaintenanceLog } from '../services/api';
 
 export default {
   namespace: 'rule',
@@ -9,10 +9,10 @@ export default {
     inverterList: [],
     warningList: [],
     warningTagList: [],
+    maintenanceList: [],
   },
 
   effects: {
-
     *fetchWarningList(_, { call, put }) {
       const response = yield call(getWarningList);
       yield put({
@@ -65,6 +65,33 @@ export default {
         type: 'saveCommon',
         payload: {
           cityList: response.areas,
+        }
+      });
+    },
+    *fetchMaintenanceList(_, { call, put }) {
+      const response = yield call(fetchMaintenance);
+      yield put({
+        type: 'saveCommon',
+        payload: {
+          maintenanceList: response.list,
+        }
+      });
+    },
+    *addMaintenanceLog(payload, { call, put }) {
+      const response = yield call(addMaintenance);
+      yield put({
+        type: 'saveCommon',
+        payload: {
+          maintenanceList: response.list,
+        }
+      });
+    },
+    *delMaintenanceLog(payload, { call, put }) {
+      const response = yield call(delMaintenance);
+      yield put({
+        type: 'saveCommon',
+        payload: {
+          maintenanceList: response.list,
         }
       });
     },
