@@ -63,7 +63,6 @@ const PskTab = () => {
     console.log(newPsk)
   }
   const submitPsk = () => {
-    console.log(newPsk);
     if (newPsk.old === undefined) {
       message.warning('请输入原密码')
     }

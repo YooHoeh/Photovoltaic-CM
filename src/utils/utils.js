@@ -24,7 +24,6 @@ export function cityNameToCode(name) {
   let code = '';
   cityList.map((i) => {
     if (name == i.name) {
-      console.log('调用了cityNameToCode方法结果为' + i.code)
       code = i.code;
 
     }
@@ -36,7 +35,6 @@ export function codeToCityName(code) {
   let name = '';
   cityList.map((i) => {
     if (code == i.code) {
-      console.log(i.name)
       name = i.name;
     }
   })
@@ -47,7 +45,6 @@ export function fixedZero(val) {
 }
 
 export function stringToPosition(str) {
-  console.log(str)
   const positonArr = str.split(",");
   return {
     longitude: parseFloat(positonArr[0]),

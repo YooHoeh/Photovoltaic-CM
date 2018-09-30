@@ -84,7 +84,6 @@ class MapCard extends React.Component {
     //保存位置action
     const handleCity = (city) => {
       const cityCode = cityNameToCode(city)
-      console.log(city + cityCode + 'zhelizheli')
       dispatch({
         type: 'global/saveCity',
         payload: city
@@ -114,17 +113,12 @@ class MapCard extends React.Component {
       });
     };
     const markersEvents = {
-      created: (allMarkers) => {
-        console.log('All Markers Instance Are Below');
-        console.log(allMarkers);
-      },
       click: (MapsOption, marker) => {
         const extData = marker.getExtData();
         const name = extData.siteName;
         const ID = extData.siteID;
         message.success("选中站点：" + name + "站点ID为" + ID)
         handleSite(name, ID)
-        console.log("站点被点击")
 
       },
     }
@@ -136,7 +130,6 @@ class MapCard extends React.Component {
           mapInstance.setDefaultCursor("pointer");
           addPlygons()
           AMap.event.addListener(mapInstance, 'zoomend', function () {
-            console.log('当前缩放级别：' + mapInstance.getZoom());
             mapInstance.getZoom() > 9
               ? mapInstance.remove(polygons)
               : mapInstance.add(polygons)
@@ -149,11 +142,10 @@ class MapCard extends React.Component {
           citySearch.getLocalCity(function (status, result) {
             if (status === 'complete' && result.info === 'OK') {
               // 查询成功，result即为当前所在城市信息
-              console.log(result.city)
               handleCity(result.city)
               saveWeatherInfo(result.city);
             } else {
-              console.log("地理信息获取失败")
+              message.error('地理信息获取失败')
 
             }
           })
@@ -214,7 +206,6 @@ class MapCard extends React.Component {
         }
         //区域点击事件
         function cityClick(city) {
-
           saveWeatherInfo(city);
           handleCity(city)
           dispatch({
@@ -222,8 +213,6 @@ class MapCard extends React.Component {
             payload: "city"
           });
           mapInstance.setCity(city)
-          console.log("区域被点击")
-
         }
         //保存天气信息至global.state
         function saveWeatherInfo(cname) {
@@ -232,14 +221,6 @@ class MapCard extends React.Component {
             //查询实时天气信息, 查询的城市到行政级别的城市，如朝阳区、杭州市
             weather.getLive(cname, function (err, data) {
               if (!err) {
-                // var str = [];
-                // str.push('城市/区：' + data.city);
-                // str.push('天气：' + data.weather);
-                // str.push('温度：' + data.temperature + '℃');
-                // str.push('风向：' + data.windDirection);
-                // str.push('风力：' + data.windPower + ' 级');
-                // str.push('空气湿度：' + data.humidity);
-                // str.push('发布时间：' + data.reportTime);
                 const str = {
                   "城市": data.city,
                   "天气": data.weather,
@@ -262,7 +243,6 @@ class MapCard extends React.Component {
       {
         width: '100%',
         height: 530,
-        // minHeight: 400
       }} >
       <Legend />
       <Map

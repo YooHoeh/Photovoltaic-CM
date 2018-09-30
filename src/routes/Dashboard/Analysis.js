@@ -331,7 +331,6 @@ export default class Analysis extends Component {
           })
         }
       }
-      console.log(day)
       return day
 
     }

@@ -455,6 +455,30 @@ _________
       userName: "fdsaf",
       userType: "wy"
     }
+  操作日志
+  ——————————
+    日志列表
+      [
+        {
+          id:日志id,
+          content:内容，
+          time:时间，
+          agent:备注即浏览器UA,
+          ip:ip,
+          type:日志类型（0：登陆日志，1：操作日志）
+        }，
+      ]
+    查询 (发送type:日志类型，time:时间 xxxx-xx-xx)
+      [
+        {
+          id:日志id,
+          content:内容，
+          time:时间，
+          agent:备注即浏览器UA,
+          ip:ip,
+          type:日志类型（0：登陆日志，1：操作日志）
+        }，
+      ]
       </pre>`
     return <div dangerouslySetInnerHTML={{ __html: content }} />
 
