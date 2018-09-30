@@ -50,7 +50,7 @@ export default class GlobalHeader extends PureComponent {
       <div className={styles.header}>
         {isMobile && [
           <Link to='/'>
-          <img src={logo} alt="logo" width="32" />
+            <img src={logo} alt="logo" width="32" />
           </Link>
           ,
           <Divider type="vertical" key="line" />,
@@ -72,10 +72,10 @@ export default class GlobalHeader extends PureComponent {
               <Icon type="bell" style={{ color: '#fff', marginRight: '10px', fontSize: '20px' }} />
             </Link>
           </Tooltip>
-          {currentUser.name ? (
+          {currentUser.username ? (
             <Dropdown overlay={menu}>
               <span className={`${styles.action} ${styles.account}`}>
-                <span className={styles.name}>{currentUser.name}</span>
+                <span className={styles.name}>{currentUser.username}</span>
               </span>
             </Dropdown>
           ) : (

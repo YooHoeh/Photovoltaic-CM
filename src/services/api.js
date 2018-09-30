@@ -11,8 +11,8 @@ export async function queryError(code) {
 }
 
 export async function queryCurrent() {
-  // return request('http://172.20.151.36/photovoltaic/public/index/users/info');
-  return request('/api/currentUser');
+  return request('http://172.20.151.36/photovoltaic/public/index/users/info');
+  // return request('/api/currentUser');
 }
 
 
