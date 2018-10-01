@@ -57,10 +57,8 @@ class UserLayout extends React.PureComponent {
             <div className={styles.content}>
               <div className={styles.top}>
                 <div className={styles.header}>
-                  <Link to="/">
-                    <img alt="logo" className={styles.logo} src={logo} />
-                    <span className={styles.title}>光伏资产运维管理系统</span>
-                  </Link>
+                  <img alt="logo" className={styles.logo} src={logo} />
+                  <span className={styles.title}>光伏资产运维管理系统</span>
                 </div>
                 <div className={styles.desc}>在线分布式光伏资产运维管理系统</div>
               </div>

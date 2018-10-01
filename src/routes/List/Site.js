@@ -18,7 +18,7 @@ import {
   Table,
 } from 'antd';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
-import {codeToCityName } from '../../utils/utils'
+import { codeToCityName } from '../../utils/utils'
 
 import styles from './Site.less';
 
@@ -87,7 +87,11 @@ const CreateForm = Form.create({
   const handleReset = () => {
     form.resetFields();
   };
+  const handleCityChange = (value, jjjj) => {
+    console.log("jjjj" + jjjj)
+    console.log("value" + value)
 
+  }
   return (
     <Modal
       title="新建站点"
@@ -126,7 +130,7 @@ const CreateForm = Form.create({
             {form.getFieldDecorator('locaNum', {
               rules: [{ required: true, message: 'Please input some description...' }],
             })(
-              <Cascader options={cityList} placeholder="选择区域" style={{ width: '100%' }} />
+              <Cascader options={cityList} placeholder="选择区域" style={{ width: '100%' }} onChange={handleCityChange} />
             )}
           </FormItem>
         </Col>
@@ -287,6 +291,7 @@ export default class TableList extends PureComponent {
   handleFormReset = () => {
     const { form, dispatch } = this.props;
     form.resetFields();
+    value = ''
 
     dispatch({
       type: 'rule/fetchSiteList',
@@ -297,25 +302,27 @@ export default class TableList extends PureComponent {
 
 
   handleSearch = e => {
-    e.preventDefault();
+    // e.preventDefault();
 
     const { dispatch, form } = this.props;
 
     form.validateFields((err, fieldsValue) => {
       if (err) return;
-
       const values = {
         ...fieldsValue,
         updatedAt: fieldsValue.updatedAt && fieldsValue.updatedAt.valueOf(),
       };
 
-      this.setState({
-        formValues: values,
-      });
+      // this.setState({
+      //   formValues: values,
+      // });
 
       dispatch({
-        type: 'rule/fetchSiteList',
-        payload: values,
+        type: 'rule/siteListSearch',
+        payload: {
+          city: values.position[1],
+          status: values.status
+        }
       });
     });
   };
@@ -377,10 +384,31 @@ export default class TableList extends PureComponent {
   onTableChange = (pagination, filters, sorter) => {
     console.log('params', pagination, filters, sorter);
   }
+  deleSite = (val) => {
+    const name = val.target.name
+    const confirmChange = () => {
+      console.log(name)
+      const { dispatch } = this.props;
+      dispatch({
+        type: 'rule/fetchSiteList',
+      });
+    }
+    Modal.confirm({
+      title: '删除站点',
+      onOk: confirmChange,
+      cancelText: '取消',
+      okText: '确认',
+      content: `确认删除站点：${name}  吗？此操作无法撤销！`
+    });
+  }
   render() {
     const {
       rule: { siteList, cityList }
     } = this.props;
+    const handleAdd = () => {
+      const { dispatch } = this.props;
+      dispatch()
+    }
     const { modalVisible } = this.state;
     const columns = [
       {
@@ -390,7 +418,7 @@ export default class TableList extends PureComponent {
       {
         title: '所属区域',
         dataIndex: 'city',
-        render:val=> codeToCityName(val)
+        render: val => codeToCityName(val)
       },
       {
         title: '站点位置  ',
@@ -432,11 +460,11 @@ export default class TableList extends PureComponent {
       {
         title: '操作',
         align: 'right',
-        render: () => (
+        render: (val) => (
           <span>
             <a href="">编辑站点信息</a>
             <Divider type="vertical" />
-            <a href="">删除</a>
+            <a href="javascript:" name={val.id} onClick={this.deleSite.bind(this)}>删除</a>
           </span>
         ),
       },
@@ -445,6 +473,7 @@ export default class TableList extends PureComponent {
       handleModalVisible: this.handleModalVisible,
       fields: this.state.fields,
       cityList,
+      handleAdd,
     };
 
     return (
@@ -453,10 +482,10 @@ export default class TableList extends PureComponent {
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>{this.renderSimpleForm(cityList)} </div>
             {
-              siteList 
-              ? <Table columns={columns} dataSource={siteList} onChange={this.onTableChange} /> 
-              :<Spin tip="等待数据" size="middle" style={{ display: "flex", alignItems: "center", justifyContent: "center", lineHeight: "calc(40vh)" }}
-               />
+              siteList
+                ? <Table columns={columns} dataSource={siteList} onChange={this.onTableChange} />
+                : <Spin tip="等待数据" size="middle" style={{ display: "flex", alignItems: "center", justifyContent: "center", lineHeight: "calc(40vh)" }}
+                />
             }
           </div>
         </Card>

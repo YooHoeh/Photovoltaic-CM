@@ -14,7 +14,7 @@ class Finance extends React.Component {
     return (
       <PageHeaderLayout title="财务管理">
         <Card >
-          待完善页面
+          保留功能，待后期添加
         </Card>
       </PageHeaderLayout>
     )

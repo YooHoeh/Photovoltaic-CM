@@ -95,6 +95,25 @@ class Maintetance extends React.Component {
 
   }
   render() {
+    const typeNumToTags = (typeArr) => {
+      const out = []
+      typeArr.map(item => {
+        switch (item) {
+          case 0:
+            out.push(<Tag color="#2db7f5">并网问题</Tag>); break;
+          case 1:
+            out.push(<Tag color="#2db7f5">逆变器</Tag>); break;
+          case 2:
+            out.push(<Tag color="#2db7f5">光伏组件</Tag>); break;
+          case 3:
+            out.push(<Tag color="#2db7f5">站点环境</Tag>); break;
+          case 4:
+            out.push(<Tag color="#2db7f5">其他</Tag>); break;
+          default: break;
+        }
+      })
+      return <span>{out}</span>
+    }
     const columns = [
       {
         title: '维保日志编号',
@@ -135,25 +154,7 @@ class Maintetance extends React.Component {
           )
         ),
         sorter: (a, b) => a.type.length - b.type.length,
-        render: type => (
-          <span>
-            {type.map(item => {
-              switch (item) {
-                case 0:
-                  return <Tag color="#2db7f5">并网问题</Tag>;
-                case 1:
-                  return <Tag color="#2db7f5">逆变器</Tag>;
-                case 2:
-                  return <Tag color="#2db7f5">光伏组件</Tag>;
-                case 3:
-                  return <Tag color="#2db7f5">站点环境</Tag>;
-                case 4:
-                  return <Tag color="#2db7f5">其他</Tag>;
-                default: break;
-              }
-            })}
-          </span>
-        ),
+        // render: (type) => typeNumToTags(type)
       }, {
         title: "维保时间",
         dataIndex: "time",
@@ -172,9 +173,9 @@ class Maintetance extends React.Component {
         ),
       }
     ];
-
+    const { rule: { maintenanceList }, } = this.props;
     return (
-      <PageHeaderLayout title="维保日志">
+      <PageHeaderLayout title="维保日志" >
         <Card
           title="维保日志列表"
           extra={<RangePicker onChange={this.onDateRangeChange} />}
@@ -182,11 +183,11 @@ class Maintetance extends React.Component {
 
           <Table
             columns={columns}
-            dataSource={data}
+            dataSource={maintenanceList}
             expandedRowRender={record => <p style={{ margin: 0 }}>{record.content}</p>}
             onChange={this.onTableChange} />
         </Card>
-      </PageHeaderLayout>
+      </PageHeaderLayout >
     )
   }
 }

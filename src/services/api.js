@@ -60,7 +60,7 @@ export async function deleteUser(userID) {
 export async function updateRole(payload) {
   return request('http://172.20.151.36/photovoltaic/public/index/users/update_role', {
     method: 'POST',
-    body: payload
+    body: payload.payload
   });
 }
 //新建用户
@@ -100,7 +100,7 @@ export async function fetchSiteInfo(siteID) {
 
 //获取维保日志列表
 export async function fetchMaintenance() {
-  return request('172.20.151.36/photovoltaic/public/index/logs/query');
+  return request('http://172.20.151.36/photovoltaic/public/index/logs/query');
 }
 
 //维保日志查询
@@ -110,6 +110,12 @@ export async function maintenanceSearch(id) {
     body: id.payload
   });
 }
+//获取维保日志流水号
+export async function getMaintenanceID() {
+  return request('http://172.20.151.36/photovoltaic/public/index/logs/maintenanceId', {
+  });
+}
+
 //添加维保日志
 export async function addMaintenance(payload) {
   return request('http://172.20.151.36/photovoltaic/public/index/logs/addMaintenance', {
@@ -142,8 +148,20 @@ export async function getSiteList() {
   return request('http://172.20.151.36/photovoltaic/public/index/stations', {
   });
 }
+//站点列表搜索
+export async function siteListSearch(payload) {
+  return request('http://172.20.151.36/photovoltaic/public/index/stations/station_screen', {
+    method: 'POST',
+    body: payload.payload
+  });
+}
 //获取带位置的站点列表
 export async function getSiteListWithPosition() {
+  return request('http://172.20.151.36/photovoltaic/public/index/stations/initquery', {
+  });
+}
+//新建站点
+export async function addSite() {
   return request('http://172.20.151.36/photovoltaic/public/index/stations/initquery', {
   });
 }
@@ -162,14 +180,28 @@ export async function historySiteSearch(filter) {
   // return request('/api/siteSearch', {
   return request('http://172.20.151.36/photovoltaic/public/index/stations/queryChart', {
     method: 'POST',
-    body: filter.payload
+    body: filter.fileter
   });
 }
 //逆变器历史搜索
 export async function historyInverterSearch(filter) {
   return request('/api/inverterSearch', {
     method: 'POST',
-    body: filter.payload
+    body: filter
+  });
+}
+
+
+//操作日志搜索
+export async function fetchLogList() {
+  return request('http://172.20.151.36/photovoltaic/public/index/logs/logList', {
+  });
+}
+//操作日志列表
+export async function logLostSearch(filter) {
+  return request('http://172.20.151.36/photovoltaic/public/index/logs/queryLog', {
+    method: 'POST',
+    body: filter
   });
 }
 

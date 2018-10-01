@@ -2,63 +2,13 @@ import React from 'react';
 import { Card, Button, Form, TreeSelect, Input, Select, Tree, Modal, Table, Divider, Radio } from 'antd'
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import TextArea from 'antd/lib/input/TextArea';
+import { connect } from "dva";
 import { menuData } from "../../common/menu";
 const Option = Select.Option;
 const TreeNode = Tree.TreeNode;
 const FormItem = Form.Item;
 const SHOW_PARENT = TreeSelect.SHOW_PARENT;
 
-const data = [
-  {
-    userID: '123',
-    userName: 'aa',
-    userType: 'su',
-    tel: '12133211331',
-    others: '这是备注',
-  },
-  {
-    userID: '123',
-    userName: 'aa',
-    userType: 'wb',
-    tel: '12133211331',
-    others: '这是备注',
-  },
-  {
-    userID: '123',
-    userName: 'aa',
-    userType: 'admin',
-    tel: '12133211331',
-    others: '这是备注',
-  },
-  {
-    userID: '123',
-    userName: 'aa',
-    userType: 'admin',
-    tel: '12133211331',
-    others: '这是备注',
-  },
-  {
-    userID: '123',
-    userName: 'aa',
-    userType: 'demo',
-    tel: '12133211331',
-    others: '这是备注',
-  },
-  {
-    userID: '123',
-    userName: 'aa',
-    userType: 'wy',
-    tel: '12133211331',
-    others: '这是备注',
-  },
-  {
-    userID: '123',
-    userName: 'aa',
-    userType: 'wy',
-    tel: '12133211331',
-    others: '这是备注',
-  },
-];
 
 const NewUser = Form.create()(
   class extends React.Component {
@@ -74,7 +24,7 @@ const NewUser = Form.create()(
         >
           <Form layout="horizontal">
             <FormItem label="用户名">
-              {getFieldDecorator('userName', {
+              {getFieldDecorator('username', {
                 rules: [{ required: true, message: '请输入用户名' }],
               })(
                 <Input />
@@ -82,7 +32,7 @@ const NewUser = Form.create()(
             </FormItem>
 
             <FormItem label="账户类型">
-              {getFieldDecorator('userType', {
+              {getFieldDecorator('role', {
                 initialValue: 'admin',
                 rules: [{ required: true, message: '必须选择用户类型' }],
               })(
@@ -95,19 +45,20 @@ const NewUser = Form.create()(
               )}
             </FormItem>
             <FormItem label="联系方式">
-              {getFieldDecorator('tel', {
+              {getFieldDecorator('phone', {
               })(
                 <Input />
               )}
             </FormItem>
             <FormItem label="Email">
               {getFieldDecorator('email', {
+                rules: [{ type: 'email', message: '邮箱格式不正确' }]
               })(
                 <Input />
               )}
             </FormItem>
             <FormItem label="备注">
-              {getFieldDecorator('others', {
+              {getFieldDecorator('remark', {
               })(
                 <TextArea />
               )}
@@ -178,7 +129,7 @@ const PermissonEdit = Form.create(
           onCancel={onCancel}
         >
           <FormItem label="角色类型">
-            {getFieldDecorator('userType', {
+            {getFieldDecorator('role', {
               initialValue: "admin"
             })(
               <Select style={{ width: 120 }} onChange={this.userSelectChange}>
@@ -212,7 +163,10 @@ const PermissonEdit = Form.create(
     }
   }
 )
-
+@connect(({ rule, user }) => ({
+  rule,
+  user,
+}))
 class UserManager extends React.Component {
   constructor(props) {
     super(props);
@@ -220,6 +174,13 @@ class UserManager extends React.Component {
       newUserVisibale: false,
       permissionVisbale: false
     };
+  }
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'rule/fetchUserList'
+    })
+
   }
   setnewUserVisibale(newUserVisibale) {
     this.setState({ newUserVisibale });
@@ -241,6 +202,15 @@ class UserManager extends React.Component {
         return;
       }
       console.log('Received values of form: ', values);
+      const { dispatch } = this.props;
+      dispatch({
+        type: 'user/addUser',
+        payload: values
+      })
+      dispatch({
+        type: 'rule/fetchUserList'
+      })
+
       form.resetFields();
       this.setnewUserVisibale(false)
 
@@ -261,16 +231,19 @@ class UserManager extends React.Component {
     });
   }
   render() {
+    const { rule: { userList } } = this.props
     const columns = [
       {
         title: '用户编号',
-        dataIndex: 'userID',
-        key: 'userID',
+        dataIndex: 'id',
+        key: 'id',
+        defaultSortOrder: 'descend',
+        sorter: (a, b) => b.id - a.id,
       },
       {
         title: '角色类型',
-        dataIndex: 'userType',
-        key: 'userType',
+        dataIndex: 'role',
+        key: 'role',
         filters: [
           { text: '超级管理员', value: 'su' },
           { text: '管理员', value: 'admin' },
@@ -278,9 +251,9 @@ class UserManager extends React.Component {
           { text: '维保人员', value: 'wb' },
           { text: '演示', value: 'demo' },
         ],
-        sorter: (a, b) => parseInt(a.userType) - parseInt(b.userType),
+        sorter: (a, b) => parseInt(a.role) - parseInt(b.role),
         render: (text, recode) => {
-          switch (recode.userType) {
+          switch (recode.role) {
             case 'su':
               return <span>超级管理员</span>;
             case 'admin':
@@ -293,28 +266,28 @@ class UserManager extends React.Component {
               return <span>演示</span>;
           }
         },
-        onFilter: (value, record) => record.userType === value,
+        onFilter: (value, record) => record.role === value,
       }, {
         title: '用户名',
-        dataIndex: 'userName',
-        key: 'userName',
+        dataIndex: 'username',
+        key: 'username',
       }, {
         title: '联系电话',
-        dataIndex: 'tel',
-        key: 'tel',
+        dataIndex: 'phone',
+        key: 'phone',
       }, {
         title: '备注',
-        dataIndex: 'others',
-        key: 'others',
+        dataIndex: 'remark',
+        key: 'remark',
       }, {
         title: '管理权限',
         key: 'action',
         align: 'right',
         render: (text, record) => (
           <span>
-            <a href="javascript:;" name={record.userID} type={record.userType} onClick={editUserClickHandle}>修改角色</a>
+            <a href="javascript:;" name={record.id} type={record.type} onClick={editUserClickHandle}>修改角色</a>
             <Divider type='vertical' />
-            <a href="javascript:;" name={record.userID} onClick={delUserClickHandle}>删除用户</a>
+            <a href="javascript:;" name={record.id} onClick={delUserClickHandle}>删除用户</a>
           </span>
         ),
       }];
@@ -329,6 +302,14 @@ class UserManager extends React.Component {
       const confirmChange = () => {
         console.log(newType)
         console.log(name)
+        const { dispatch } = this.props;
+        dispatch({
+          type: 'user/UpdateUserRole',
+          payload: {
+            id: name,
+            cid: newType
+          }
+        })
       }
       Modal.confirm({
         title: '修改角色身份',
@@ -348,6 +329,16 @@ class UserManager extends React.Component {
       const name = e.target.name
       const confirmChange = () => {
         console.log(name)
+        const { dispatch } = this.props;
+        dispatch({
+          type: 'user/delUser',
+          payload: {
+            id: name
+          }
+        })
+        dispatch({
+          type: 'rule/fetchUserList'
+        })
       }
       Modal.confirm({
         title: '删除角色',
@@ -384,7 +375,7 @@ class UserManager extends React.Component {
         <Card >
           <Button type="primary" style={{ margin: "8px 8px" }} onClick={() => this.setnewUserVisibale(true)}>添加用户</Button>
           <Button style={{ margin: "8px 8px" }} onClick={() => this.setpermissionVisbale(true)}>修改权限</Button>
-          <Table columns={columns} dataSource={data} />
+          <Table columns={columns} dataSource={userList} />
         </Card>
       </PageHeaderLayout>
     )

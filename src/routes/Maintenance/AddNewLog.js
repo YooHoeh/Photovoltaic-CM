@@ -1,8 +1,12 @@
 import React, { PureComponent, Fragment } from 'react';
 import { Card, Checkbox, Row, Col, Divider, Input, DatePicker, Button, Modal } from "antd";
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
+import { connect } from 'dva';
 const { TextArea } = Input;
 const CheckboxGroup = Checkbox.Group;
+@connect(({ rule }) => ({
+  rule,
+}))
 class Maintetance extends React.Component {
   constructor(props) {
     super(props);
@@ -10,9 +14,9 @@ class Maintetance extends React.Component {
       type: [],
       people: '',
       date: '',
-      id: 'WB20180822-001',
+      logId: '',
       content: '',
-      siteName: ''
+      location: ''
 
     };
   }
@@ -22,7 +26,7 @@ class Maintetance extends React.Component {
       people: '',
       date: '',
       content: '',
-      siteName: ''
+      location: ''
     })
   }
   onDateChange = (date, dateString) => {
@@ -50,17 +54,18 @@ class Maintetance extends React.Component {
     console.log(value)
     console.log("123")
   }
-  onsiteNameChange = (e) => {
+  onlocationChange = (e) => {
     const { value } = e.target;
     console.log(value)
     this.setState({
-      siteName: value,
+      location: value,
     })
   }
   submitHandle = () => {
     console.log(this.state)
     const confirmChange = () => {
       const { dispatch } = this.props;
+      console.log(this.state)
       dispatch({
         type: 'rule/addMaintenanceLog',
         payload: this.state
@@ -105,7 +110,7 @@ class Maintetance extends React.Component {
           <Divider />
           <Row>
             <Col span={3}>维保站点：</Col>
-            <Col span={19}><Input onChange={this.onsiteNameChange} value={this.state.siteName} /></Col>
+            <Col span={19}><Input onChange={this.onlocationChange} value={this.state.location} /></Col>
           </Row>
           <Divider />
           <Row>

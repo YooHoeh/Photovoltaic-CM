@@ -47,12 +47,13 @@ export default class SiteHis extends PureComponent {
     this.onDateChange = this.onDateChange.bind(this)
   }
   handleSearch() {
-    console.log(this.state)
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'chart/fetchHistorySiteSearchData',
-      fileter: this.state.filter
-    });
+    if (this.state.filter.siteID && this.state.filter.type && this.state.filter.time) {
+      const { dispatch } = this.props;
+      dispatch({
+        type: 'chart/fetchHistorySiteSearchData',
+        fileter: this.state.filter
+      });
+    }
   }
   componentDidMount() {
     const { dispatch } = this.props;
@@ -262,7 +263,7 @@ export default class SiteHis extends PureComponent {
               title="逆变器发电量时间表"
               bodyStyle={{ height: 800 }}
             >
-              <Table columns={columns} dataSource={this.state.data} onChange={this.onChange} height={800} />
+              <Table columns={columns} loading={this.state.data} dataSource={this.state.data} onChange={this.onChange} height={800} />
             </Card>
           </Col>
         </Row>

@@ -34,7 +34,7 @@ export default class TableList extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'rule/fetchWarningList',
+      type: 'rule/fetchLogList',
     });
 
   }
@@ -70,7 +70,7 @@ export default class TableList extends PureComponent {
       });
 
       dispatch({
-        type: 'rule/fetchWarningList',
+        type: 'rule/logLostSearch',
         payload: values,
       });
     });
@@ -78,7 +78,7 @@ export default class TableList extends PureComponent {
 
 
 
-  renderSimpleForm(warningTagList) {
+  renderSimpleForm() {
     const { form } = this.props;
     const { getFieldDecorator } = form;
     return (
@@ -122,7 +122,7 @@ export default class TableList extends PureComponent {
   render() {
 
     const {
-      rule: { warningList, warningTagList },
+      rule: { logList },
     } = this.props;
 
     const columns = [
@@ -130,6 +130,8 @@ export default class TableList extends PureComponent {
       {
         title: '日志编号',
         dataIndex: 'id',
+        defaultSortOrder: 'descend',
+        sorter: (a, b) => a.id - b.id
       },
       {
         title: '日志内容',
@@ -141,7 +143,7 @@ export default class TableList extends PureComponent {
       },
       {
         title: '备注',
-        dataIndex: 'agent',
+        dataIndex: 'remark',
       },
       {
         title: '访问源IP',
@@ -155,9 +157,9 @@ export default class TableList extends PureComponent {
         align: 'right',
         dataIndex: 'type',
         render: (type, recode) => (
-          type
-            ? <Tag>操作日志</Tag>
-            : <Tag>登录日志</Tag>
+          parseInt(type)
+            ? <Tag color='#87d068'>操作日志</Tag>
+            : <Tag color='#2db7f5'>登录日志</Tag>
         ),
 
       },
@@ -169,8 +171,8 @@ export default class TableList extends PureComponent {
       <PageHeaderLayout title="操作日志" >
         <Card bordered={false}>
           <div className={styles.tableList}>
-            <div className={styles.tableListForm}>{this.renderSimpleForm(warningTagList)}</div>
-            <Table columns={columns} dataSource={warningList} onChange={this.onTableChange} />
+            <div className={styles.tableListForm}>{this.renderSimpleForm()}</div>
+            <Table columns={columns} dataSource={logList} onChange={this.onTableChange} />
           </div>
         </Card>
       </PageHeaderLayout>
