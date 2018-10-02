@@ -25,7 +25,7 @@ export default {
       yield put({
         type: 'save',
         payload: {
-          siteListWithPosition: response,
+          inverterListWithPosition: response,
         },
       });
     },

@@ -1,5 +1,5 @@
-import { getSiteList, siteListSearch, addSite, queryUserList, fetchLogList, logLostSearch, getInterverList, getWarningList, warningListSearch, fetchMaintenance, addMaintenance, delMaintenanceLog } from '../services/api';
-import { message } from "react";
+import { getSiteList, siteListSearch, addSite, delSite, queryUserList, getMaintenanceID, fetchLogList, interverListSearch, changeWarnStatu, logLostSearch, getInterverList, addInverter, delInverter, updateInverter, getWarningList, warningListSearch, fetchMaintenance, addMaintenance, delMaintenanceLog } from '../services/api';
+import { message } from "antd";
 export default {
   namespace: 'rule',
 
@@ -47,6 +47,12 @@ export default {
         }
       });
     },
+    *changeWarnStatus(payload, { call, put }) {
+      const response = yield call(changeWarnStatu, payload);
+      response.status == 'success'
+        ? message.success('更改为已处理')
+        : message.error('更改失败')
+    },
     *searchWarningList(payload, { call, put }) {
       const response = yield call(warningListSearch, payload);
       yield put({
@@ -77,21 +83,22 @@ export default {
       yield put({
         type: 'saveCommon',
         payload: {
-          siteList: response.list,
+          siteList: response,
         }
       });
-      yield put({
-        type: 'saveCommon',
-        payload: {
-          cityList: response.areas,
-        }
-      });
+
     },
     *addSite(payload, { call, put }) {
       const response = yield call(addSite, payload);
       response.status
-        ? message.success('密码修改成功')
-        : message.error('密码修改失败')
+        ? message.success('站点添加成功')
+        : message.error('站点添加失败')
+    },
+    *delSite(payload, { call, put }) {
+      const response = yield call(delSite, payload);
+      response.status == 'success'
+        ? message.success('站点删除成功')
+        : message.error('站点删除失败')
     },
     *fetchInverterList(_, { call, put }) {
       const response = yield call(getInterverList);
@@ -107,6 +114,27 @@ export default {
           cityList: response.areas,
         }
       });
+    },
+    *interverListSearch(payload, { call, put }) {
+      const response = yield call(interverListSearch, payload);
+      yield put({
+        type: 'saveCommon',
+        payload: {
+          inverterList: response,
+        }
+      });
+    },
+    *addInverter(payload, { call, put }) {
+      const response = yield call(addSite, payload);
+      response.status
+        ? message.success('逆变器添加成功')
+        : message.error('逆变器添加失败')
+    },
+    *delInverter(payload, { call, put }) {
+      const response = yield call(delSite, payload);
+      response.status == 'success'
+        ? message.success('逆变器删除成功')
+        : message.error('逆变器删除失败')
     },
     *fetchMaintenanceID(_, { call, put }) {
       const response = yield call(getMaintenanceID);

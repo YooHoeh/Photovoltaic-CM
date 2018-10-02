@@ -97,43 +97,43 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, ['user', 'login'], () => import('../routes/Dashboard/Analysis')),
     },
     '/dashboard': {
-      component: dynamicWrapper(app, ['chart', 'global'], () => import('../routes/Dashboard/Analysis')),
+      component: dynamicWrapper(app, ['global', 'chart', 'rule'], () => import('../routes/Dashboard/Analysis')),
     },
     '/list/site': {
-      component: dynamicWrapper(app, ['rule', 'global'], () => import('../routes/List/Site')),
+      component: dynamicWrapper(app, ['global', 'chart', 'rule'], () => import('../routes/List/Site')),
     },
     '/list/inverter': {
-      component: dynamicWrapper(app, ['rule'], () => import('../routes/List/Inverter')),
+      component: dynamicWrapper(app, ['global', 'chart', 'rule'], () => import('../routes/List/Inverter')),
     },
     '/list/monitor': {
-      component: dynamicWrapper(app, ['rule'], () => import('../routes/List/Monitor')),
+      component: dynamicWrapper(app, ['global', 'chart', 'rule'], () => import('../routes/List/Monitor')),
     },
     '/history/inverter': {
-      component: dynamicWrapper(app, ['global'], () => import('../routes/History/Inverter')),
+      component: dynamicWrapper(app, ['global', 'chart', 'rule'], () => import('../routes/History/Inverter')),
     },
     '/history/site': {
-      component: dynamicWrapper(app, ['global'], () => import('../routes/History/Site')),
+      component: dynamicWrapper(app, ['global', 'chart', 'rule'], () => import('../routes/History/Site')),
     },
     '/warning': {
-      component: dynamicWrapper(app, ['global'], () => import('../routes/Warning')),
+      component: dynamicWrapper(app, ['global', 'chart', 'rule'], () => import('../routes/Warning')),
     },
     '/financial': {
-      component: dynamicWrapper(app, ['global'], () => import('../routes/Finance')),
+      component: dynamicWrapper(app, ['global', 'chart', 'rule'], () => import('../routes/Finance')),
     },
     '/maintenance/add': {
-      component: dynamicWrapper(app, ['global'], () => import('../routes/Maintenance/AddNewLog')),
+      component: dynamicWrapper(app, ['global', 'chart', 'rule'], () => import('../routes/Maintenance/AddNewLog')),
     },
     '/maintenance/list': {
-      component: dynamicWrapper(app, ['global'], () => import('../routes/Maintenance/LogList')),
+      component: dynamicWrapper(app, ['global', 'chart', 'rule'], () => import('../routes/Maintenance/LogList')),
     },
     '/manager/user': {
-      component: dynamicWrapper(app, [], () => import('../routes/Manager/UserManager')),
+      component: dynamicWrapper(app, ['global', 'chart', 'rule'], () => import('../routes/Manager/UserManager')),
     },
     '/manager/log': {
-      component: dynamicWrapper(app, [], () => import('../routes/Manager/SystemLog')),
+      component: dynamicWrapper(app, ['global', 'chart', 'rule'], () => import('../routes/Manager/SystemLog')),
     },
     '/profile': {
-      component: dynamicWrapper(app, [], () => import('../routes/Profile')),
+      component: dynamicWrapper(app, ['global', 'chart', 'rule'], () => import('../routes/Profile')),
     },
     '/exception/403': {
       component: dynamicWrapper(app, [], () => import('../routes/Exception/403')),

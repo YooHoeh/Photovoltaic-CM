@@ -24,16 +24,16 @@ export async function logIn(params) {
 
 //获取当前用户信息
 export async function queryCurrent() {
-  return request('http://172.20.151.36/photovoltaic/public/index/users/info');
+  return request('http://172.20.151.36/photovoltaic/public/index/users/info', { method: 'POST' });
   // return request('/api/currentUser');
 }
 //获取用户列表
 export async function queryUserList() {
-  return request('http://172.20.151.36/photovoltaic/public/index/users/list');
+  return request('http://172.20.151.36/photovoltaic/public/index/users/list', { method: 'POST', });
 }
 //获取权限列表
 export async function queryPermissionList() {
-  return request('http://172.20.151.36/photovoltaic/public/index/users/control_list');
+  return request('http://172.20.151.36/photovoltaic/public/index/users/control_list', { method: 'POST', });
 }
 //更新用户资料
 export async function updateUserProfile(newProfile) {
@@ -80,7 +80,7 @@ export async function permissionEdit(payload) {
 
 //首页基本数据
 export async function homePage() {
-  return request('http://172.20.151.36/photovoltaic/public/index/index/general');
+  return request('http://172.20.151.36/photovoltaic/public/index/index/general', { method: 'POST', });
 }
 
 //获取区域点击数据
@@ -100,7 +100,7 @@ export async function fetchSiteInfo(siteID) {
 
 //获取维保日志列表
 export async function fetchMaintenance() {
-  return request('http://172.20.151.36/photovoltaic/public/index/logs/query');
+  return request('http://172.20.151.36/photovoltaic/public/index/logs/query', { method: 'POST', });
 }
 
 //维保日志查询
@@ -113,6 +113,7 @@ export async function maintenanceSearch(id) {
 //获取维保日志流水号
 export async function getMaintenanceID() {
   return request('http://172.20.151.36/photovoltaic/public/index/logs/maintenanceId', {
+    method: 'POST',
   });
 }
 
@@ -123,7 +124,7 @@ export async function addMaintenance(payload) {
     body: payload.payload
   });
 }
-//添加维保日志
+//删除维保日志
 export async function delMaintenanceLog(payload) {
   return request('http://172.20.151.36/photovoltaic/public/index/logs/addMaintenance', {
     method: 'POST',
@@ -134,18 +135,27 @@ export async function delMaintenanceLog(payload) {
 //获取告警列表
 export async function getWarningList() {
   return request('http://172.20.151.36/photovoltaic/public/index/warnings/list', {
+    method: 'POST',
   });
 }
-//获取告警列表
+//告警列表搜索
 export async function warningListSearch(payload) {
   return request('http://172.20.151.36/photovoltaic/public/index/warnings/querylist', {
     method: 'POST',
     body: payload.payload
   });
 }
+//改变告警状态
+export async function changeWarnStatu(id) {
+  return request('http://172.20.151.36/photovoltaic/public/index/warnings/status', {
+    method: 'POST',
+    body: id.payload
+  });
+}
 //获取站点列表
 export async function getSiteList() {
   return request('http://172.20.151.36/photovoltaic/public/index/stations', {
+    method: 'POST',
   });
 }
 //站点列表搜索
@@ -158,21 +168,70 @@ export async function siteListSearch(payload) {
 //获取带位置的站点列表
 export async function getSiteListWithPosition() {
   return request('http://172.20.151.36/photovoltaic/public/index/stations/initquery', {
+    method: 'POST',
   });
 }
 //新建站点
-export async function addSite() {
-  return request('http://172.20.151.36/photovoltaic/public/index/stations/initquery', {
+export async function addSite(site) {
+  return request('http://172.20.151.36/photovoltaic/public/index/stations/add', {
+    method: 'POST',
+    body: site.payload
+  });
+}
+//修改站点信息
+export async function updateSite(site) {
+  return request('http://172.20.151.36/photovoltaic/public/index/stations/update', {
+    method: 'POST',
+    body: site
+  });
+}
+//删除站点
+export async function delSite(site) {
+  console.log(site.payload)
+  return request('http://172.20.151.36/photovoltaic/public/index/stations/delete', {
+    method: 'POST',
+    body: site.payload
   });
 }
 //获取逆变器列表
 export async function getInterverList() {
   return request('http://172.20.151.36/photovoltaic/public/index/inverters', {
+    method: 'POST',
+  });
+}
+//逆变器搜索
+export async function interverListSearch(payload) {
+  return request('http://172.20.151.36/photovoltaic/public/index/inverters/query', {
+    method: 'POST',
+    body: payload.payload
   });
 }
 //获取带位置的逆变器列表
 export async function getInverterListWithPosition() {
   return request('http://172.20.151.36/photovoltaic/public/index/inverters/initquery', {
+    method: 'POST',
+  });
+}
+//新建逆变器
+export async function addInverter(inverter) {
+  return request('http://172.20.151.36/photovoltaic/public/index/inverters/add', {
+    method: 'POST',
+    body: site
+  });
+}
+//修改逆变器信息
+export async function updateInverter(inverter) {
+  return request('http://172.20.151.36/photovoltaic/public/index/inverters/update', {
+    method: 'POST',
+    body: site
+  });
+}
+//删除逆变器
+export async function delInverter(inverter) {
+  console.log(site.payload)
+  return request('http://172.20.151.36/photovoltaic/public/index/inverters/delete', {
+    method: 'POST',
+    body: site.payload
   });
 }
 //站点历史搜索
@@ -195,6 +254,7 @@ export async function historyInverterSearch(filter) {
 //操作日志搜索
 export async function fetchLogList() {
   return request('http://172.20.151.36/photovoltaic/public/index/logs/logList', {
+    method: 'POST',
   });
 }
 //操作日志列表

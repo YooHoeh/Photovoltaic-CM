@@ -163,16 +163,18 @@ const PermissonEdit = Form.create(
     }
   }
 )
-@connect(({ rule, user }) => ({
+@connect(({ rule, user, loading }) => ({
   rule,
   user,
+  isUpdate: loading.effects['user/fetchUserList']
 }))
 class UserManager extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       newUserVisibale: false,
-      permissionVisbale: false
+      permissionVisbale: false,
+      isUpdate: this.props.isUpdate
     };
   }
   componentDidMount() {
@@ -180,6 +182,16 @@ class UserManager extends React.Component {
     dispatch({
       type: 'rule/fetchUserList'
     })
+
+  }
+  componentWillReceiveProps() {
+    if (this.state.isUpdate) {
+
+      const { dispatch } = this.props;
+      dispatch({
+        type: 'rule/fetchUserList'
+      })
+    }
 
   }
   setnewUserVisibale(newUserVisibale) {
@@ -284,11 +296,12 @@ class UserManager extends React.Component {
         key: 'action',
         align: 'right',
         render: (text, record) => (
-          <span>
-            <a href="javascript:;" name={record.id} type={record.type} onClick={editUserClickHandle}>修改角色</a>
-            <Divider type='vertical' />
-            <a href="javascript:;" name={record.id} onClick={delUserClickHandle}>删除用户</a>
-          </span>
+          record.role == 'su' ? <span>无法被修改</span> :
+            <span>
+              <a href="javascript:;" name={record.id} type={record.type} onClick={editUserClickHandle}>修改角色</a>
+              <Divider type='vertical' />
+              <a href="javascript:;" name={record.id} onClick={delUserClickHandle}>删除用户</a>
+            </span>
         ),
       }];
     const editUserClickHandle = (e) => {
@@ -309,6 +322,9 @@ class UserManager extends React.Component {
             id: name,
             cid: newType
           }
+        })
+        dispatch({
+          type: 'rule/fetchUserList'
         })
       }
       Modal.confirm({

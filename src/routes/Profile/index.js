@@ -8,8 +8,13 @@ const TabPane = Tabs.TabPane;
 const { TextArea } = Input;
 const DataTab = (props) => {
   const { dispatch } = props;
-  var newDate = new Object()
   const data = props;
+  var newDate = {
+    email: data.email,
+    phone: data.phone,
+    username: data.username,
+    remark: data.remark
+  }
   const formChange = (e) => {
     const key = e.target.name;
     const value = e.target.value;
@@ -123,20 +128,7 @@ class Profile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // data: {
-      //   username: 'currentUser.username',
-      //   userID: 'currentUser.id',
-      //   userType: 'currentUser.role',
-      //   tel: 'currentUser.phone',
-      //   email: 'currentUser.email',
-      //   others: 'currentUser.remark'
-      //   // username: currentUser.username,
-      //   // userID: currentUser.id,
-      //   // userType: currentUser.role,
-      //   // tel: currentUser.phone,
-      //   // email: currentUser.email,
-      //   // others: currentUser.remark
-      // },
+
     };
   }
   handleChangeState = (fields, target) => {
@@ -149,7 +141,6 @@ class Profile extends React.Component {
   }
   render() {
     const { user: { currentUser } } = this.props;
-    console.log(JSON.stringify(currentUser))
     return (
       <PageHeaderLayout title="用户资料">
         <Card >

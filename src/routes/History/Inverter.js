@@ -37,9 +37,9 @@ export default class SiteHis extends PureComponent {
     const { historyInverterSearchData } = chart;
     this.state = {
       filter: {
-        interverID: "123",
-        type: 'day',
-        time: '1919-19-13'
+        interverID: "",
+        type: '',
+        time: ''
       },
       data: historyInverterSearchData.data,
       info: historyInverterSearchData.info,

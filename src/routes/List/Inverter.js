@@ -9,6 +9,7 @@ import {
   Select,
   Button,
   Modal,
+  Spin,
   message,
   Badge,
   Divider,
@@ -23,7 +24,7 @@ import styles from './Inverter.less';
 const FormItem = Form.Item;
 const { Option } = Select;
 
-const statusMap = ['default', 'processing', 'success', 'error'];
+const statusMap = ['default', 'processing', 'success', 'error', 'Warning'];
 const status = ["待机", "并网", "故障", "关机", "离网"];
 
 const CreateForm = Form.create({
@@ -141,9 +142,11 @@ const CreateForm = Form.create({
   );
 });
 
-@connect(({ rule, loading }) => ({
+@connect(({ rule, loading, chart = {} }) => ({
   rule,
   loading: loading.models.rule,
+  siteList: chart.siteListWithPosition
+
 }))
 @Form.create()
 export default class TableList extends PureComponent {
@@ -179,6 +182,9 @@ export default class TableList extends PureComponent {
     dispatch({
       type: 'rule/fetchInverterList',
     });
+    dispatch({
+      type: 'chart/fetchSiteListWithPosition',
+    });
 
   }
 
@@ -206,13 +212,17 @@ export default class TableList extends PureComponent {
         updatedAt: fieldsValue.updatedAt && fieldsValue.updatedAt.valueOf(),
       };
 
-      this.setState({
-        formValues: values,
-      });
+      // this.setState({
+      //   formValues: values,
+      // });
 
       dispatch({
-        type: 'rule/fetchInverterList',
-        payload: values,
+        type: 'rule/interverListSearch',
+        payload: {
+          siteID: values.siteID || '',
+          position: values.position ? values.position[1] : '',
+          status: values.status || '',
+        }
       });
     });
   };
@@ -246,8 +256,11 @@ export default class TableList extends PureComponent {
             <FormItem label="运行状态">
               {getFieldDecorator('status')(
                 <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value="0">关闭</Option>
-                  <Option value="1">运行中</Option>
+                  <Option value="0">待机</Option>
+                  <Option value="1">并网</Option>
+                  <Option value="2">故障</Option>
+                  <Option value="3">关机</Option>
+                  <Option value="4">离网</Option>
                 </Select>
               )}
             </FormItem>
@@ -279,6 +292,29 @@ export default class TableList extends PureComponent {
   onTableChange = (pagination, filters, sorter) => {
     console.log('params', pagination, filters, sorter);
   }
+  deleInverter = (val) => {
+    const name = val.target.name
+    const confirmChange = () => {
+      console.log(name)
+      const { dispatch } = this.props;
+      dispatch({
+        type: 'rule/delInverter',
+        payload: {
+          id: name
+        }
+      });
+      dispatch({
+        type: 'rule/fetchInverterList',
+      });
+    }
+    Modal.confirm({
+      title: '删除逆变器',
+      onOk: confirmChange,
+      cancelText: '取消',
+      okText: '确认',
+      content: `确认删除逆变器：${name}  吗？此操作无法撤销！`
+    });
+  }
   render() {
     const {
       rule: { inverterList, cityList },
@@ -297,18 +333,14 @@ export default class TableList extends PureComponent {
       {
         title: '光伏组串总数',
         dataIndex: 'mppt_num',
-        sorter: true,
+        sorter: (a, b) => a.mppt_num - b.mppt_num,
         align: 'right',
-        render: val => `${val} 千`,
       },
       {
         title: '光伏支路总数',
         dataIndex: 'pv_num',
-        sorter: true,
+        sorter: (a, b) => a.pv_num - b.pv_num,
         align: 'right',
-        render: val => `${val} 千`,
-        // mark to display a total number
-        needTotal: true,
       },
       {
         title: '运行状态',
@@ -330,7 +362,12 @@ export default class TableList extends PureComponent {
             text: status[3],
             value: 3,
           },
+          {
+            text: status[4],
+            value: 4,
+          },
         ],
+        align: 'right',
         onFilter: (value, record) => record.status.toString() === value,
         render(val) {
           return <Badge status={statusMap[val]} text={status[val]} />;
@@ -338,11 +375,12 @@ export default class TableList extends PureComponent {
       },
       {
         title: '操作',
-        render: () => (
+        align: 'right',
+        render: (val) => (
           <Fragment>
-            <a href="">编辑逆变器信息</a>
+            <a href="">编辑信息</a>
             <Divider type="vertical" />
-            <a href="">删除</a>
+            <a href="javascript:" name={val.sid} onClick={this.deleInverter.bind(this)}>删除</a>
           </Fragment>
         ),
       },
@@ -360,10 +398,10 @@ export default class TableList extends PureComponent {
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>{this.renderSimpleForm(cityList)}</div>
             {
-              inverterList 
-              ? <Table columns={columns} dataSource={inverterList} onChange={this.onTableChange} />
-              : <Spin tip="等待数据" size="middle" style={{ display: "flex", alignItems: "center", justifyContent: "center", lineHeight: "calc(40vh)" }}
-               />
+              inverterList
+                ? <Table columns={columns} dataSource={inverterList} onChange={this.onTableChange} />
+                : <Spin tip="等待数据" size="middle" style={{ display: "flex", alignItems: "center", justifyContent: "center", lineHeight: "calc(40vh)" }}
+                />
             }
           </div>
         </Card>

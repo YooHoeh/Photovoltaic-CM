@@ -9,6 +9,7 @@ import {
   Table,
   Switch,
   Select,
+  Spin,
   DatePicker
 } from 'antd';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
@@ -30,9 +31,7 @@ export default class TableList extends PureComponent {
     modalVisible: false,
     expandForm: false,
     formValues: {
-
     },
-
   };
 
   componentDidMount() {
@@ -139,13 +138,20 @@ export default class TableList extends PureComponent {
     console.log('params', pagination, filters, sorter);
   }
   render() {
-    function onChange(checked) {
-      console.log(`switch to ${checked}`);
-    }
+
     const changeCheckStatuHandle = (e) => {
-      console.log(e.target.name)
-      e.preventDefault()
-      return false
+      const id = e.target.parentElement.parentNode.name
+      const { dispatch } = this.props;
+      dispatch({
+        type: 'rule/changeWarnStatus',
+        payload: {
+          id,
+        }
+      })
+      dispatch({
+        type: 'rule/fetchWarningList',
+      })
+
     }
     const {
       rule: { warningList, warningTagList },
@@ -156,6 +162,8 @@ export default class TableList extends PureComponent {
       {
         title: '告警编号',
         dataIndex: 'id',
+        defaultSortOrder: 'descend',
+        sorter: (a, b) => a.id - b.id,
       },
       {
         title: '告警逆变器编号',
@@ -164,7 +172,7 @@ export default class TableList extends PureComponent {
       {
         title: '所属站点编号',
         dataIndex: 'siteName',
-        sorter: (a, b) => a.siteName > b.siteName,
+        sorter: (a, b) => a.siteName - b.siteName,
       },
       {
         title: '告警类型',
@@ -181,11 +189,14 @@ export default class TableList extends PureComponent {
         title: '处理状态',
         align: 'right',
         dataIndex: 'check',
-        render: (check, recode) => (
-          check
-            ? <a href="javascript:;" name={recode.id} onClick={changeCheckStatuHandle}><Switch checkedChildren="已处理" unCheckedChildren="未处理" onChange={onChange} /></a>
-            : <a href="javascript:;" name={recode.id} onClick={changeCheckStatuHandle}><Switch checkedChildren="已处理" unCheckedChildren="未处理" defaultChecked onChange={onChange} /></a>
-        ),
+        render: (check, recode) =>
+          <a href="javascript:;" name={recode.id} onClick={changeCheckStatuHandle}>
+            {check
+              ? <Switch checkedChildren="已处理" unCheckedChildren="未处理" />
+              : <Switch checkedChildren="已处理" unCheckedChildren="未处理" defaultChecked />
+            }
+          </a>
+
 
       },
     ];
@@ -196,7 +207,11 @@ export default class TableList extends PureComponent {
       <PageHeaderLayout title="告警列表" >
         <Card bordered={false}>
           <div className={styles.tableList}>
-            <div className={styles.tableListForm}>{this.renderSimpleForm(warningTagList)}</div>
+            {
+              warningTagList
+                ? <div className={styles.tableListForm}>{this.renderSimpleForm(warningTagList)}</div>
+                : <Spin tip="等待数据" size="middle" style={{ display: "flex", alignItems: "center", justifyContent: "center", lineHeight: "calc(40vh)" }} />
+            }
             <Table columns={columns} dataSource={warningList} onChange={this.onTableChange} />
           </div>
         </Card>

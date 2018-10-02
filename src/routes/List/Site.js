@@ -28,6 +28,7 @@ const { Option } = Select;
 const statusMap = ['default', 'processing', 'success', 'error'];
 const status = ['运行中', '建设中', '建设目标', '告警'];
 
+let positonlabel;
 const CreateForm = Form.create({
   onFieldsChange(props, changedFields) {
     props.onChange(changedFields);
@@ -72,25 +73,25 @@ const CreateForm = Form.create({
     };
   },
   onValuesChange(_, values) {
-    console.log(values);
+    // console.log(values);
   },
 })(props => {
   const { modalVisible, form, handleAdd, handleModalVisible, cityList } = props;
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
-      console.log(fieldsValue)
       if (err) return;
-      form.resetFields();
+      fieldsValue.locaNum = fieldsValue.locaNum[1]
       handleAdd(fieldsValue);
+      form.resetFields();
     });
   };
   const handleReset = () => {
     form.resetFields();
   };
-  const handleCityChange = (value, jjjj) => {
-    console.log("jjjj" + jjjj)
-    console.log("value" + value)
-
+  const handleCityChange = (_, position) => {
+    const a = position[0].label;
+    const b = position[1].label;
+    positonlabel = a + '-' + b;
   }
   return (
     <Modal
@@ -112,14 +113,14 @@ const CreateForm = Form.create({
         <Col span={12}>
           <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} label="站点编号">
             {form.getFieldDecorator('id', {
-              rules: [{ required: true, message: 'Please input some description...' }],
+              rules: [{ required: true, message: '请输入站点编号' }],
             })(<Input placeholder="请输入" />)}
           </FormItem>
         </Col>
         <Col span={12}>
           <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} label="站点名称">
             {form.getFieldDecorator('name', {
-              rules: [{ required: true, message: 'Please input some description...' }],
+              rules: [{ required: true, message: '请输入站点名称' }],
             })(<Input placeholder="请输入" />)}
           </FormItem>
         </Col>
@@ -128,7 +129,7 @@ const CreateForm = Form.create({
         <Col span={12}>
           <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} label="所属区域">
             {form.getFieldDecorator('locaNum', {
-              rules: [{ required: true, message: 'Please input some description...' }],
+              rules: [{ required: true, message: '请选择区域' }],
             })(
               <Cascader options={cityList} placeholder="选择区域" style={{ width: '100%' }} onChange={handleCityChange} />
             )}
@@ -137,7 +138,7 @@ const CreateForm = Form.create({
         <Col span={12}>
           <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} label="站点坐标">
             {form.getFieldDecorator('coordinate', {
-              rules: [{ required: true, message: 'Please input some description...' }],
+              rules: [{ required: true, message: '请输入坐标' }],
             })(
               <Input
                 placeholder="点击图标获取坐标"
@@ -153,10 +154,10 @@ const CreateForm = Form.create({
       </Row>
       <Row>
         <Col span={24}>
-          <FormItem labelCol={{ span: 3 }} wrapperCol={{ span: 20 }} label="站点位置">
+          <FormItem labelCol={{ span: 3 }} wrapperCol={{ span: 20 }} label="具体位置">
             {form.getFieldDecorator('location', {
-              rules: [{ required: true, message: 'Please input some description...' }],
-            })(<Input placeholder="请输入" addonBefore="郑州市-金水区-公安局" />)}
+              rules: [{ required: true, message: '请输入站点具体位置' }],
+            })(<Input placeholder="请输入" addonBefore={positonlabel} />)}
           </FormItem>
         </Col>
       </Row>
@@ -164,14 +165,14 @@ const CreateForm = Form.create({
         <Col span={12}>
           <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} label="设计容量">
             {form.getFieldDecorator('designCount', {
-              rules: [{ required: true, message: 'Please input some description...' }],
+              rules: [{ required: true, message: '请输入站点设计容量' }],
             })(<Input placeholder="请输入" addonAfter="kW" />)}
           </FormItem>
         </Col>
         <Col span={12}>
           <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} label="建设容量">
             {form.getFieldDecorator('buildCount', {
-              rules: [{ required: true, message: 'Please input some description...' }],
+              rules: [{ required: true, message: '请输入站点建设容量' }],
             })(<Input placeholder="请输入" addonAfter="kW" />)}
           </FormItem>
         </Col>
@@ -181,14 +182,14 @@ const CreateForm = Form.create({
         <Col span={12}>
           <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} label="占地面积">
             {form.getFieldDecorator('area', {
-              rules: [{ required: true, message: 'Please input some description...' }],
+              rules: [{ required: true, message: '请输入占地面积' }],
             })(<Input placeholder="请输入" addonAfter="㎡" />)}
           </FormItem>
         </Col>
         <Col span={12}>
           <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} label="运行状态">
             {form.getFieldDecorator('runState', {
-              rules: [{ required: true, message: 'Please input some description...' }],
+              rules: [{ required: true, message: '请选择运行状态' }],
             })(
               <Radio.Group buttonStyle="solid">
                 <Radio.Button value="0" defaultChecked={true}>
@@ -205,7 +206,7 @@ const CreateForm = Form.create({
         <Col span={12}>
           <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} label="并网状态">
             {form.getFieldDecorator('netState', {
-              rules: [{ required: true, message: 'Please input some description...' }],
+              rules: [{ required: true, message: '请选择并网状态' }],
             })(
               <Radio.Group buttonStyle="solid" style={{ width: "100%" }}>
                 <Radio.Button value="0" defaultChecked={true} style={{ width: "49%", textAlign: "center" }}>
@@ -219,7 +220,7 @@ const CreateForm = Form.create({
         <Col span={12}>
           <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} label="屋顶使用">
             {form.getFieldDecorator('roof', {
-              rules: [{ required: true, message: 'Please input some description...' }],
+              rules: [{ required: true, message: '请选择屋顶使用方式' }],
             })(
               <Radio.Group buttonStyle="solid" style={{ width: "100%" }}>
                 <Radio.Button value="0" defaultChecked={true} style={{ width: "49%", textAlign: "center" }}>
@@ -237,16 +238,17 @@ const CreateForm = Form.create({
 
 @connect(({ rule, loading }) => ({
   rule,
-  loading: loading.models.rule,
+  isUpdate: loading.effects['user/fetchSiteList']
 }))
 @Form.create()
 export default class TableList extends PureComponent {
 
   state = {
+    isUpdate: this.props.isUpdate,
     modalVisible: false,
     fields: {
       id: {
-        value: '11234567',
+        value: '',
       },
       name: {
         value: '',
@@ -288,10 +290,18 @@ export default class TableList extends PureComponent {
     });
 
   }
+  componentWillReceiveProps() {
+    if (this.state.isUpdate) {
+      const { dispatch } = this.props;
+      dispatch({
+        type: 'rule/fetchSiteList'
+      })
+    }
+
+  }
   handleFormReset = () => {
     const { form, dispatch } = this.props;
     form.resetFields();
-    value = ''
 
     dispatch({
       type: 'rule/fetchSiteList',
@@ -312,11 +322,6 @@ export default class TableList extends PureComponent {
         ...fieldsValue,
         updatedAt: fieldsValue.updatedAt && fieldsValue.updatedAt.valueOf(),
       };
-
-      // this.setState({
-      //   formValues: values,
-      // });
-
       dispatch({
         type: 'rule/siteListSearch',
         payload: {
@@ -390,6 +395,12 @@ export default class TableList extends PureComponent {
       console.log(name)
       const { dispatch } = this.props;
       dispatch({
+        type: 'rule/delSite',
+        payload: {
+          id: name
+        }
+      });
+      dispatch({
         type: 'rule/fetchSiteList',
       });
     }
@@ -405,12 +416,24 @@ export default class TableList extends PureComponent {
     const {
       rule: { siteList, cityList }
     } = this.props;
-    const handleAdd = () => {
+    const handleAdd = (value) => {
+      console.log(value);
+
       const { dispatch } = this.props;
-      dispatch()
+      dispatch({
+        type: 'rule/addSite',
+        payload: value
+      })
+      dispatch({
+        type: 'rule/fetchSiteList',
+      });
     }
     const { modalVisible } = this.state;
     const columns = [
+      {
+        title: '站点ID',
+        dataIndex: 'id',
+      },
       {
         title: '站点名称',
         dataIndex: 'name',
@@ -429,7 +452,6 @@ export default class TableList extends PureComponent {
         dataIndex: 'buildContain',
         sorter: true,
         align: 'right',
-        render: val => `${val} 千`,
       },
       {
         title: '运行状态',
@@ -462,7 +484,7 @@ export default class TableList extends PureComponent {
         align: 'right',
         render: (val) => (
           <span>
-            <a href="">编辑站点信息</a>
+            <a href="">编辑信息</a>
             <Divider type="vertical" />
             <a href="javascript:" name={val.id} onClick={this.deleSite.bind(this)}>删除</a>
           </span>
@@ -484,8 +506,7 @@ export default class TableList extends PureComponent {
             {
               siteList
                 ? <Table columns={columns} dataSource={siteList} onChange={this.onTableChange} />
-                : <Spin tip="等待数据" size="middle" style={{ display: "flex", alignItems: "center", justifyContent: "center", lineHeight: "calc(40vh)" }}
-                />
+                : <Spin tip="等待数据" size="middle" style={{ display: "flex", alignItems: "center", justifyContent: "center", lineHeight: "calc(40vh)" }} />
             }
           </div>
         </Card>
