@@ -105,7 +105,9 @@ export default {
       const response = yield call(delSite, payload);
       response.status == 'success'
         ? message.success('站点删除成功')
-        : message.error('站点删除失败')
+        : (response.status == 'cannot')
+          ? message.error('站点包含逆变器无法删除！')
+          : message.error('站点删除失败')
     },
     *fetchInverterList(_, { call, put }) {
       const response = yield call(getInterverList);

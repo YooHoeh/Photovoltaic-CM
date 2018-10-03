@@ -452,15 +452,15 @@ export default class TableList extends PureComponent {
       onOk: confirmChange,
       cancelText: '取消',
       okText: secondsToGo,
-      content: `确认删除站点：${name}  吗？删除站点之后相关联的逆变器信息将同时删除！此操作无法撤销！`,
-      okButtonProps: { disabled: 'true' }
+      content: `确认删除站点：${name}  吗？此操作无法撤销！`,
+      okButtonProps: { disabled: true }
     });
 
     setTimeout(() => {
       clearInterval(count)
       modal.update({
         okText: '确认删除',
-        okButtonProps: { disabled: 'false' }
+        okButtonProps: { disabled: false }
       });
     }, 5 * 1000);
   }
