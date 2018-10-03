@@ -10,8 +10,12 @@ import {
   Button,
   Modal,
   Spin,
+  Icon,
   message,
+  Dropdown,
   Badge,
+  Menu,
+  Upload,
   Divider,
   Cascader,
   Table,
@@ -38,8 +42,8 @@ const CreateForm = Form.create({
       id: Form.createFormField({
         value: fields.id.value
       }),
-      site: Form.createFormField({
-        value: fields.site.value
+      siteID: Form.createFormField({
+        value: fields.siteID.value
       }),
       model: Form.createFormField({
         value: fields.model.value
@@ -56,16 +60,17 @@ const CreateForm = Form.create({
     };
   },
   onValuesChange(_, values) {
-    console.log(values);
+    // console.log(values);
   },
 })(props => {
   const { modalVisible, form, handleAdd, handleModalVisible, siteList } = props;
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
       if (err) return;
-      form.resetFields();
+      fieldsValue.siteID = fieldsValue.siteID[2]
       handleAdd(fieldsValue);
       handleModalVisible()
+      form.resetFields();
     });
   };
   const handleReset = () => {
@@ -89,24 +94,24 @@ const CreateForm = Form.create({
       ]}
     >
       <FormItem labelCol={{ span: 7 }} wrapperCol={{ span: 15 }} label="所属站点">
-        {form.getFieldDecorator('site', {
-          rules: [{ required: true, message: 'Please input some description...' }],
+        {form.getFieldDecorator('siteID', {
+          rules: [{ required: true, message: '请选择站点' }],
         })(<Cascader options={siteList} placeholder="选择站点" style={{ width: '100%' }} />)}
       </FormItem>
       <FormItem labelCol={{ span: 7 }} wrapperCol={{ span: 15 }} label="逆变器编号">
         {form.getFieldDecorator('id', {
-          rules: [{ required: true, message: 'Please input some description...' }],
+          rules: [{ required: true, message: '请输入逆变器编号' }],
         })(<Input placeholder="请输入" />)}
       </FormItem>
       <FormItem labelCol={{ span: 7 }} wrapperCol={{ span: 15 }} label="机器型号">
         {form.getFieldDecorator('model', {
-          rules: [{ required: true, message: 'Please input some description...' }],
+          rules: [{ required: true, message: '请输入机器型号' }],
         })(<Input placeholder="请输入" />)}
       </FormItem>
 
       <FormItem labelCol={{ span: 7 }} wrapperCol={{ span: 15 }} label="组串总数">
         {form.getFieldDecorator('mpptNum', {
-          rules: [{ required: true, message: 'Please input some description...' }],
+          rules: [{ required: true, message: '请输入组串总数' }],
         })(
           <Input
             placeholder="请输入"
@@ -116,7 +121,7 @@ const CreateForm = Form.create({
 
       <FormItem labelCol={{ span: 7 }} wrapperCol={{ span: 15 }} label="支路总数">
         {form.getFieldDecorator('pvNum', {
-          rules: [{ required: true, message: 'Please input some description...' }],
+          rules: [{ required: true, message: '请输入支路总数' }],
         })(
           <Input
             placeholder="请输入"
@@ -126,7 +131,7 @@ const CreateForm = Form.create({
 
       <FormItem labelCol={{ span: 7 }} wrapperCol={{ span: 16 }} label="协议类型">
         {form.getFieldDecorator('agreement', {
-          rules: [{ required: true, message: 'Please input some description...' }],
+          rules: [{ required: true, message: '' }],
           initialValue: "0"
         })(
           <Radio.Group buttonStyle="solid">
@@ -155,10 +160,10 @@ export default class TableList extends PureComponent {
     modalVisible: false,
     fields: {
       id: {
-        value: '11234567',
+        value: '',
       },
-      site: {
-        value: '123213',
+      siteID: {
+        value: '',
       },
       model: {
         value: '',
@@ -238,6 +243,25 @@ export default class TableList extends PureComponent {
   renderSimpleForm(cityList) {
     const { form } = this.props;
     const { getFieldDecorator } = form;
+
+    const props = {
+      name: 'file',
+      action: 'http://172.20.151.36/photovoltaic/public/index/inverters/importEecel',
+      headers: {
+        authorization: 'authorization-text',
+      },
+      onChange(info) {
+        if (info.file.status !== 'uploading') {
+          console.log(info.file, info.fileList);
+        }
+        if (info.file.status === 'done') {
+          message.success(`${info.file.name} 上传成功`);
+        } else if (info.file.status === 'error') {
+          message.error(`${info.file.name} 上传失败.`);
+        }
+      },
+    };
+
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
@@ -277,9 +301,23 @@ export default class TableList extends PureComponent {
             </span>
           </Col>
           <Col md={2} sm={24} offset={5}>
-            <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
-              新建逆变器
+            <Dropdown overlay={
+              <Menu >
+                <Menu.Item key="import">
+                  <Upload {...props}>
+
+                    <Icon type="upload" />从Excel导入
+                  </Upload>
+                </Menu.Item>
+                <Menu.Item key="download">
+                  <a href='http://172.20.151.36\photovoltaic\uploads\excel\逆变器上传样本.xlsx'>Excel模板下载</a>
+                </Menu.Item>
+              </Menu>
+            } >
+              <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
+                新建逆变器
             </Button>
+            </Dropdown>
           </Col>
         </Row>
       </Form>
@@ -324,7 +362,6 @@ export default class TableList extends PureComponent {
 
     const handleAdd = (value) => {
       console.log(value);
-      console.log("zjklasjdflkajsfkls")
 
       const { dispatch } = this.props;
       dispatch({

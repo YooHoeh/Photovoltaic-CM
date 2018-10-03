@@ -13,6 +13,7 @@ export default {
     logList: [],
     userList: [],
     maintenanceID: '',
+    siteExcel: []
 
   },
 
@@ -50,8 +51,8 @@ export default {
     *changeWarnStatus(payload, { call, put }) {
       const response = yield call(changeWarnStatu, payload);
       response.status == 'success'
-        ? message.success('更改为已处理')
-        : message.error('更改失败')
+        ? message.success('更改处理状态成功')
+        : message.error('更改处理状态失败')
     },
     *searchWarningList(payload, { call, put }) {
       const response = yield call(warningListSearch, payload);
@@ -69,6 +70,12 @@ export default {
         type: 'saveCommon',
         payload: {
           siteList: response.list,
+        }
+      });
+      yield put({
+        type: 'saveCommon',
+        payload: {
+          cityList: response.areas,
         }
       });
       yield put({
@@ -125,7 +132,8 @@ export default {
       });
     },
     *addInverter(payload, { call, put }) {
-      const response = yield call(addSite, payload);
+      const response = yield call(addInverter, payload);
+      console.log("jklsjaklf;jdsal")
       response.status
         ? message.success('逆变器添加成功')
         : message.error('逆变器添加失败')

@@ -27,6 +27,9 @@ const DataTab = (props) => {
       type: 'user/UpdateUserProfile',
       payload: newDate
     })
+    dispatch({
+      type: 'user/fetchCurrent'
+    })
 
   }
   const roleCodeToRoleName = (code) => {

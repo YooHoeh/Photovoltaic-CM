@@ -151,6 +151,10 @@ export default class TableList extends PureComponent {
       dispatch({
         type: 'rule/fetchWarningList',
       })
+      dispatch({
+        type: 'user/fetchCurrent',
+      })
+
 
     }
     const {
@@ -189,15 +193,20 @@ export default class TableList extends PureComponent {
         title: '处理状态',
         align: 'right',
         dataIndex: 'check',
-        render: (check, recode) =>
-          <a href="javascript:;" name={recode.id} onClick={changeCheckStatuHandle}>
-            {check
-              ? <Switch checkedChildren="已处理" unCheckedChildren="未处理" />
-              : <Switch checkedChildren="已处理" unCheckedChildren="未处理" defaultChecked />
-            }
-          </a>
+        render: (check, recode) => {
+          console.log(check)
+          return (
+
+            <a href="javascript:;" name={recode.id} onClick={changeCheckStatuHandle}>
+              {check == 'true'
+                ? <Switch checkedChildren="已处理" unCheckedChildren="未处理" defaultChecked />
+                : <Switch checkedChildren="已处理" unCheckedChildren="未处理" />
+              }
+            </a>
+          )
 
 
+        }
       },
     ];
 

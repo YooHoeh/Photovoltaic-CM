@@ -26,8 +26,9 @@ const getYear = () => {
   return year.map(item => item)
 }
 
-@connect(({ rule, chart = {} }) => ({
+@connect(({ rule, chart = {}, loading }) => ({
   rule,
+  isRefresh: loading.effects['chart/historyInverterSearchData'],
   chart,
 }))
 export default class SiteHis extends PureComponent {
@@ -37,18 +38,20 @@ export default class SiteHis extends PureComponent {
     const { historyInverterSearchData } = chart;
     this.state = {
       filter: {
-        interverID: "",
+        inverterID: "",
         type: '',
         time: ''
       },
-      data: historyInverterSearchData.data,
+      data: historyInverterSearchData.list,
       info: historyInverterSearchData.info,
+      isRefresh: this.props.isRefresh
     };
     this.onDateChange = this.onDateChange.bind(this)
   }
   handleSearch() {
     console.log(this.state.filter)
-    if (this.state.filter.interverID && this.state.filter.type && this.state.filter.time) {
+
+    if (this.state.filter.inverterID && this.state.filter.type && this.state.filter.time) {
       const { dispatch } = this.props;
       dispatch({
         type: 'chart/fetchHistoryInverterSearchData',
@@ -65,6 +68,9 @@ export default class SiteHis extends PureComponent {
       type: 'chart/fetchHistoryInverterSearchData',
       fileter: this.state.filter
     });
+  }
+  shouldComponentUpdate(pre, next) {
+    return this.state.isRefresh ? true : true
   }
   timeSelector = () => {
     const type = this.state.filter.type;
@@ -116,7 +122,6 @@ export default class SiteHis extends PureComponent {
     }))
   }
   inverterChange(value) {
-    console.log(value[3])
     this.setState((preState) => ({
       filter: {
         type: preState.filter.type,
@@ -206,7 +211,7 @@ export default class SiteHis extends PureComponent {
                 title={<Tooltip placement="bottomLeft" title={this.state.info ? inverterInfo : '请选择站点'}>{this.state.info ? (this.state.info.id + "逆变器发电量") : '请选择逆变器'}</Tooltip>}
                 style={{ marginBottom: "12px" }}
                 extra={<span>
-                  <Cascader options={inverterListWithPosition} placeholder='请选择逆变器' style={{ marginRight: '8px' }} onChage={this.inverterChange.bind(this)} />
+                  <Cascader options={inverterListWithPosition} placeholder='请选择逆变器' style={{ marginRight: '8px', width: '400px' }} onChange={this.inverterChange.bind(this)} />
                   <Select defaultValue='day' onChange={this.timeSelectorChange.bind(this)} style={{ marginRight: "15px" }}>
                     <Option value='day'>单日查询</Option>
                     <Option value='month'>整月查询</Option>

@@ -13,8 +13,13 @@ class Finance extends React.Component {
 
     return (
       <PageHeaderLayout title="财务管理">
-        <Card >
-          保留功能，待后期添加
+        <Card style={{ textAlign: 'center' }}>
+          <p>
+            针对发电量和并网情况显示指定时间段指定站点的财务报表信息
+          </p>
+          <p>
+            此功能为预留功能
+          </p>
         </Card>
       </PageHeaderLayout>
     )

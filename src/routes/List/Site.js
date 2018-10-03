@@ -7,9 +7,13 @@ import {
   Form,
   Spin,
   Input,
+  message,
   Select,
   Icon,
   Button,
+  Dropdown,
+  Upload,
+  Menu,
   Modal,
   Cascader,
   Radio,
@@ -82,6 +86,7 @@ const CreateForm = Form.create({
       if (err) return;
       fieldsValue.locaNum = fieldsValue.locaNum[1]
       handleAdd(fieldsValue);
+      handleModalVisible()
       form.resetFields();
     });
   };
@@ -342,6 +347,23 @@ export default class TableList extends PureComponent {
   renderSimpleForm(cityList) {
     const { form } = this.props;
     const { getFieldDecorator } = form;
+    const props = {
+      name: 'file',
+      action: 'http://172.20.151.36/photovoltaic/public/index/stations/importEecel',
+      headers: {
+        authorization: 'authorization-text',
+      },
+      onChange(info) {
+        if (info.file.status !== 'uploading') {
+          console.log(info.file, info.fileList);
+        }
+        if (info.file.status === 'done') {
+          message.success(`${info.file.name} 上传成功`);
+        } else if (info.file.status === 'error') {
+          message.error(`${info.file.name} 上传失败.`);
+        }
+      },
+    };
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
@@ -354,8 +376,8 @@ export default class TableList extends PureComponent {
             <FormItem label="运行使用状态">
               {getFieldDecorator('status')(
                 <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value="0">关闭</Option>
-                  <Option value="1">运行中</Option>
+                  <Option value="0">运行中</Option>
+                  <Option value="1">建设中</Option>
                   <Option value="2">建设目标</Option>
                   <Option value="3">告警</Option>
                 </Select>
@@ -373,9 +395,23 @@ export default class TableList extends PureComponent {
             </span>
           </Col>
           <Col md={2} sm={24} offset={3}>
-            <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
-              新建站点
+            <Dropdown overlay={
+              <Menu>
+                <Menu.Item key="import">
+                  <Upload {...props}>
+                    <Icon type="upload" />从Excel导入
+                  </Upload>
+                </Menu.Item>
+                <Menu.Item key="download">
+                  <a href='http://172.20.151.36\photovoltaic\uploads\excel\电站上传样本.xlsx'>Excel模板下载</a>
+                </Menu.Item>
+              </Menu>
+            } >
+
+              <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
+                新建站点
           </Button>
+            </Dropdown>
           </Col>
         </Row>
       </Form>
