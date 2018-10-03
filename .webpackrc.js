@@ -10,7 +10,7 @@ export default {
   },
   externals: {
     '@antv/data-set': 'DataSet',
-    rollbar: 'rollbar',
+    // rollbar: 'rollbar',
   },
   alias: {
     components: path.resolve(__dirname, 'src/components/'),

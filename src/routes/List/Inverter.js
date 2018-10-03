@@ -59,12 +59,13 @@ const CreateForm = Form.create({
     console.log(values);
   },
 })(props => {
-  const { modalVisible, form, handleAdd, handleModalVisible } = props;
+  const { modalVisible, form, handleAdd, handleModalVisible, siteList } = props;
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
       if (err) return;
       form.resetFields();
       handleAdd(fieldsValue);
+      handleModalVisible()
     });
   };
   const handleReset = () => {
@@ -90,7 +91,7 @@ const CreateForm = Form.create({
       <FormItem labelCol={{ span: 7 }} wrapperCol={{ span: 15 }} label="所属站点">
         {form.getFieldDecorator('site', {
           rules: [{ required: true, message: 'Please input some description...' }],
-        })(<Select></Select>)}
+        })(<Cascader options={siteList} placeholder="选择站点" style={{ width: '100%' }} />)}
       </FormItem>
       <FormItem labelCol={{ span: 7 }} wrapperCol={{ span: 15 }} label="逆变器编号">
         {form.getFieldDecorator('id', {
@@ -157,7 +158,7 @@ export default class TableList extends PureComponent {
         value: '11234567',
       },
       site: {
-        value: '',
+        value: '123213',
       },
       model: {
         value: '',
@@ -321,6 +322,20 @@ export default class TableList extends PureComponent {
     } = this.props;
     const { modalVisible } = this.state;
 
+    const handleAdd = (value) => {
+      console.log(value);
+      console.log("zjklasjdflkajsfkls")
+
+      const { dispatch } = this.props;
+      dispatch({
+        type: 'rule/addInverter',
+        payload: value
+      })
+      dispatch({
+        type: 'rule/fetchInverterList',
+      });
+    }
+
     const columns = [
       {
         title: '机器型号',
@@ -389,7 +404,8 @@ export default class TableList extends PureComponent {
     const parentMethods = {
       handleModalVisible: this.handleModalVisible,
       fields: this.state.fields,
-      cityList,
+      siteList: this.props.siteList,
+      handleAdd
     };
 
     return (

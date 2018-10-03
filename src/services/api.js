@@ -244,7 +244,7 @@ export async function historySiteSearch(filter) {
 }
 //逆变器历史搜索
 export async function historyInverterSearch(filter) {
-  return request('/api/inverterSearch', {
+  return request('http://172.20.151.36/photovoltaic/public/index/inverters/queryChart', {
     method: 'POST',
     body: filter
   });
