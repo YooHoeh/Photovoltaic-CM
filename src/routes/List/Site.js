@@ -442,7 +442,7 @@ export default class TableList extends PureComponent {
         type: 'rule/fetchSiteList',
       });
     }
-    setInterval(() => {
+    const count = setInterval(() => {
       secondsToGo -= 1;
       modal.update({
         okText: secondsToGo,
@@ -452,11 +452,12 @@ export default class TableList extends PureComponent {
       title: '删除站点',
       onOk: confirmChange,
       cancelText: '取消',
-      okText: '确认',
+      okText: secondsToGo,
       content: `确认删除站点：${name}  吗？删除站点之后相关联的逆变器信息将同时删除！此操作无法撤销！`,
       okButtonProps: { disabled: disableDel }
     });
-    setTimeout(() => { disableDel = false }, secondsToGo * 1000);
+
+    setTimeout(() => { clearInterval(count) }, 5 * 1000);
   }
   render() {
     const {
