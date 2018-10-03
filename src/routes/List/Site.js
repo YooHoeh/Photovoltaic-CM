@@ -428,7 +428,6 @@ export default class TableList extends PureComponent {
   deleSite = (val) => {
     const name = val.target.name
     let secondsToGo = 5;
-    let disableDel = true
     const confirmChange = () => {
       console.log(name)
       const { dispatch } = this.props;
@@ -454,10 +453,16 @@ export default class TableList extends PureComponent {
       cancelText: '取消',
       okText: secondsToGo,
       content: `确认删除站点：${name}  吗？删除站点之后相关联的逆变器信息将同时删除！此操作无法撤销！`,
-      okButtonProps: { disabled: disableDel }
+      okButtonProps: { disabled: 'true' }
     });
 
-    setTimeout(() => { clearInterval(count) }, 5 * 1000);
+    setTimeout(() => {
+      clearInterval(count)
+      modal.update({
+        okText: '确认删除',
+        okButtonProps: { disabled: 'false' }
+      });
+    }, 5 * 1000);
   }
   render() {
     const {
