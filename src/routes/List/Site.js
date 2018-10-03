@@ -427,6 +427,8 @@ export default class TableList extends PureComponent {
   }
   deleSite = (val) => {
     const name = val.target.name
+    let secondsToGo = 5;
+    let disableDel = true
     const confirmChange = () => {
       console.log(name)
       const { dispatch } = this.props;
@@ -440,13 +442,21 @@ export default class TableList extends PureComponent {
         type: 'rule/fetchSiteList',
       });
     }
-    Modal.confirm({
+    setInterval(() => {
+      secondsToGo -= 1;
+      modal.update({
+        okText: secondsToGo,
+      });
+    }, 1000);
+    const modal = Modal.confirm({
       title: '删除站点',
       onOk: confirmChange,
       cancelText: '取消',
       okText: '确认',
-      content: `确认删除站点：${name}  吗？此操作无法撤销！`
+      content: `确认删除站点：${name}  吗？删除站点之后相关联的逆变器信息将同时删除！此操作无法撤销！`,
+      okButtonProps: { disabled: disableDel }
     });
+    setTimeout(() => { disableDel = false }, secondsToGo * 1000);
   }
   render() {
     const {
@@ -454,7 +464,6 @@ export default class TableList extends PureComponent {
     } = this.props;
     const handleAdd = (value) => {
       console.log(value);
-
       const { dispatch } = this.props;
       dispatch({
         type: 'rule/addSite',

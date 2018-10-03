@@ -236,7 +236,6 @@ export async function delInverter(inverter) {
 }
 //站点历史搜索
 export async function historySiteSearch(filter) {
-  // return request('/api/siteSearch', {
   return request('http://172.20.151.36/photovoltaic/public/index/stations/queryChart', {
     method: 'POST',
     body: filter.fileter
@@ -249,7 +248,6 @@ export async function historyInverterSearch(filter) {
     body: filter.fileter
   });
 }
-
 
 //操作日志列表
 export async function fetchLogList() {

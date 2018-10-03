@@ -4,52 +4,6 @@ import { connect } from 'dva';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 const { RangePicker } = DatePicker;
 
-const data = [{
-  id: '1',
-  name: '雷军',
-  siteName: "伏站点",
-  type: [0, 2, 3],
-  time: "1018-12-01",
-  content: '维保内容维保内容维保内容维保内容维保内容维保内容维保内容'
-}, {
-  id: '2',
-  name: '罗永浩',
-  siteName: "光伏站点",
-  type: [0, 3],
-  time: "2018-09-03",
-  content: '维保内容维保内容维保内容维保内容维保内容维保内容维保内容'
-
-}, {
-  id: '4',
-  name: '柳传志',
-  siteName: "某光站点",
-  type: [0],
-  time: "2018-09-02",
-  content: '维保内容维保内容维保内容维保内容维保内容维保内容维保内容'
-}, {
-  id: '5',
-  name: '马化腾',
-  siteName: "某光伏点",
-  type: [1, 4],
-  time: "2018-09-01",
-  content: '维保内容维保内容维保内容维保内容维保内容维保内容维保内容'
-
-}, {
-  id: '6',
-  name: '罗永浩',
-  siteName: "某点",
-  type: [0, 1, 2, 3, 4],
-  time: "2018-09-01",
-  content: '维保内容维保内容维保内容维保内容维保内容维保内容维保内容'
-
-}, {
-  id: '7',
-  name: '雷军',
-  siteName: "某光伏站点",
-  type: [2, 3],
-  time: "2017-09-01",
-  contentt: '维保内容维保内容维保内容维保内容维保内容维保内容维保内容'
-}];
 @connect(({ rule }) => ({
   rule,
 }))
