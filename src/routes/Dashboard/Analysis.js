@@ -346,9 +346,9 @@ export default class Analysis extends Component {
             <Col {...topColResponsiveProps}>
               <ChartCard
                 bordered={false}
-                title="装机容量"
+                title="建站总数"
                 action={
-                  <Tooltip title="全省总装机容量">
+                  <Tooltip title="全省建站总数">
                     <Icon type="info-circle-o" />
                   </Tooltip>
                 }
