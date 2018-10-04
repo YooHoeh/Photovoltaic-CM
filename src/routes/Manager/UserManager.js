@@ -21,6 +21,7 @@ const NewUser = Form.create()(
           visible={visible}
           onOk={onCreate}
           onCancel={onCancel}
+          destroyOnClose={true}
         >
           <Form layout="horizontal">
             <FormItem label="用户名">

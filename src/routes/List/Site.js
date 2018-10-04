@@ -104,6 +104,7 @@ const CreateForm = Form.create({
       visible={modalVisible}
       onOk={okHandle}
       width="750px"
+      destroyOnClose={true}
       onCancel={() => handleModalVisible()}
       footer={[
         <Button key="reset" onClick={handleReset}>
@@ -427,7 +428,7 @@ export default class TableList extends PureComponent {
   }
   deleSite = (val) => {
     const name = val.target.name
-    let secondsToGo = 5;
+    let secondsToGo = 3;
     const confirmChange = () => {
       console.log(name)
       const { dispatch } = this.props;
@@ -441,28 +442,26 @@ export default class TableList extends PureComponent {
         type: 'rule/fetchSiteList',
       });
     }
+    setTimeout(() => {
+      clearInterval(count)
+      modal.update({
+        onOk: confirmChange,
+        okText: '确认删除',
+      });
+    }, secondsToGo * 1000);
     const count = setInterval(() => {
       secondsToGo -= 1;
       modal.update({
-        okText: secondsToGo,
+        okText: `${secondsToGo}秒后可删除`,
       });
     }, 1000);
     const modal = Modal.confirm({
       title: '删除站点',
-      onOk: confirmChange,
       cancelText: '取消',
-      okText: secondsToGo,
+      okText: `${secondsToGo}秒后可删除`,
       content: `确认删除站点：${name}  吗？此操作无法撤销！`,
-      okButtonProps: { disabled: true }
     });
 
-    setTimeout(() => {
-      clearInterval(count)
-      modal.update({
-        okText: '确认删除',
-        okButtonProps: { disabled: false }
-      });
-    }, 5 * 1000);
   }
   render() {
     const {

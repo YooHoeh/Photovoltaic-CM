@@ -84,7 +84,8 @@ class Maintetance extends React.Component {
       onOk: confirmChange,
       cancelText: '取消',
       okText: '确认',
-      content: `确认添加日志吗？\n日志添加后不允许修改或者删除！`
+      content: `确认添加日志吗？\n日志添加后不允许修改或者删除！`,
+      destroyOnClose: true
     });
   }
   render() {

@@ -83,6 +83,7 @@ const CreateForm = Form.create({
       visible={modalVisible}
       onOk={okHandle}
       width="450px"
+      destroyOnClose={true}
       onCancel={() => handleModalVisible()}
       footer={[
         <Button key="reset" onClick={handleReset}>
