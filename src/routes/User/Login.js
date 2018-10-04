@@ -14,7 +14,7 @@ const { Tab, UserName, Password, Mobile, Captcha, Submit } = Login;
 export default class LoginPage extends Component {
   state = {
     type: 'account',
-    autoLogin: true,
+    autoLogin: false,
   };
 
   onTabChange = type => {
@@ -58,17 +58,15 @@ export default class LoginPage extends Component {
             {login.status === '2' &&
               !submitting &&
               this.renderMessage('密码错误')}
-            <UserName name="userName" placeholder="admin/user" />
-            <Password name="password" placeholder="888888/123456" />
+            <UserName name="userName" placeholder="请输入用户名" />
+            <Password name="password" placeholder="请输入密码" />
           </Tab>
 
           <div>
             <Checkbox checked={autoLogin} onChange={this.changeAutoLogin}>
               自动登录
             </Checkbox>
-            <a style={{ float: 'right' }} href="">
-              忘记密码
-            </a>
+
           </div>
           <Submit loading={submitting}>登录</Submit>
 

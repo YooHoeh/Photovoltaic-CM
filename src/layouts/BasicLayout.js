@@ -132,7 +132,7 @@ export default class BasicLayout extends React.PureComponent {
   getPageTitle() {
     const { routerData, location } = this.props;
     const { pathname } = location;
-    let title = '分布式光伏资产运维管理系统';
+    let title = '分布式光伏运维及资产管理系统';
     let currRouterData = null;
     // match params path
     for (const key in routerData) {
@@ -142,7 +142,7 @@ export default class BasicLayout extends React.PureComponent {
       }
     }
     if (currRouterData && currRouterData.name) {
-      title = `${currRouterData.name} - 分布式光伏资产运维管理系统`;
+      title = `${currRouterData.name} - 分布式光伏运维及资产管理系统`;
     }
     return title;
   }
