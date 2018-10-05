@@ -209,7 +209,11 @@ export default class SiteHis extends PureComponent {
             < Row >
               <Card
                 bordered={false}
-                title={<Tooltip placement="bottomLeft" title={info ? inverterInfo : '请选择站点'}>{info ? (info.id + "逆变器发电量") : '请选择逆变器'}</Tooltip>}
+                title={
+                  info.name
+                    ? (< Tooltip placement="bottomLeft" title={inverterInfo} > {info.name + "逆变器信息"}</Tooltip>)
+                    : ('请选择逆变器')
+                }
                 style={{ marginBottom: "12px" }}
                 extra={<span>
                   <Cascader options={inverterListWithPosition} placeholder='请选择逆变器' style={{ marginRight: '8px', width: '400px' }} onChange={this.inverterChange.bind(this)} />
@@ -222,7 +226,7 @@ export default class SiteHis extends PureComponent {
                 </span>
                 }>
                 {
-                  data ?
+                  data[0] ?
                     <Basiccolumn
                       data={data}
                     />

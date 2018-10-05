@@ -27,29 +27,6 @@ const getYear = () => {
 }
 
 
-let columns = [{
-  title: '时间',
-  dataIndex: 'time',
-  sorter: (a, b) => a.time - b.time,
-  defaultSortOrder: 'descend',
-},
-{
-  title: '410001A004011002',
-  dataIndex: '410001A004011002',
-  defaultSortOrder: 'descend',
-},
-{
-  title: '410001A004011004',
-  dataIndex: '410001A004011004',
-  defaultSortOrder: 'descend',
-},
-{
-  title: '410001A004011003',
-  dataIndex: '410001A004011003',
-  defaultSortOrder: 'descend',
-},
-];
-let fields = []
 @connect(({ rule, chart = {}, loading }) => ({
   rule,
   chart,
@@ -67,7 +44,8 @@ export default class SiteHis extends PureComponent {
         type: '',
         time: ''
       },
-      isRefresh: this.props.isRefresh
+      isRefresh: this.props.isRefresh,
+
     };
     this.onDateChange = this.onDateChange.bind(this)
   }
@@ -93,35 +71,8 @@ export default class SiteHis extends PureComponent {
 
     }
 
-    if ((data && info) != undefined) {
 
-      console.log(data)
-      console.log(info)
-    }
-    // () => {
-    //   function setColum(data) {
-    //     for (let key in data[0]) {
-    //       if (key != 'time') {
-    //         columns.push(
-    //           {
-    //             title: key,
-    //             dataIndex: key,
-    //           })
-    //       }
-    //     }
-    //     // return columns
-    //   }
-    //   function setFields(data) {
-    //     for (let key in data[0]) {
-    //       if (key != 'time') {
-    //         fields.push(key)
-    //       }
-    //     }
-    //     // return fields
-    //   }
-    //   setColum(data);
-    //   setFields(data)
-    // }
+
 
   }
   timeSelector = () => {
@@ -188,9 +139,43 @@ export default class SiteHis extends PureComponent {
 
   render() {
     const { data, info } = this.props;
+    const { chart } = this.props;
+    const { siteListWithPosition } = chart;
 
 
-    const siteInfo = () => {
+    function setColum(data) {
+      if (data == undefined) { return }
+
+      let columns = [{
+        title: '时间',
+        dataIndex: 'time',
+        sorter: (a, b) => a.time - b.time,
+        defaultSortOrder: 'descend',
+      },
+      ];
+      for (let key in data[0]) {
+        if (key != 'time') {
+          columns.push(
+            {
+              title: key,
+              dataIndex: key,
+            })
+        }
+      }
+      return columns
+    }
+    function setFields(data) {
+      if (data == undefined) { return }
+      let fields = []
+      for (let key in data[0]) {
+        if (key != 'time') {
+          fields.push(key)
+        }
+      }
+      return fields
+    }
+
+    const siteInfoboard = () => {
       return (
         info ?
           < div >
@@ -234,8 +219,6 @@ export default class SiteHis extends PureComponent {
 
 
 
-    const { chart } = this.props;
-    const { siteListWithPosition } = chart;
     return (
       <PageHeaderLayout title="站点查询" >
         {
@@ -243,37 +226,42 @@ export default class SiteHis extends PureComponent {
             <Row>
               <Card
                 bordered={false}
-                title={< Tooltip placement="bottomLeft" title={info ? siteInfo : '请选择站点'} > {info ? (info.name + "站点信息") : '请选择站点'}</Tooltip>}
-                style={{ marginBottom: "12px", overflow: "hidden", width: '100%' }}
-                extra={<span>
-                  <Cascader options={siteListWithPosition} placeholder='请选择站点' style={{ marginRight: '8px', width: "250px" }} onChange={this.siteChange.bind(this)} />
-                  <Select defaultValue='day' onChange={this.timeSelectorChange.bind(this)} style={{ marginRight: "15px" }}>
-                    <Option value='day'>单日查询</Option>
-                    <Option value='month'>整月查询</Option>
-                    <Option value='year'>全年查询</Option>
-                  </Select>
-                  {this.timeSelector()}
-                </span>}
-              > {
-                  data ?
-                    <Stacked
-                      data={data}
+                title={
+                  info.name
+                    ? (< Tooltip placement="bottomLeft" title={siteInfoboard} > {info.name + "站点信息"}</Tooltip>)
+                    : ('请选择站点')
+              }
 
-                      fields={['410001A004011002', '410001A004011004', '410001A004011003']}
-                    />
-                    : <Alert
-                      message="请选择站点"
-                      description="选择站点后，选择要查询的时间查看发电量堆叠分析图"
-                      type="info"
-                    />
-                }
+                style={{ marginBottom: "12px", overflow: "hidden", width: '100%' }}
+              extra={<span>
+                <Cascader options={siteListWithPosition} placeholder='请选择站点' style={{ marginRight: '8px', width: "250px" }} onChange={this.siteChange.bind(this)} />
+                <Select defaultValue='day' onChange={this.timeSelectorChange.bind(this)} style={{ marginRight: "15px" }}>
+                  <Option value='day'>单日查询</Option>
+                  <Option value='month'>整月查询</Option>
+                  <Option value='year'>全年查询</Option>
+                </Select>
+                {this.timeSelector()}
+              </span>}
+              > {
+                data[0] ?
+                  <Stacked
+                    data={data}
+
+                    fields={setFields(data)}
+                  />
+                  : <Alert
+                    message="请选择站点"
+                    description="选择站点后，选择要查询的时间查看发电量堆叠分析图"
+                    type="info"
+                  />
+              }
               </Card >
             </Row >
             : <Spin
-              tip="等待数据"
-              size="middle"
-              style={{ display: "flex", alignItems: "center", justifyContent: "center", lineHeight: "calc(40vh)" }}
-            />}
+          tip="等待数据"
+          size="middle"
+          style={{ display: "flex", alignItems: "center", justifyContent: "center", lineHeight: "calc(40vh)" }}
+        />}
         <Row>
           <Col>
             <Card
@@ -282,7 +270,7 @@ export default class SiteHis extends PureComponent {
               bodyStyle={{ height: 800 }}
             >{
                 data
-                  ? <Table columns={columns} dataSource={data} onChange={this.onChange} height={800} />
+                  ? <Table columns={setColum(data)} dataSource={data} onChange={this.onChange} height={800} />
                   : ''
               }
             </Card>

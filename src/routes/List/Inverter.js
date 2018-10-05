@@ -226,7 +226,7 @@ export default class TableList extends PureComponent {
       dispatch({
         type: 'rule/interverListSearch',
         payload: {
-          siteID: values.siteID || '',
+          siteID: values.siteID[2] || '',
           position: values.position ? values.position[1] : '',
           status: values.status || '',
         }
@@ -241,7 +241,7 @@ export default class TableList extends PureComponent {
   };
 
 
-  renderSimpleForm(cityList) {
+  renderSimpleForm(cityList, siteList) {
     const { form } = this.props;
     const { getFieldDecorator } = form;
 
@@ -267,8 +267,8 @@ export default class TableList extends PureComponent {
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={4} sm={24}>
-            <FormItem label="站点编号">
-              {getFieldDecorator('siteID')(<Input placeholder="请输入" />)}
+            <FormItem label="选择站点">
+              {getFieldDecorator('siteID')(<Cascader options={siteList} placeholder="选择站点" style={{ width: '100%' }} />)}
             </FormItem>
           </Col>
           <Col md={4} sm={24}>
@@ -359,6 +359,7 @@ export default class TableList extends PureComponent {
     const {
       rule: { inverterList, cityList },
     } = this.props;
+    const { siteList } = this.props
     const { modalVisible } = this.state;
 
     const handleAdd = (value) => {
@@ -450,7 +451,7 @@ export default class TableList extends PureComponent {
       <PageHeaderLayout title="逆变器列表">
         <Card bordered={false}>
           <div className={styles.tableList}>
-            <div className={styles.tableListForm}>{this.renderSimpleForm(cityList)}</div>
+            <div className={styles.tableListForm}>{this.renderSimpleForm(cityList, siteList)}</div>
             {
               inverterList
                 ? <Table columns={columns} dataSource={inverterList} onChange={this.onTableChange} />
