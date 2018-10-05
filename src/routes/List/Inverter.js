@@ -247,7 +247,7 @@ export default class TableList extends PureComponent {
 
     const props = {
       name: 'file',
-      action: '../public/index/inverters/importEecel',
+      action: 'http://172.20.151.36/photovoltaic/public/index/inverters/importEecel',
       headers: {
         authorization: 'authorization-text',
       },
@@ -311,7 +311,7 @@ export default class TableList extends PureComponent {
                   </Upload>
                 </Menu.Item>
                 <Menu.Item key="download">
-                  <a href='..\uploads\excel\逆变器上传样本.xlsx'>Excel模板下载</a>
+                  <a href='http://172.20.151.36\photovoltaic\uploads\excel\逆变器上传样本.xlsx'>Excel模板下载</a>
                 </Menu.Item>
               </Menu>
             } >

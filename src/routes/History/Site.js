@@ -25,45 +25,104 @@ const getYear = () => {
   }
   return year.map(item => item)
 }
-@connect(({ rule, chart = {} }) => ({
+
+
+let columns = [{
+  title: '时间',
+  dataIndex: 'time',
+  sorter: (a, b) => a.time - b.time,
+  defaultSortOrder: 'descend',
+},
+{
+  title: '410001A004011002',
+  dataIndex: '410001A004011002',
+  defaultSortOrder: 'descend',
+},
+{
+  title: '410001A004011004',
+  dataIndex: '410001A004011004',
+  defaultSortOrder: 'descend',
+},
+{
+  title: '410001A004011003',
+  dataIndex: '410001A004011003',
+  defaultSortOrder: 'descend',
+},
+];
+let fields = []
+@connect(({ rule, chart = {}, loading }) => ({
   rule,
   chart,
+  isRefresh: loading.effects['chart/historySiteSearchData'],
+  info: chart.siteInfo,
+  data: chart.siteData
 }))
-
 export default class SiteHis extends PureComponent {
   constructor(props) {
     super(props)
-    const { chart } = this.props;
-    const { historySiteSearchData } = chart;
+
     this.state = {
       filter: {
         siteID: "",
         type: '',
         time: ''
       },
-      data: historySiteSearchData.data,
-      info: historySiteSearchData.info,
+      isRefresh: this.props.isRefresh
     };
     this.onDateChange = this.onDateChange.bind(this)
   }
+  componentWillReceiveProps() {
+    const { dispatch, data, info } = this.props;
+
+  }
+  componentDidMount() {
+    const { dispatch, data, info } = this.props;
+    dispatch({
+      type: 'chart/fetchSiteListWithPosition',
+    });
+
+
+  }
   handleSearch() {
+    const { dispatch, data, info } = this.props;
     if (this.state.filter.siteID && this.state.filter.type && this.state.filter.time) {
-      const { dispatch } = this.props;
       dispatch({
         type: 'chart/fetchHistorySiteSearchData',
         fileter: this.state.filter
       });
+
     }
-  }
-  componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'chart/fetchSiteListWithPosition',
-    });
-    dispatch({
-      type: 'chart/fetchHistorySiteSearchData',
-      fileter: this.state.filter
-    });
+
+    if ((data && info) != undefined) {
+
+      console.log(data)
+      console.log(info)
+    }
+    // () => {
+    //   function setColum(data) {
+    //     for (let key in data[0]) {
+    //       if (key != 'time') {
+    //         columns.push(
+    //           {
+    //             title: key,
+    //             dataIndex: key,
+    //           })
+    //       }
+    //     }
+    //     // return columns
+    //   }
+    //   function setFields(data) {
+    //     for (let key in data[0]) {
+    //       if (key != 'time') {
+    //         fields.push(key)
+    //       }
+    //     }
+    //     // return fields
+    //   }
+    //   setColum(data);
+    //   setFields(data)
+    // }
+
   }
   timeSelector = () => {
     const type = this.state.filter.type;
@@ -114,8 +173,10 @@ export default class SiteHis extends PureComponent {
       }
     }))
   }
+  shouldComponentUpdate(pre, next) {
+    return this.state.isRefresh ? true : true
+  }
   siteChange(value) {
-    console.log(value[2])
     this.setState((preState) => ({
       filter: {
         type: preState.filter.type,
@@ -124,10 +185,12 @@ export default class SiteHis extends PureComponent {
       }
     }), () => this.handleSearch())
   }
+
   render() {
+    const { data, info } = this.props;
+
 
     const siteInfo = () => {
-      const info = this.state.info;
       return (
         info ?
           < div >
@@ -168,55 +231,9 @@ export default class SiteHis extends PureComponent {
           />
       )
     }
-    // const inverterColumns = () => {
-    //   console.log(historySiteSearchData)
-    //   let columns = {}
-    //   data[0].map(item => {
-    //     if (item != 'time') {
 
-    //       columns.push(
-    //         {
-    //           title: item,
-    //           dataIndex: item,
-    //           sorter: (a, b) => { a.item - b.item }
-    //         })
-    //     }
-    //   })
-    //   return columns
-    // }
-    // const setColum = inverterColumns()
-    // const columns = [{
-    //   title: '时间',
-    //   dataIndex: 'time',
-    //   sorter: (a, b) => a.time - b.time,
-    //   defaultSortOrder: 'descend',
-    // }, {
-    //   setColum
-    // }];
-    const columns = [{
-      title: '时间',
-      dataIndex: 'time',
-      sorter: (a, b) => a.time > b.time,
-      defaultSortOrder: 'descend',
-    },
-    {
-      title: '逆变器1',
-      dataIndex: '逆变器1',
-      defaultSortOrder: 'descend',
-      sorter: (a, b) => a.逆变器1 - b.逆变器1,
-    },
-    {
-      title: '逆变器2',
-      dataIndex: '逆变器2',
-      defaultSortOrder: 'descend',
-      sorter: (a, b) => a.逆变器2 - b.逆变器2,
-    },
-    {
-      title: '逆变器3',
-      dataIndex: '逆变器3',
-      defaultSortOrder: 'descend',
-      sorter: (a, b) => a.逆变器3 - b.逆变器3,
-    },];
+
+
     const { chart } = this.props;
     const { siteListWithPosition } = chart;
     return (
@@ -226,7 +243,7 @@ export default class SiteHis extends PureComponent {
             <Row>
               <Card
                 bordered={false}
-                title={< Tooltip placement="bottomLeft" title={this.state.info ? siteInfo : '请选择站点'} > {this.state.info ? (this.state.info.name + "站点信息") : '请选择站点'}</Tooltip>}
+                title={< Tooltip placement="bottomLeft" title={info ? siteInfo : '请选择站点'} > {info ? (info.name + "站点信息") : '请选择站点'}</Tooltip>}
                 style={{ marginBottom: "12px", overflow: "hidden", width: '100%' }}
                 extra={<span>
                   <Cascader options={siteListWithPosition} placeholder='请选择站点' style={{ marginRight: '8px', width: "250px" }} onChange={this.siteChange.bind(this)} />
@@ -238,10 +255,11 @@ export default class SiteHis extends PureComponent {
                   {this.timeSelector()}
                 </span>}
               > {
-                  this.state.data ?
+                  data ?
                     <Stacked
-                      data={this.state.data}
+                      data={data}
 
+                      fields={['410001A004011002', '410001A004011004', '410001A004011003']}
                     />
                     : <Alert
                       message="请选择站点"
@@ -262,8 +280,11 @@ export default class SiteHis extends PureComponent {
               bordered={false}
               title="逆变器发电量时间表"
               bodyStyle={{ height: 800 }}
-            >
-              <Table columns={columns} loading={this.state.data} dataSource={this.state.data} onChange={this.onChange} height={800} />
+            >{
+                data
+                  ? <Table columns={columns} dataSource={data} onChange={this.onChange} height={800} />
+                  : ''
+              }
             </Card>
           </Col>
         </Row>

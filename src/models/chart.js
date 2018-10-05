@@ -6,8 +6,10 @@ export default {
   state: {
     siteListWithPosition: [],
     inverterListWithPosition: [],
-    historySiteSearchData: {},
-    historyInverterSearchData: {}
+    inverterInfo: {},
+    inverterData: [],
+    siteInfo: {},
+    siteData: [],
   },
 
   effects: {
@@ -34,7 +36,8 @@ export default {
       yield put({
         type: 'save',
         payload: {
-          historySiteSearchData: response,
+          siteInfo: response.info[0],
+          siteData: response.list,
         },
       });
     },
@@ -43,7 +46,8 @@ export default {
       yield put({
         type: 'save',
         payload: {
-          historyInverterSearchData: response,
+          inverterInfo: response.info,
+          inverterData: response.list,
         },
       });
     },

@@ -63,6 +63,11 @@ export default class Analysis extends Component {
     dispatch({
       type: 'global/getHomePageInfo',
     });
+    setInterval(() => {
+      dispatch({
+        type: 'global/getHomePageInfo',
+      });
+    }, 15 * 60 * 1000)
   }
 
   handleChangeSalesType = e => {
@@ -508,7 +513,7 @@ export default class Analysis extends Component {
                 <Card
                   className={styles.offlineCard}
                   bordered={false}
-                  title="全省总量曲线图"
+                  title="全省总发电量曲线图"
                   bodyStyle={{ padding: 12 }}
                   style={{ marginBottom: 12 }}
                 >
@@ -522,7 +527,7 @@ export default class Analysis extends Component {
                 <Card
                   className={styles.offlineCard}
                   bordered={false}
-                  title={city + "区域总量曲线图"}
+                  title={city + "区域总发电量曲线图"}
                   bodyStyle={{ padding: '0 0 12px 0' }}
                   style={{ marginBottom: 12 }}
                   extra={<span onClick={backToAll} style={{ color: "#7086bb" }}>显示全省信息</span>}
@@ -534,7 +539,7 @@ export default class Analysis extends Component {
                     />
                   </div>
                 </Card>) : (<Card
-                  title={global.siteName + "曲线图"}
+                  title={global.siteName + "发电量曲线图"}
                   className={styles.offlineCard}
                   bordered={false}
                   bodyStyle={{ padding: '0 0 12px 0' }}

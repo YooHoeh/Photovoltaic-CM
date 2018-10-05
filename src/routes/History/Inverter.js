@@ -30,20 +30,18 @@ const getYear = () => {
   rule,
   isRefresh: loading.effects['chart/historyInverterSearchData'],
   chart,
+  info: chart.inverterInfo,
+  data: chart.inverterData,
 }))
 export default class SiteHis extends PureComponent {
   constructor(props) {
     super(props)
-    const { chart } = this.props;
-    const { historyInverterSearchData } = chart;
     this.state = {
       filter: {
         inverterID: "",
         type: '',
         time: ''
       },
-      data: historyInverterSearchData.list,
-      info: historyInverterSearchData.info,
       isRefresh: this.props.isRefresh
     };
     this.onDateChange = this.onDateChange.bind(this)
@@ -64,10 +62,10 @@ export default class SiteHis extends PureComponent {
     dispatch({
       type: 'chart/fetchInverterListWithPosition',
     });
-    dispatch({
-      type: 'chart/fetchHistoryInverterSearchData',
-      fileter: this.state.filter
-    });
+    // dispatch({
+    //   type: 'chart/fetchHistoryInverterSearchData',
+    //   fileter: this.state.filter
+    // });
   }
   shouldComponentUpdate(pre, next) {
     return this.state.isRefresh ? true : true
@@ -131,12 +129,16 @@ export default class SiteHis extends PureComponent {
     }), () => this.handleSearch())
   }
   render() {
-
+    const {
+      data, info
+    } = this.props;
+    const { chart: { inverterListWithPosition } } = this.props;
+    console.log(inverterListWithPosition)
     const inverterInfo = () => {
-      const inverter = this.state.info;
+      const inverter = info;
       return (
 
-        inverter ?
+        inverter != '' ?
           <div>
             <Row type="flex" justify="space-around" align="middle">
               <Col span={10}>编号:</Col>
@@ -194,21 +196,20 @@ export default class SiteHis extends PureComponent {
       defaultSortOrder: 'descend',
     }, {
       title: '发电量',
-      dataIndex: 'value',
+      dataIndex: 'power',
       defaultSortOrder: 'descend',
       sorter: (a, b) => a.value - b.value,
     },
     ];
-    const { chart } = this.props;
-    const { inverterListWithPosition } = chart;
+
     return (
       <PageHeaderLayout title="逆变器查询">
         {
-          inverterListWithPosition ?
-            <Row>
+          inverterListWithPosition != '' ?
+            < Row >
               <Card
                 bordered={false}
-                title={<Tooltip placement="bottomLeft" title={this.state.info ? inverterInfo : '请选择站点'}>{this.state.info ? (this.state.info.id + "逆变器发电量") : '请选择逆变器'}</Tooltip>}
+                title={<Tooltip placement="bottomLeft" title={info ? inverterInfo : '请选择站点'}>{info ? (info.id + "逆变器发电量") : '请选择逆变器'}</Tooltip>}
                 style={{ marginBottom: "12px" }}
                 extra={<span>
                   <Cascader options={inverterListWithPosition} placeholder='请选择逆变器' style={{ marginRight: '8px', width: '400px' }} onChange={this.inverterChange.bind(this)} />
@@ -221,9 +222,9 @@ export default class SiteHis extends PureComponent {
                 </span>
                 }>
                 {
-                  this.state.data ?
+                  data ?
                     <Basiccolumn
-                      data={this.state.data}
+                      data={data}
                     />
                     : <Alert
                       message="请选择逆变器"
@@ -247,7 +248,7 @@ export default class SiteHis extends PureComponent {
               style={{ paddingLeft: "4px" }}
 
             >
-              <Table columns={columns} dataSource={this.state.data} onChange={this.onChange} height={800} />
+              <Table columns={columns} dataSource={data} onChange={this.onChange} height={800} />
             </Card>
           </Col>
         </Row>

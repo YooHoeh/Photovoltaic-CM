@@ -20,7 +20,7 @@ class Basiccolumn extends React.Component {
     const data = this.props.data;
 
     const cols = {
-      value: {
+      power: {
         tickInterval: 20
       }
     };
@@ -28,13 +28,13 @@ class Basiccolumn extends React.Component {
       <div>
         <Chart height={400} data={data} scale={cols} forceFit>
           <Axis name="time" />
-          <Axis name="value" />
+          <Axis name="power" />
           <Tooltip
             crosshairs={{
               type: "y"
             }}
           />
-          <Geom type="interval" position="time*value" />
+          <Geom type="interval" position="time*power" />
         </Chart>
       </div>
     );

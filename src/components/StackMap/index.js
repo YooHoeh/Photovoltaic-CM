@@ -19,11 +19,12 @@ import React from "react";
 class Stacked extends React.Component {
   render() {
     const data = this.props.data
+    const fields = this.props.fields;
     const ds = new DataSet();
     const dv = ds.createView().source(data);
     dv.transform({
       type: "fold",
-      fields: ["逆变器1", "逆变器2", "逆变器3"],
+      fields,
       key: "type",
       value: "inverter",
       retains: ["time"] // 保留字段集，默认为除fields以外的所有字段
