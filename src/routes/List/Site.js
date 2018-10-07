@@ -350,7 +350,7 @@ export default class TableList extends PureComponent {
     const { getFieldDecorator } = form;
     const props = {
       name: 'file',
-      action: 'http://172.20.151.36/photovoltaic/public/index/stations/importEecel',
+      action: '../public/index/stations/importEecel',
       headers: {
         authorization: 'authorization-text',
       },
@@ -404,7 +404,7 @@ export default class TableList extends PureComponent {
                   </Upload>
                 </Menu.Item>
                 <Menu.Item key="download">
-                  <a href='http://172.20.151.36\photovoltaic\uploads\excel\电站上传样本.xlsx'>Excel模板下载</a>
+                  <a href='..\uploads\excel\电站上传样本.xlsx'>Excel模板下载</a>
                 </Menu.Item>
               </Menu>
             } >
